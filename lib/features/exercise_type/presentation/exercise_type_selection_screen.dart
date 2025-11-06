@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/avatar_options.dart';
 import '../../../core/extensions/context_localizations.dart';
 import '../../../core/routes/app_router.dart';
@@ -26,55 +27,51 @@ class ExerciseTypeSelectionScreen extends StatelessWidget {
                   ? avatarOptionById(profileService.activeProfile!.avatarId)
                   : kAvatarOptions.first;
               
-              return PopupMenuButton<String>(
-                icon: CircleAvatar(
-                  radius: 18,
-                  backgroundColor: avatar.backgroundColor,
-                  child: Icon(
-                    avatar.icon,
-                    color: avatar.iconColor,
-                    size: 20,
+              return MenuAnchor(
+                builder: (context, controller, child) {
+                  return GestureDetector(
+                    onTap: () {
+                      if (controller.isOpen) {
+                        controller.close();
+                      } else {
+                        controller.open();
+                      }
+                    },
+                    child: CircleAvatar(
+                      radius: 18,
+                      backgroundColor: avatar.backgroundColor,
+                      child: Icon(
+                        avatar.icon,
+                        color: avatar.iconColor,
+                        size: 20,
+                      ),
+                    ),
+                  );
+                },
+                style: const MenuStyle(
+                  backgroundColor: WidgetStatePropertyAll(AppColors.backgroundLight),
+                  elevation: WidgetStatePropertyAll(8),
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
                   ),
                 ),
-                onSelected: (String value) {
-                  if (value == 'edit') {
-                    context.push(AppRoutePath.profileEdit);
-                  } else if (value == 'switch') {
-                    context.push(AppRoutePath.profileSelector);
-                  } else if (value == 'statistics') {
-                    context.push(AppRoutePath.statistics);
-                  }
-                },
-                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                  PopupMenuItem<String>(
-                    value: 'edit',
-                    child: Row(
-                      children: <Widget>[
-                        const Icon(Icons.edit),
-                        const SizedBox(width: 12),
-                        Text(context.l10n.profileMenuEdit),
-                      ],
-                    ),
+                menuChildren: [
+                  MenuItemButton(
+                    leadingIcon: const Icon(Icons.edit, size: 20),
+                    child: Text(context.l10n.profileMenuEdit),
+                    onPressed: () => context.push(AppRoutePath.profileEdit),
                   ),
-                  PopupMenuItem<String>(
-                    value: 'statistics',
-                    child: Row(
-                      children: <Widget>[
-                        const Icon(Icons.bar_chart),
-                        const SizedBox(width: 12),
-                        Text(context.l10n.profileMenuStatistics),
-                      ],
-                    ),
+                  MenuItemButton(
+                    leadingIcon: const Icon(Icons.bar_chart, size: 20),
+                    child: Text(context.l10n.profileMenuStatistics),
+                    onPressed: () => context.push(AppRoutePath.statistics),
                   ),
-                  PopupMenuItem<String>(
-                    value: 'switch',
-                    child: Row(
-                      children: <Widget>[
-                        const Icon(Icons.swap_horiz),
-                        const SizedBox(width: 12),
-                        Text(context.l10n.profileMenuSwitch),
-                      ],
-                    ),
+                  MenuItemButton(
+                    leadingIcon: const Icon(Icons.swap_horiz, size: 20),
+                    child: Text(context.l10n.profileMenuSwitch),
+                    onPressed: () => context.push(AppRoutePath.profileSelector),
                   ),
                 ],
               );
