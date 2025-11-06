@@ -1,0 +1,255 @@
+{
+  "appTitle": "MathsFun",
+  "splashLoading": "Chargement de MathsFun…",
+  "profileCreationTitle": "Créer un profil",
+  "profileCreationHeading": "Qui joue ?",
+  "profileCreationSubtitle": "Crée un profil amusant pour suivre les progrès.",
+  "profileNicknameLabel": "Surnom",
+  "profileNicknameHint": "ex. Super Sophie",
+  "profileNicknameErrorEmpty": "Merci de choisir un surnom",
+  "profileNicknameErrorShort": "Le surnom doit comporter au moins 3 caractères",
+  "profileClassLabel": "Classe",
+  "profileAvatarLabel": "Choisir un avatar",
+  "profileSaveButton": "Enregistrer le profil",
+  "profileCreateSuccess": "Profil créé !",
+  "profileCreateError": "Impossible de créer le profil : {error}",
+  "@profileCreateError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "profileSelectorTitle": "Qui joue aujourd'hui ?",
+  "profileSelectorParentSettings": "Réglages parents",
+  "profileSelectorNewProfile": "Nouveau profil",
+  "profileSelectorGreeting": "Bonjour {name} !",
+  "@profileSelectorGreeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "profileSelectorDeleteMessage": "Cela supprimera les progrès et récompenses de {name}. Cette action est irréversible.",
+  "@profileSelectorDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "profileSelectorDeleteTitle": "Supprimer le profil ?",
+  "profileSelectorDeleteCancel": "Annuler",
+  "profileSelectorDeleteConfirm": "Supprimer",
+  "profileSelectorDeleteSuccess": "Profil de {name} supprimé",
+  "@profileSelectorDeleteSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "profileSelectorEmptyTitle": "Aucun profil",
+  "profileSelectorEmptySubtitle": "Crée un profil pour suivre les scores et récompenses.",
+  "profileSelectorEmptyButton": "Créer un profil",
+  "parentSettingsTitle": "Réglages parents",
+  "parentSettingsDescriptionWithPin": "Modifie ton code parent pour protéger les actions sensibles.",
+  "parentSettingsDescriptionNoPin": "Définis un code parent pour contrôler la suppression des profils et l'accès aux réglages.",
+  "parentSettingsPinLabelCreate": "Créer un code",
+  "parentSettingsPinLabelNew": "Nouveau code",
+  "parentSettingsPinConfirmLabel": "Confirmer le code",
+  "parentSettingsPinValidationDigits": "Le code doit comporter 4 chiffres",
+  "parentSettingsPinValidationEmpty": "Saisis un code à 4 chiffres",
+  "parentSettingsPinConfirmValidationEmpty": "Confirme ton code",
+  "parentSettingsPinConfirmValidationMismatch": "Les codes ne correspondent pas",
+  "parentSettingsSaveButton": "Enregistrer le code",
+  "parentSettingsRemovePin": "Supprimer le code",
+  "parentSettingsSaving": "Enregistrement…",
+  "parentSettingsSaved": "Code parent mis à jour",
+  "parentSettingsRemoved": "Code parent supprimé",
+  "parentSettingsLanguageLabel": "Langue de l'application",
+  "languageEnglish": "Anglais",
+  "languageFrench": "Français",
+  "parentGateTitle": "Accès parent",
+  "parentGateMessage": "Entre ton code à 4 chiffres pour continuer.",
+  "parentGatePinLabel": "Code",
+  "parentGatePinEmpty": "Merci d'entrer ton code",
+  "parentGatePinInvalid": "Le code doit comporter 4 chiffres",
+  "parentGatePinIncorrect": "Code incorrect",
+  "parentGateErrorFix": "Merci de corriger les erreurs ci-dessus.",
+  "parentGateCancel": "Annuler",
+  "parentGateUnlock": "Déverrouiller",
+  "exerciseTypeTitle": "Choisis ton aventure",
+  "exerciseTypeSubtitle": "Que veux-tu réviser ?",
+  "exerciseTypeChangeProfile": "Changer de profil",
+  "exerciseTypeWelcomeBack": "Content de te revoir,",
+  "exerciseDefaultNickname": "Explorateur",
+  "exerciseMultiplication": "Multiplications",
+  "exerciseAddition": "Additions",
+  "exerciseMultiplicationDescription": "Maîtrise les tables avec des jeux et des révisions.",
+  "exerciseAdditionDescription": "Développe tes super pouvoirs de calcul mental.",
+  "modeSelectionTitle": "Choisir un mode",
+  "modeSelectionHeadingMultiplication": "Table de multiplication",
+  "modeSelectionHeadingAddition": "Opérations d'addition",
+  "modeSelectionSubtitle": "Choisis un nombre à réviser.",
+  "modeRevisionCardTitle": "Mode révision",
+  "modeRevisionCardDescription": "Revois la table complète avec les réponses et des animations.",
+  "modeExerciseCardTitle": "Mode exercice",
+  "modeExerciseCardDescription": "Réponds aux questions et gagne des étoiles avec une super précision !",
+  "tableSelectorLabel": "Table",
+  "revisionTitleMultiplication": "Révision des multiplications",
+  "revisionTitleAddition": "Révision des additions",
+  "revisionHeadingMultiplication": "Exerce-toi sur la table de ×{table}",
+  "@revisionHeadingMultiplication": {
+    "placeholders": {
+      "table": {
+        "type": "int"
+      }
+    }
+  },
+  "revisionHeadingAddition": "Exerce-toi à additionner {table}",
+  "@revisionHeadingAddition": {
+    "placeholders": {
+      "table": {
+        "type": "int"
+      }
+    }
+  },
+  "exerciseModeTypeTitle": "Style d'exercice",
+  "exerciseModePrompt": "Comment veux-tu t'entraîner ?",
+  "exerciseMultipleChoiceTitle": "QCM",
+  "exerciseMultipleChoiceDescription": "Choisis la bonne réponse parmi quatre options. Parfait pour s'échauffer !",
+  "exerciseDirectInputTitle": "Saisie directe",
+  "exerciseDirectInputDescription": "Tape la réponse pour muscler ta mémoire.",
+  "exerciseTimedChallengeTitle": "Défi chronométré",
+  "exerciseTimedChallengeDescription": "Réponds au maximum en {seconds} secondes pour gagner des étoiles !",
+  "@exerciseTimedChallengeDescription": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "exerciseNoProfile": "Aucun profil sélectionné. Merci d'en choisir un d'abord.",
+  "exerciseSolvePrompt": "Résous :",
+  "exerciseTimedBanner": "Réponds le plus vite possible !",
+  "exerciseTimedCountdown": "Il reste {seconds} secondes",
+  "@exerciseTimedCountdown": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "exerciseTimedGo": "Go !",
+  "exerciseQuestionProgress": "Question {current} / {total}",
+  "@exerciseQuestionProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "exerciseAnswerLabel": "Ta réponse",
+  "exerciseSubmit": "Valider",
+  "exerciseSkip": "Passer",
+  "exerciseSnackbarCorrect": "Bravo !",
+  "exerciseSnackbarIncorrect": "Oups, réessaie !",
+  "exerciseSnackbarDirectCorrect": "Oui ! Continue !",
+  "exerciseSnackbarDirectIncorrect": "Pas tout à fait, tu vas y arriver !",
+  "exerciseAnswerRequired": "Saisis une réponse pour continuer.",
+  "exerciseDigitsOnly": "Entre uniquement des chiffres.",
+  "resultsNoSession": "Aucune donnée de session.",
+  "resultsBackHome": "Retour à l'accueil",
+  "resultsTitle": "Résultats",
+  "resultsHeading": "Bravo !",
+  "resultsAccuracy": "Précision",
+  "resultsCorrect": "Bonnes réponses",
+  "resultsMistakes": "Erreurs",
+  "resultsTime": "Temps",
+  "resultsTimedGoal": "Défi chrono",
+  "resultsTimedValue": "Défi de {seconds}s",
+  "@resultsTimedValue": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "resultsAnswerLabel": "Réponse : {answer}",
+  "@resultsAnswerLabel": {
+    "placeholders": {
+      "answer": {
+        "type": "int"
+      }
+    }
+  },
+  "resultsSkipped": "Passée",
+  "resultsReplay": "Rejouer",
+  "resultsStatistics": "Voir les statistiques",
+  "statisticsTitle": "{name} — Statistiques",
+  "@statisticsTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "statisticsPageTitle": "Statistiques",
+  "statisticsEmpty": "Fais un exercice pour débloquer tes stats !",
+  "statisticsSessions": "Sessions",
+  "statisticsAverageAccuracy": "Précision moy.",
+  "statisticsStars": "Étoiles gagnées",
+  "statisticsPracticeTime": "Temps de pratique",
+  "statisticsRecentSessions": "Sessions récentes",
+  "statisticsSessionSummary": "{operation} — {format}",
+  "@statisticsSessionSummary": {
+    "placeholders": {
+      "operation": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "statisticsSessionAccuracy": "{accuracy}% de réussite",
+  "@statisticsSessionAccuracy": {
+    "placeholders": {
+      "accuracy": {
+        "type": "int"
+      }
+    }
+  },
+  "statisticsSessionScore": "{correct}/{total}",
+  "@statisticsSessionScore": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "statisticsOperationMultiplication": "Multiplication",
+  "statisticsOperationAddition": "Addition",
+  "statisticsFormatMultipleChoice": "QCM",
+  "statisticsFormatDirectInput": "Saisie directe",
+  "statisticsFormatTimedChallenge": "Défi chrono",
+  "parentSettingsSavingLabel": "Enregistrement…",
+  "loadingGeneric": "Chargement…",
+  "errorRouteNotFound": "Route introuvable : {path}",
+  "@errorRouteNotFound": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  }
+}
+
