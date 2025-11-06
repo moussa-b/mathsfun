@@ -87,6 +87,7 @@
   "exerciseDefaultNickname": "Explorer",
   "profileMenuEdit": "Edit Profile",
   "profileMenuSwitch": "Switch Account",
+  "profileMenuStatistics": "My Statistics",
   "profileEditTitle": "Edit Profile",
   "profileUpdateSuccess": "Profile updated!",
   "profileUpdateError": "Could not update profile: {error}",

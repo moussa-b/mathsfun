@@ -458,6 +458,12 @@ abstract class AppLocalizations {
   /// **'Switch Account'**
   String get profileMenuSwitch;
 
+  /// No description provided for @profileMenuStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'My Statistics'**
+  String get profileMenuStatistics;
+
   /// No description provided for @profileEditTitle.
   ///
   /// In en, this message translates to:

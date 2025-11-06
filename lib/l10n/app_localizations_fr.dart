@@ -204,6 +204,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profileMenuSwitch => 'Changer de compte';
 
   @override
+  String get profileMenuStatistics => 'Mes statistiques';
+
+  @override
   String get profileEditTitle => 'Modifier le profil';
 
   @override

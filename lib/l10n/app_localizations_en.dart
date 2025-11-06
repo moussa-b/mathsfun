@@ -202,6 +202,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMenuSwitch => 'Switch Account';
 
   @override
+  String get profileMenuStatistics => 'My Statistics';
+
+  @override
   String get profileEditTitle => 'Edit Profile';
 
   @override

@@ -41,6 +41,8 @@ class ExerciseTypeSelectionScreen extends StatelessWidget {
                     context.push(AppRoutePath.profileEdit);
                   } else if (value == 'switch') {
                     context.push(AppRoutePath.profileSelector);
+                  } else if (value == 'statistics') {
+                    context.push(AppRoutePath.statistics);
                   }
                 },
                 itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -51,6 +53,16 @@ class ExerciseTypeSelectionScreen extends StatelessWidget {
                         const Icon(Icons.edit),
                         const SizedBox(width: 12),
                         Text(context.l10n.profileMenuEdit),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'statistics',
+                    child: Row(
+                      children: <Widget>[
+                        const Icon(Icons.bar_chart),
+                        const SizedBox(width: 12),
+                        Text(context.l10n.profileMenuStatistics),
                       ],
                     ),
                   ),
