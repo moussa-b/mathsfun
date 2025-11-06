@@ -85,6 +85,18 @@
   "exerciseTypeChangeProfile": "Changer de profil",
   "exerciseTypeWelcomeBack": "Content de te revoir,",
   "exerciseDefaultNickname": "Explorateur",
+  "profileMenuEdit": "Modifier le profil",
+  "profileMenuSwitch": "Changer de compte",
+  "profileEditTitle": "Modifier le profil",
+  "profileUpdateSuccess": "Profil mis à jour !",
+  "profileUpdateError": "Impossible de mettre à jour le profil : {error}",
+  "@profileUpdateError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "exerciseMultiplication": "Multiplications",
   "exerciseAddition": "Additions",
   "exerciseMultiplicationDescription": "Maîtrise les tables avec des jeux et des révisions.",

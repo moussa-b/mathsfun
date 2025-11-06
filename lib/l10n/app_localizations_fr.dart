@@ -198,6 +198,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get exerciseDefaultNickname => 'Explorateur';
 
   @override
+  String get profileMenuEdit => 'Modifier le profil';
+
+  @override
+  String get profileMenuSwitch => 'Changer de compte';
+
+  @override
+  String get profileEditTitle => 'Modifier le profil';
+
+  @override
+  String get profileUpdateSuccess => 'Profil mis à jour !';
+
+  @override
+  String profileUpdateError(String error) {
+    return 'Impossible de mettre à jour le profil : $error';
+  }
+
+  @override
   String get exerciseMultiplication => 'Multiplications';
 
   @override

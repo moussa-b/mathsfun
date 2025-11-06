@@ -22,7 +22,7 @@ class ProfileSelectorScreen extends StatelessWidget {
         title: Text(context.l10n.profileSelectorTitle),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.settings_backup_restore),
+            icon: const Icon(Icons.admin_panel_settings),
             tooltip: context.l10n.profileSelectorParentSettings,
             onPressed: () => _openParentSettings(context),
           ),
@@ -77,10 +77,28 @@ class ProfileSelectorScreen extends StatelessWidget {
                         subtitle: Text(
                           '${context.l10n.profileClassLabel} ${profile.schoolClass.label}',
                         ),
-                        trailing: IconButton(
-                          tooltip: context.l10n.profileSelectorDeleteConfirm,
-                          icon: const Icon(Icons.delete_outline),
-                          onPressed: () => _confirmDelete(context, profile),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            IconButton(
+                              tooltip: context.l10n.profileMenuEdit,
+                              icon: const Icon(Icons.edit_outlined),
+                              onPressed: () async {
+                                final ProfileService profileService = context
+                                    .read<ProfileService>();
+                                await profileService.setActiveProfile(profile.id);
+                                if (!context.mounted) {
+                                  return;
+                                }
+                                context.push(AppRoutePath.profileEdit);
+                              },
+                            ),
+                            IconButton(
+                              tooltip: context.l10n.profileSelectorDeleteConfirm,
+                              icon: const Icon(Icons.delete_outline),
+                              onPressed: () => _confirmDelete(context, profile),
+                            ),
+                          ],
                         ),
                         onTap: () async {
                           final ProfileService profileService = context

@@ -85,6 +85,18 @@
   "exerciseTypeChangeProfile": "Change profile",
   "exerciseTypeWelcomeBack": "Welcome back,",
   "exerciseDefaultNickname": "Explorer",
+  "profileMenuEdit": "Edit Profile",
+  "profileMenuSwitch": "Switch Account",
+  "profileEditTitle": "Edit Profile",
+  "profileUpdateSuccess": "Profile updated!",
+  "profileUpdateError": "Could not update profile: {error}",
+  "@profileUpdateError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "exerciseMultiplication": "Multiplication",
   "exerciseAddition": "Addition",
   "exerciseMultiplicationDescription": "Master times tables with games and revision.",

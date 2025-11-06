@@ -17,6 +17,9 @@ class TableSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    // Calculate columns based on max: 6 for multiplication (12), 5 for addition (10)
+    final int crossAxisCount = max == 12 ? 6 : 5;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -25,21 +28,75 @@ class TableSelector extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 12),
             child: Text(label!, style: theme.textTheme.titleMedium),
           ),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: List<Widget>.generate(max, (int index) {
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            childAspectRatio: 1.5,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
+          ),
+          itemCount: max,
+          itemBuilder: (BuildContext context, int index) {
             final int currentValue = index + 1;
             final bool isSelected = currentValue == value;
-            return ChoiceChip(
-              label: Text(currentValue.toString()),
-              selected: isSelected,
-              onSelected: (_) => onChanged(currentValue),
-              selectedColor: theme.colorScheme.primary.withValues(alpha: 0.2),
+            return _NumberChip(
+              number: currentValue,
+              isSelected: isSelected,
+              onTap: () => onChanged(currentValue),
+              theme: theme,
             );
-          }),
+          },
         ),
       ],
+    );
+  }
+}
+
+class _NumberChip extends StatelessWidget {
+  const _NumberChip({
+    required this.number,
+    required this.isSelected,
+    required this.onTap,
+    required this.theme,
+  });
+
+  final int number;
+  final bool isSelected;
+  final VoidCallback onTap;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    final Color primaryColor = theme.colorScheme.primary;
+    
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        decoration: BoxDecoration(
+          color: isSelected 
+              ? primaryColor.withValues(alpha: 0.2)
+              : theme.colorScheme.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected 
+                ? primaryColor 
+                : theme.colorScheme.outline.withValues(alpha: 0.3),
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            number.toString(),
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              color: isSelected ? primaryColor : null,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

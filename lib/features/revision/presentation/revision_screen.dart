@@ -53,6 +53,7 @@ class _RevisionScreenState extends State<RevisionScreen> {
                 value: _table,
                 onChanged: (int value) => setState(() => _table = value),
                 label: context.l10n.tableSelectorLabel,
+                max: isMultiplication ? 12 : 10,
               ),
               const SizedBox(height: 24),
               Expanded(

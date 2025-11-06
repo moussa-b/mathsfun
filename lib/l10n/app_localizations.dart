@@ -446,6 +446,36 @@ abstract class AppLocalizations {
   /// **'Explorer'**
   String get exerciseDefaultNickname;
 
+  /// No description provided for @profileMenuEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get profileMenuEdit;
+
+  /// No description provided for @profileMenuSwitch.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch Account'**
+  String get profileMenuSwitch;
+
+  /// No description provided for @profileEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get profileEditTitle;
+
+  /// No description provided for @profileUpdateSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated!'**
+  String get profileUpdateSuccess;
+
+  /// No description provided for @profileUpdateError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update profile: {error}'**
+  String profileUpdateError(String error);
+
   /// No description provided for @exerciseMultiplication.
   ///
   /// In en, this message translates to:

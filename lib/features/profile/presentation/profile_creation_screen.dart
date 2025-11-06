@@ -11,7 +11,9 @@ import '../../../data/services/profile_service.dart';
 
 /// Screen allowing a parent to create a new learner profile.
 class ProfileCreationScreen extends StatefulWidget {
-  const ProfileCreationScreen({super.key});
+  const ProfileCreationScreen({super.key, this.isEditMode = false});
+
+  final bool isEditMode;
 
   @override
   State<ProfileCreationScreen> createState() => _ProfileCreationScreenState();
@@ -25,6 +27,25 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
   bool _isSaving = false;
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.isEditMode) {
+      // Load current profile data
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final ProfileService profileService = context.read<ProfileService>();
+        final Profile? activeProfile = profileService.activeProfile;
+        if (activeProfile != null) {
+          setState(() {
+            _nicknameController.text = activeProfile.nickname;
+            _selectedClass = activeProfile.schoolClass;
+            _selectedAvatarId = activeProfile.avatarId;
+          });
+        }
+      });
+    }
+  }
+
+  @override
   void dispose() {
     _nicknameController.dispose();
     super.dispose();
@@ -33,7 +54,13 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.profileCreationTitle)),
+      appBar: AppBar(
+        title: Text(
+          widget.isEditMode 
+              ? context.l10n.profileEditTitle 
+              : context.l10n.profileCreationTitle,
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -96,19 +123,27 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 16),
-                Wrap(
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: kAvatarOptions
-                      .map(
-                        (AvatarOption option) => _AvatarChoiceChip(
-                          option: option,
-                          selected: option.id == _selectedAvatarId,
-                          onTap: () =>
-                              setState(() => _selectedAvatarId = option.id),
-                        ),
-                      )
-                      .toList(),
+                Center(
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      childAspectRatio: 0.85,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                    ),
+                    itemCount: kAvatarOptions.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final AvatarOption option = kAvatarOptions[index];
+                      return _AvatarChoiceChip(
+                        option: option,
+                        selected: option.id == _selectedAvatarId,
+                        onTap: () =>
+                            setState(() => _selectedAvatarId = option.id),
+                      );
+                    },
+                  ),
                 ),
                 const SizedBox(height: 40),
                 SizedBox(
@@ -144,22 +179,49 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
     final ProfileService profileService = context.read<ProfileService>();
 
     try {
-      await profileService.createProfile(
-        nickname: _nicknameController.text.trim(),
-        schoolClass: _selectedClass,
-        avatarId: _selectedAvatarId,
-      );
-      if (!mounted) {
-        return;
+      if (widget.isEditMode) {
+        // Update existing profile
+        final Profile? currentProfile = profileService.activeProfile;
+        if (currentProfile != null) {
+          final Profile updatedProfile = Profile(
+            id: currentProfile.id,
+            nickname: _nicknameController.text.trim(),
+            schoolClass: _selectedClass,
+            avatarId: _selectedAvatarId,
+            createdAt: currentProfile.createdAt,
+          );
+          await profileService.updateProfile(updatedProfile);
+          if (!mounted) {
+            return;
+          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(context.l10n.profileUpdateSuccess)),
+          );
+          context.pop();
+        }
+      } else {
+        // Create new profile
+        await profileService.createProfile(
+          nickname: _nicknameController.text.trim(),
+          schoolClass: _selectedClass,
+          avatarId: _selectedAvatarId,
+        );
+        if (!mounted) {
+          return;
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.l10n.profileCreateSuccess)),
+        );
+        context.go(AppRoutePath.exerciseType);
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.profileCreateSuccess)),
-      );
-      context.go(AppRoutePath.exerciseType);
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(context.l10n.profileCreateError(error.toString())),
+          content: Text(
+            widget.isEditMode
+                ? context.l10n.profileUpdateError(error.toString())
+                : context.l10n.profileCreateError(error.toString()),
+          ),
         ),
       );
     } finally {
@@ -187,12 +249,12 @@ class _AvatarChoiceChip extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: selected
               ? option.backgroundColor.withValues(alpha: 0.15)
               : Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: selected ? option.backgroundColor : Colors.grey.shade300,
             width: selected ? 2.5 : 1.5,
@@ -208,20 +270,26 @@ class _AvatarChoiceChip extends StatelessWidget {
               : const <BoxShadow>[],
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             CircleAvatar(
-              radius: 30,
+              radius: 28,
               backgroundColor: option.backgroundColor,
-              child: Icon(option.icon, size: 32, color: option.iconColor),
+              child: Icon(option.icon, size: 28, color: option.iconColor),
             ),
-            const SizedBox(height: 8),
-            Text(
-              option.getLabel(context),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: AppColors.textSecondary,
+            const SizedBox(height: 6),
+            Flexible(
+              child: Text(
+                option.getLabel(context),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textSecondary,
+                  fontSize: 11,
+                ),
               ),
             ),
           ],

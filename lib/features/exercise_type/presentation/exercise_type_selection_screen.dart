@@ -20,14 +20,55 @@ class ExerciseTypeSelectionScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(context.l10n.exerciseTypeTitle),
         actions: <Widget>[
-          TextButton.icon(
-            onPressed: () => context.push(AppRoutePath.profileSelector),
-            icon: const Icon(Icons.swap_horiz, color: Colors.white),
-            label: Text(
-              context.l10n.exerciseTypeChangeProfile,
-              style: const TextStyle(color: Colors.white),
-            ),
+          Consumer<ProfileService>(
+            builder: (BuildContext context, ProfileService profileService, _) {
+              final avatar = profileService.activeProfile != null
+                  ? avatarOptionById(profileService.activeProfile!.avatarId)
+                  : kAvatarOptions.first;
+              
+              return PopupMenuButton<String>(
+                icon: CircleAvatar(
+                  radius: 18,
+                  backgroundColor: avatar.backgroundColor,
+                  child: Icon(
+                    avatar.icon,
+                    color: avatar.iconColor,
+                    size: 20,
+                  ),
+                ),
+                onSelected: (String value) {
+                  if (value == 'edit') {
+                    context.push(AppRoutePath.profileEdit);
+                  } else if (value == 'switch') {
+                    context.push(AppRoutePath.profileSelector);
+                  }
+                },
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                  PopupMenuItem<String>(
+                    value: 'edit',
+                    child: Row(
+                      children: <Widget>[
+                        const Icon(Icons.edit),
+                        const SizedBox(width: 12),
+                        Text(context.l10n.profileMenuEdit),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'switch',
+                    child: Row(
+                      children: <Widget>[
+                        const Icon(Icons.swap_horiz),
+                        const SizedBox(width: 12),
+                        Text(context.l10n.profileMenuSwitch),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
+          const SizedBox(width: 8),
         ],
       ),
       body: SafeArea(

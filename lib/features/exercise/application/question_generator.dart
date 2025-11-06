@@ -13,7 +13,11 @@ class ExerciseQuestionGenerator {
   final Random _random = Random();
 
   List<ExerciseQuestion> generate(ExerciseConfig config) {
-    final int questionCount = config.questionCount;
+    // Cap question count to prevent infinite loops based on operation type
+    final int maxQuestions = config.operation == OperationKind.multiplication ? 12 : 10;
+    final int questionCount = config.questionCount > maxQuestions 
+        ? maxQuestions 
+        : config.questionCount;
     final Set<String> questionKeys = <String>{};
     final List<ExerciseQuestion> questions = <ExerciseQuestion>[];
 

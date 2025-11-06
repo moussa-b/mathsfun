@@ -23,6 +23,7 @@ class AppRoutePath {
 
   static const String splash = '/';
   static const String profileCreate = '/profiles/create';
+  static const String profileEdit = '/profiles/edit';
   static const String profileSelector = '/profiles/select';
   static const String exerciseType = '/exercise-type';
   static const String modeSelection = '/mode';
@@ -51,6 +52,11 @@ class AppRouter {
         path: AppRoutePath.profileCreate,
         name: 'profile-create',
         builder: (context, state) => const ProfileCreationScreen(),
+      ),
+      GoRoute(
+        path: AppRoutePath.profileEdit,
+        name: 'profile-edit',
+        builder: (context, state) => const ProfileCreationScreen(isEditMode: true),
       ),
       GoRoute(
         path: AppRoutePath.profileSelector,

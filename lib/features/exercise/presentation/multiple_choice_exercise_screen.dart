@@ -168,7 +168,7 @@ class _MultipleChoiceExerciseScreenState
       if (!mounted || !navContext.mounted) {
         return;
       }
-      navContext.push(AppRoutePath.results, extra: session);
+      navContext.go(AppRoutePath.results, extra: session);
     });
   }
 }

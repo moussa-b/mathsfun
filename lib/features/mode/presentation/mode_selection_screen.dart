@@ -54,6 +54,7 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
                 onChanged: (int value) =>
                     setState(() => _selectedTable = value),
                 label: context.l10n.tableSelectorLabel,
+                max: baseConfig.operation == OperationKind.multiplication ? 12 : 10,
               ),
               const SizedBox(height: 32),
               Expanded(

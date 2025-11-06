@@ -196,6 +196,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exerciseDefaultNickname => 'Explorer';
 
   @override
+  String get profileMenuEdit => 'Edit Profile';
+
+  @override
+  String get profileMenuSwitch => 'Switch Account';
+
+  @override
+  String get profileEditTitle => 'Edit Profile';
+
+  @override
+  String get profileUpdateSuccess => 'Profile updated!';
+
+  @override
+  String profileUpdateError(String error) {
+    return 'Could not update profile: $error';
+  }
+
+  @override
   String get exerciseMultiplication => 'Multiplication';
 
   @override
