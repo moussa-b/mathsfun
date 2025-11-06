@@ -883,6 +883,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Route not found: {path}'**
   String errorRouteNotFound(String path);
+
+  /// No description provided for @avatarBraveLion.
+  ///
+  /// In en, this message translates to:
+  /// **'Brave Lion'**
+  String get avatarBraveLion;
+
+  /// No description provided for @avatarSparklyDino.
+  ///
+  /// In en, this message translates to:
+  /// **'Sparkly Dino'**
+  String get avatarSparklyDino;
+
+  /// No description provided for @avatarSpaceExplorer.
+  ///
+  /// In en, this message translates to:
+  /// **'Space Explorer'**
+  String get avatarSpaceExplorer;
+
+  /// No description provided for @avatarHappyRobot.
+  ///
+  /// In en, this message translates to:
+  /// **'Happy Robot'**
+  String get avatarHappyRobot;
+
+  /// No description provided for @avatarMagicUnicorn.
+  ///
+  /// In en, this message translates to:
+  /// **'Magic Unicorn'**
+  String get avatarMagicUnicorn;
+
+  /// No description provided for @avatarCreativePainter.
+  ///
+  /// In en, this message translates to:
+  /// **'Creative Painter'**
+  String get avatarCreativePainter;
+
+  /// No description provided for @rewardBrilliantWork.
+  ///
+  /// In en, this message translates to:
+  /// **'Brilliant work!'**
+  String get rewardBrilliantWork;
+
+  /// No description provided for @rewardScoredAccuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Scored {accuracy}% accuracy.'**
+  String rewardScoredAccuracy(String accuracy);
 }
 
 class _AppLocalizationsDelegate

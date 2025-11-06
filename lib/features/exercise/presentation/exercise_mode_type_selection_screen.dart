@@ -53,7 +53,7 @@ class ExerciseModeTypeSelectionScreen extends StatelessWidget {
               onTap: () {
                 final ExerciseConfig next = config.copyWith(
                   format: ExerciseFormat.directInput,
-                  questionCount: 10,
+                  questionCount: 12,
                 );
                 context.push(AppRoutePath.exerciseDirectInput, extra: next);
               },
@@ -69,7 +69,7 @@ class ExerciseModeTypeSelectionScreen extends StatelessWidget {
               onTap: () {
                 final ExerciseConfig next = config.copyWith(
                   format: ExerciseFormat.timedChallenge,
-                  questionCount: 20,
+                  questionCount: 12,
                   timedSeconds: timedSeconds,
                 );
                 context.push(AppRoutePath.exerciseDirectInput, extra: next);

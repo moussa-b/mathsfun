@@ -250,6 +250,21 @@
         "type": "String"
       }
     }
+  },
+  "avatarBraveLion": "Lion courageux",
+  "avatarSparklyDino": "Dino scintillant",
+  "avatarSpaceExplorer": "Explorateur spatial",
+  "avatarHappyRobot": "Robot joyeux",
+  "avatarMagicUnicorn": "Licorne magique",
+  "avatarCreativePainter": "Peintre créatif",
+  "rewardBrilliantWork": "Excellent travail !",
+  "rewardScoredAccuracy": "Score de {accuracy}% de précision.",
+  "@rewardScoredAccuracy": {
+    "placeholders": {
+      "accuracy": {
+        "type": "String"
+      }
+    }
   }
 }
 

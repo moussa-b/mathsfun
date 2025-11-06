@@ -48,6 +48,10 @@ class _DirectInputExerciseScreenState extends State<DirectInputExerciseScreen> {
         config: widget.config,
         sessionService: context.read<SessionService>(),
         rewardService: context.read<RewardService>(),
+        rewardTitle: context.l10n.rewardBrilliantWork,
+        rewardDescriptionTemplate: context.l10n.rewardScoredAccuracy(
+          '{accuracy}',
+        ),
       ),
       child: Consumer<ExerciseController>(
         builder: (BuildContext context, ExerciseController controller, _) {

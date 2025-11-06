@@ -250,6 +250,21 @@
         "type": "String"
       }
     }
+  },
+  "avatarBraveLion": "Brave Lion",
+  "avatarSparklyDino": "Sparkly Dino",
+  "avatarSpaceExplorer": "Space Explorer",
+  "avatarHappyRobot": "Happy Robot",
+  "avatarMagicUnicorn": "Magic Unicorn",
+  "avatarCreativePainter": "Creative Painter",
+  "rewardBrilliantWork": "Brilliant work!",
+  "rewardScoredAccuracy": "Scored {accuracy}% accuracy.",
+  "@rewardScoredAccuracy": {
+    "placeholders": {
+      "accuracy": {
+        "type": "String"
+      }
+    }
   }
 }
 

@@ -444,4 +444,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String errorRouteNotFound(String path) {
     return 'Route not found: $path';
   }
+
+  @override
+  String get avatarBraveLion => 'Brave Lion';
+
+  @override
+  String get avatarSparklyDino => 'Sparkly Dino';
+
+  @override
+  String get avatarSpaceExplorer => 'Space Explorer';
+
+  @override
+  String get avatarHappyRobot => 'Happy Robot';
+
+  @override
+  String get avatarMagicUnicorn => 'Magic Unicorn';
+
+  @override
+  String get avatarCreativePainter => 'Creative Painter';
+
+  @override
+  String get rewardBrilliantWork => 'Brilliant work!';
+
+  @override
+  String rewardScoredAccuracy(String accuracy) {
+    return 'Scored $accuracy% accuracy.';
+  }
 }

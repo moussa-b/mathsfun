@@ -217,7 +217,7 @@ class _AvatarChoiceChip extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              option.label,
+              option.getLabel(context),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w600,

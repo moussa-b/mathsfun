@@ -16,6 +16,8 @@ class ExerciseController extends ChangeNotifier {
     required this.config,
     required SessionService sessionService,
     required RewardService rewardService,
+    required this.rewardTitle,
+    required this.rewardDescriptionTemplate,
     ExerciseQuestionGenerator? generator,
     int? timedSeconds,
   }) : _sessionService = sessionService,
@@ -36,6 +38,8 @@ class ExerciseController extends ChangeNotifier {
   final RewardService _rewardService;
   final ExerciseQuestionGenerator _generator;
   final int? _timedSeconds;
+  final String rewardTitle;
+  final String rewardDescriptionTemplate;
 
   late final DateTime _sessionStart;
   late DateTime _questionStart;
@@ -147,8 +151,11 @@ class ExerciseController extends ChangeNotifier {
       await _rewardService.award(
         profileId: profileId,
         type: RewardType.star,
-        title: 'Brilliant work!',
-        description: 'Scored ${sessionAccuracy.toStringAsFixed(0)}% accuracy.',
+        title: rewardTitle,
+        description: rewardDescriptionTemplate.replaceAll(
+          '{accuracy}',
+          sessionAccuracy.toStringAsFixed(0),
+        ),
         value: correctCount,
       );
     }
