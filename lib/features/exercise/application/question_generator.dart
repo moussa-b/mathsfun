@@ -18,6 +18,17 @@ class ExerciseQuestionGenerator {
     final int questionCount = config.questionCount > maxQuestions 
         ? maxQuestions 
         : config.questionCount;
+
+    if (config.shuffleQuestions) {
+      // Shuffled mode: random generation (original behavior)
+      return _generateShuffled(config, questionCount);
+    } else {
+      // Ordered mode: sequential generation
+      return _generateOrdered(config, questionCount);
+    }
+  }
+
+  List<ExerciseQuestion> _generateShuffled(ExerciseConfig config, int questionCount) {
     final Set<String> questionKeys = <String>{};
     final List<ExerciseQuestion> questions = <ExerciseQuestion>[];
 
@@ -45,6 +56,38 @@ class ExerciseQuestionGenerator {
           operation: config.operation,
           left: operands.left,
           right: operands.right,
+          correctAnswer: answer,
+          choices: choices,
+        ),
+      );
+    }
+
+    return questions;
+  }
+
+  List<ExerciseQuestion> _generateOrdered(ExerciseConfig config, int questionCount) {
+    final List<ExerciseQuestion> questions = <ExerciseQuestion>[];
+    final int base = config.baseNumber;
+
+    for (int i = 1; i <= questionCount; i++) {
+      final int left = base;
+      final int right = i;
+      
+      final int answer = _calculateAnswer(
+        config.operation,
+        left,
+        right,
+      );
+      final List<int> choices = config.format == ExerciseFormat.multipleChoice
+          ? _buildChoices(answer, config.operation)
+          : const <int>[];
+
+      questions.add(
+        ExerciseQuestion(
+          id: _uuid.v4(),
+          operation: config.operation,
+          left: left,
+          right: right,
           correctAnswer: answer,
           choices: choices,
         ),

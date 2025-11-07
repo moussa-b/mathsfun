@@ -208,6 +208,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileEditTitle => 'Edit Profile';
 
   @override
+  String get questionOrderLabel => 'Question Order';
+
+  @override
+  String get questionOrderShuffled => 'Shuffled (Random)';
+
+  @override
+  String get questionOrderOrdered => 'Ordered (Sequential)';
+
+  @override
   String get profileUpdateSuccess => 'Profile updated!';
 
   @override

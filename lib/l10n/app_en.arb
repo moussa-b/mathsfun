@@ -89,6 +89,9 @@
   "profileMenuSwitch": "Switch Account",
   "profileMenuStatistics": "My Statistics",
   "profileEditTitle": "Edit Profile",
+  "questionOrderLabel": "Question Order",
+  "questionOrderShuffled": "Shuffled (Random)",
+  "questionOrderOrdered": "Ordered (Sequential)",
   "profileUpdateSuccess": "Profile updated!",
   "profileUpdateError": "Could not update profile: {error}",
   "@profileUpdateError": {

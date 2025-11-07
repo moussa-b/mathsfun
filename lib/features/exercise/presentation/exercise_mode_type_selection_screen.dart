@@ -9,10 +9,25 @@ import '../../../data/services/settings_service.dart';
 import '../models/exercise_config.dart';
 
 /// Screen to pick between multiple choice and direct input exercise types.
-class ExerciseModeTypeSelectionScreen extends StatelessWidget {
+class ExerciseModeTypeSelectionScreen extends StatefulWidget {
   const ExerciseModeTypeSelectionScreen({super.key, required this.config});
 
   final ExerciseConfig config;
+
+  @override
+  State<ExerciseModeTypeSelectionScreen> createState() =>
+      _ExerciseModeTypeSelectionScreenState();
+}
+
+class _ExerciseModeTypeSelectionScreenState
+    extends State<ExerciseModeTypeSelectionScreen> {
+  late bool _shuffleQuestions;
+
+  @override
+  void initState() {
+    super.initState();
+    _shuffleQuestions = widget.config.shuffleQuestions;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +42,32 @@ class ExerciseModeTypeSelectionScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
+              context.l10n.questionOrderLabel,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 12),
+            SegmentedButton<bool>(
+              segments: <ButtonSegment<bool>>[
+                ButtonSegment<bool>(
+                  value: false,
+                  label: Text(context.l10n.questionOrderOrdered),
+                  icon: const Icon(Icons.format_list_numbered, size: 18),
+                ),
+                ButtonSegment<bool>(
+                  value: true,
+                  label: Text(context.l10n.questionOrderShuffled),
+                  icon: const Icon(Icons.shuffle, size: 18),
+                ),
+              ],
+              selected: <bool>{_shuffleQuestions},
+              onSelectionChanged: (Set<bool> newSelection) {
+                setState(() {
+                  _shuffleQuestions = newSelection.first;
+                });
+              },
+            ),
+            const SizedBox(height: 24),
+            Text(
               context.l10n.exerciseModePrompt,
               style: Theme.of(context).textTheme.titleLarge,
             ),
@@ -37,9 +78,10 @@ class ExerciseModeTypeSelectionScreen extends StatelessWidget {
               description: context.l10n.exerciseMultipleChoiceDescription,
               color: Colors.purple,
               onTap: () {
-                final ExerciseConfig next = config.copyWith(
+                final ExerciseConfig next = widget.config.copyWith(
                   format: ExerciseFormat.multipleChoice,
                   questionCount: 10,
+                  shuffleQuestions: _shuffleQuestions,
                 );
                 context.push(AppRoutePath.exerciseMultipleChoice, extra: next);
               },
@@ -51,9 +93,10 @@ class ExerciseModeTypeSelectionScreen extends StatelessWidget {
               description: context.l10n.exerciseDirectInputDescription,
               color: Colors.green,
               onTap: () {
-                final ExerciseConfig next = config.copyWith(
+                final ExerciseConfig next = widget.config.copyWith(
                   format: ExerciseFormat.directInput,
                   questionCount: 12,
+                  shuffleQuestions: _shuffleQuestions,
                 );
                 context.push(AppRoutePath.exerciseDirectInput, extra: next);
               },
@@ -67,10 +110,11 @@ class ExerciseModeTypeSelectionScreen extends StatelessWidget {
               ),
               color: Colors.red,
               onTap: () {
-                final ExerciseConfig next = config.copyWith(
+                final ExerciseConfig next = widget.config.copyWith(
                   format: ExerciseFormat.timedChallenge,
                   questionCount: 12,
                   timedSeconds: timedSeconds,
+                  shuffleQuestions: _shuffleQuestions,
                 );
                 context.push(AppRoutePath.exerciseDirectInput, extra: next);
               },

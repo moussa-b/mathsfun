@@ -210,6 +210,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profileEditTitle => 'Modifier le profil';
 
   @override
+  String get questionOrderLabel => 'Ordre des questions';
+
+  @override
+  String get questionOrderShuffled => 'Mélangé (Aléatoire)';
+
+  @override
+  String get questionOrderOrdered => 'Ordonné (Séquentiel)';
+
+  @override
   String get profileUpdateSuccess => 'Profil mis à jour !';
 
   @override

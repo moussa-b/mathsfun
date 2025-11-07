@@ -470,6 +470,24 @@ abstract class AppLocalizations {
   /// **'Edit Profile'**
   String get profileEditTitle;
 
+  /// No description provided for @questionOrderLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Question Order'**
+  String get questionOrderLabel;
+
+  /// No description provided for @questionOrderShuffled.
+  ///
+  /// In en, this message translates to:
+  /// **'Shuffled (Random)'**
+  String get questionOrderShuffled;
+
+  /// No description provided for @questionOrderOrdered.
+  ///
+  /// In en, this message translates to:
+  /// **'Ordered (Sequential)'**
+  String get questionOrderOrdered;
+
   /// No description provided for @profileUpdateSuccess.
   ///
   /// In en, this message translates to:

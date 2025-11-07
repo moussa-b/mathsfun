@@ -89,6 +89,9 @@
   "profileMenuSwitch": "Changer de compte",
   "profileMenuStatistics": "Mes statistiques",
   "profileEditTitle": "Modifier le profil",
+  "questionOrderLabel": "Ordre des questions",
+  "questionOrderShuffled": "Mélangé (Aléatoire)",
+  "questionOrderOrdered": "Ordonné (Séquentiel)",
   "profileUpdateSuccess": "Profil mis à jour !",
   "profileUpdateError": "Impossible de mettre à jour le profil : {error}",
   "@profileUpdateError": {
