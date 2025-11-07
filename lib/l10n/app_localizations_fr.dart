@@ -513,4 +513,65 @@ class AppLocalizationsFr extends AppLocalizations {
   String rewardScoredAccuracy(String accuracy) {
     return 'Score de $accuracy% de précision.';
   }
+
+  @override
+  String get revisionModeTypeTitle => 'Style de révision';
+
+  @override
+  String get revisionModePrompt => 'Comment souhaitez-vous réviser ?';
+
+  @override
+  String get revisionListViewTitle => 'Vue liste';
+
+  @override
+  String get revisionListViewDescription =>
+      'Voir toutes les opérations et réponses dans une liste déroulante.';
+
+  @override
+  String get revisionFlashCardTitle => 'Cartes mémoire';
+
+  @override
+  String get revisionFlashCardDescription =>
+      'Cartes interactives pour tester vos connaissances. Retournez pour voir les réponses !';
+
+  @override
+  String get flashCardTitle => 'Révision par cartes mémoire';
+
+  @override
+  String flashCardProgress(int current, int total) {
+    return 'Carte $current sur $total';
+  }
+
+  @override
+  String get flashCardTapToReveal => 'Appuyez pour révéler la réponse';
+
+  @override
+  String get flashCardPrevious => 'Précédent';
+
+  @override
+  String get flashCardNext => 'Suivant';
+
+  @override
+  String get flashCardGotIt => 'Compris';
+
+  @override
+  String get flashCardReviewAgain => 'À revoir';
+
+  @override
+  String get flashCardSummaryTitle => 'Révision terminée !';
+
+  @override
+  String get flashCardSummaryMastered => 'Cartes maîtrisées';
+
+  @override
+  String get flashCardSummaryToReview => 'À revoir';
+
+  @override
+  String get flashCardSummaryNotAnswered => 'Non répondu';
+
+  @override
+  String get flashCardRestart => 'Recommencer';
+
+  @override
+  String get flashCardReviewMarked => 'Revoir les cartes marquées';
 }

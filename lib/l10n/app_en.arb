@@ -289,6 +289,35 @@
         "type": "String"
       }
     }
-  }
+  },
+  "revisionModeTypeTitle": "Revision Style",
+  "revisionModePrompt": "How would you like to revise?",
+  "revisionListViewTitle": "List View",
+  "revisionListViewDescription": "See all operations and answers in a scrollable list.",
+  "revisionFlashCardTitle": "Flash Cards",
+  "revisionFlashCardDescription": "Interactive cards to test your recall. Flip to see answers!",
+  "flashCardTitle": "Flash Card Revision",
+  "flashCardProgress": "Card {current} of {total}",
+  "@flashCardProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "flashCardTapToReveal": "Tap to reveal answer",
+  "flashCardPrevious": "Previous",
+  "flashCardNext": "Next",
+  "flashCardGotIt": "Got it",
+  "flashCardReviewAgain": "Review Again",
+  "flashCardSummaryTitle": "Revision Complete!",
+  "flashCardSummaryMastered": "Cards mastered",
+  "flashCardSummaryToReview": "To review",
+  "flashCardSummaryNotAnswered": "Not answered",
+  "flashCardRestart": "Restart",
+  "flashCardReviewMarked": "Review Marked Cards"
 }
 

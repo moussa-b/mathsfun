@@ -991,6 +991,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Scored {accuracy}% accuracy.'**
   String rewardScoredAccuracy(String accuracy);
+
+  /// No description provided for @revisionModeTypeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Revision Style'**
+  String get revisionModeTypeTitle;
+
+  /// No description provided for @revisionModePrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to revise?'**
+  String get revisionModePrompt;
+
+  /// No description provided for @revisionListViewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'List View'**
+  String get revisionListViewTitle;
+
+  /// No description provided for @revisionListViewDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'See all operations and answers in a scrollable list.'**
+  String get revisionListViewDescription;
+
+  /// No description provided for @revisionFlashCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Flash Cards'**
+  String get revisionFlashCardTitle;
+
+  /// No description provided for @revisionFlashCardDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Interactive cards to test your recall. Flip to see answers!'**
+  String get revisionFlashCardDescription;
+
+  /// No description provided for @flashCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Flash Card Revision'**
+  String get flashCardTitle;
+
+  /// No description provided for @flashCardProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Card {current} of {total}'**
+  String flashCardProgress(int current, int total);
+
+  /// No description provided for @flashCardTapToReveal.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to reveal answer'**
+  String get flashCardTapToReveal;
+
+  /// No description provided for @flashCardPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get flashCardPrevious;
+
+  /// No description provided for @flashCardNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get flashCardNext;
+
+  /// No description provided for @flashCardGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get flashCardGotIt;
+
+  /// No description provided for @flashCardReviewAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Again'**
+  String get flashCardReviewAgain;
+
+  /// No description provided for @flashCardSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Revision Complete!'**
+  String get flashCardSummaryTitle;
+
+  /// No description provided for @flashCardSummaryMastered.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards mastered'**
+  String get flashCardSummaryMastered;
+
+  /// No description provided for @flashCardSummaryToReview.
+  ///
+  /// In en, this message translates to:
+  /// **'To review'**
+  String get flashCardSummaryToReview;
+
+  /// No description provided for @flashCardSummaryNotAnswered.
+  ///
+  /// In en, this message translates to:
+  /// **'Not answered'**
+  String get flashCardSummaryNotAnswered;
+
+  /// No description provided for @flashCardRestart.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart'**
+  String get flashCardRestart;
+
+  /// No description provided for @flashCardReviewMarked.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Marked Cards'**
+  String get flashCardReviewMarked;
 }
 
 class _AppLocalizationsDelegate

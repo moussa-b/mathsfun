@@ -13,6 +13,8 @@ import '../../features/mode/presentation/mode_selection_screen.dart';
 import '../../features/profile/presentation/profile_creation_screen.dart';
 import '../../features/profile/presentation/profile_selector_screen.dart';
 import '../../features/results/presentation/results_screen.dart';
+import '../../features/revision/presentation/flash_card_revision_screen.dart';
+import '../../features/revision/presentation/revision_mode_type_selection_screen.dart';
 import '../../features/revision/presentation/revision_screen.dart';
 import '../../features/splash/presentation/splash_screen.dart';
 import '../../features/statistics/presentation/statistics_screen.dart';
@@ -27,7 +29,9 @@ class AppRoutePath {
   static const String profileSelector = '/profiles/select';
   static const String exerciseType = '/exercise-type';
   static const String modeSelection = '/mode';
+  static const String revisionModeType = '/revision-mode';
   static const String revision = '/revision';
+  static const String revisionFlashCard = '/revision/flash-card';
   static const String exerciseModeType = '/exercise-mode';
   static const String exerciseMultipleChoice = '/exercise/multiple-choice';
   static const String exerciseDirectInput = '/exercise/direct-input';
@@ -83,11 +87,27 @@ class AppRouter {
         },
       ),
       GoRoute(
+        path: AppRoutePath.revisionModeType,
+        name: 'revision-mode-type',
+        builder: (context, state) {
+          final ExerciseConfig config = state.extra as ExerciseConfig;
+          return RevisionModeTypeSelectionScreen(config: config);
+        },
+      ),
+      GoRoute(
         path: AppRoutePath.revision,
         name: 'revision',
         builder: (context, state) {
           final ExerciseConfig config = state.extra as ExerciseConfig;
           return RevisionScreen(config: config);
+        },
+      ),
+      GoRoute(
+        path: AppRoutePath.revisionFlashCard,
+        name: 'revision-flash-card',
+        builder: (context, state) {
+          final ExerciseConfig config = state.extra as ExerciseConfig;
+          return FlashCardRevisionScreen(config: config);
         },
       ),
       GoRoute(

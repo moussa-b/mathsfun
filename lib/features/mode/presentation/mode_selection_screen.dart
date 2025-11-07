@@ -57,7 +57,7 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
                         final ExerciseConfig config = baseConfig.copyWith(
                           mode: StudyMode.revision,
                         );
-                        context.push(AppRoutePath.revision, extra: config);
+                        context.push(AppRoutePath.revisionModeType, extra: config);
                       },
                     ),
                     const SizedBox(height: 20),

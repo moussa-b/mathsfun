@@ -289,6 +289,35 @@
         "type": "String"
       }
     }
-  }
+  },
+  "revisionModeTypeTitle": "Style de révision",
+  "revisionModePrompt": "Comment souhaitez-vous réviser ?",
+  "revisionListViewTitle": "Vue liste",
+  "revisionListViewDescription": "Voir toutes les opérations et réponses dans une liste déroulante.",
+  "revisionFlashCardTitle": "Cartes mémoire",
+  "revisionFlashCardDescription": "Cartes interactives pour tester vos connaissances. Retournez pour voir les réponses !",
+  "flashCardTitle": "Révision par cartes mémoire",
+  "flashCardProgress": "Carte {current} sur {total}",
+  "@flashCardProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "flashCardTapToReveal": "Appuyez pour révéler la réponse",
+  "flashCardPrevious": "Précédent",
+  "flashCardNext": "Suivant",
+  "flashCardGotIt": "Compris",
+  "flashCardReviewAgain": "À revoir",
+  "flashCardSummaryTitle": "Révision terminée !",
+  "flashCardSummaryMastered": "Cartes maîtrisées",
+  "flashCardSummaryToReview": "À revoir",
+  "flashCardSummaryNotAnswered": "Non répondu",
+  "flashCardRestart": "Recommencer",
+  "flashCardReviewMarked": "Revoir les cartes marquées"
 }
 

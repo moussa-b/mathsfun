@@ -166,3 +166,42 @@ class RewardTypeAdapter extends TypeAdapter<RewardType> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class RevisionFormatAdapter extends TypeAdapter<RevisionFormat> {
+  @override
+  final int typeId = 9;
+
+  @override
+  RevisionFormat read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return RevisionFormat.listView;
+      case 1:
+        return RevisionFormat.flashCard;
+      default:
+        return RevisionFormat.listView;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, RevisionFormat obj) {
+    switch (obj) {
+      case RevisionFormat.listView:
+        writer.writeByte(0);
+        break;
+      case RevisionFormat.flashCard:
+        writer.writeByte(1);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RevisionFormatAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}

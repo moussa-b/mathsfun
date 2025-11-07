@@ -17,11 +17,11 @@ class AppSettingsAdapter extends TypeAdapter<AppSettings> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AppSettings(
-      soundEnabled: fields[0] as bool? ?? true,
-      hapticsEnabled: fields[1] as bool? ?? true,
-      animationsEnabled: fields[2] as bool? ?? true,
+      soundEnabled: fields[0] as bool,
+      hapticsEnabled: fields[1] as bool,
+      animationsEnabled: fields[2] as bool,
       parentPinHash: fields[3] as String?,
-      timedChallengeSeconds: fields[4] as int? ?? 60,
+      timedChallengeSeconds: fields[4] as int,
       lastProfileId: fields[5] as String?,
       localeCode: fields[6] as String?,
     );

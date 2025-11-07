@@ -71,3 +71,18 @@ extension RewardTypeX on RewardType {
     RewardType.badge => 'Badge',
   };
 }
+
+@HiveType(typeId: 9)
+enum RevisionFormat {
+  @HiveField(0)
+  listView,
+  @HiveField(1)
+  flashCard,
+}
+
+extension RevisionFormatX on RevisionFormat {
+  String get label => switch (this) {
+    RevisionFormat.listView => 'List View',
+    RevisionFormat.flashCard => 'Flash Cards',
+  };
+}

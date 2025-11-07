@@ -510,4 +510,65 @@ class AppLocalizationsEn extends AppLocalizations {
   String rewardScoredAccuracy(String accuracy) {
     return 'Scored $accuracy% accuracy.';
   }
+
+  @override
+  String get revisionModeTypeTitle => 'Revision Style';
+
+  @override
+  String get revisionModePrompt => 'How would you like to revise?';
+
+  @override
+  String get revisionListViewTitle => 'List View';
+
+  @override
+  String get revisionListViewDescription =>
+      'See all operations and answers in a scrollable list.';
+
+  @override
+  String get revisionFlashCardTitle => 'Flash Cards';
+
+  @override
+  String get revisionFlashCardDescription =>
+      'Interactive cards to test your recall. Flip to see answers!';
+
+  @override
+  String get flashCardTitle => 'Flash Card Revision';
+
+  @override
+  String flashCardProgress(int current, int total) {
+    return 'Card $current of $total';
+  }
+
+  @override
+  String get flashCardTapToReveal => 'Tap to reveal answer';
+
+  @override
+  String get flashCardPrevious => 'Previous';
+
+  @override
+  String get flashCardNext => 'Next';
+
+  @override
+  String get flashCardGotIt => 'Got it';
+
+  @override
+  String get flashCardReviewAgain => 'Review Again';
+
+  @override
+  String get flashCardSummaryTitle => 'Revision Complete!';
+
+  @override
+  String get flashCardSummaryMastered => 'Cards mastered';
+
+  @override
+  String get flashCardSummaryToReview => 'To review';
+
+  @override
+  String get flashCardSummaryNotAnswered => 'Not answered';
+
+  @override
+  String get flashCardRestart => 'Restart';
+
+  @override
+  String get flashCardReviewMarked => 'Review Marked Cards';
 }
