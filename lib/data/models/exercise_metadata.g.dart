@@ -169,7 +169,7 @@ class RewardTypeAdapter extends TypeAdapter<RewardType> {
 
 class RevisionFormatAdapter extends TypeAdapter<RevisionFormat> {
   @override
-  final int typeId = 9;
+  final int typeId = 13;
 
   @override
   RevisionFormat read(BinaryReader reader) {

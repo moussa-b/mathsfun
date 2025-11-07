@@ -72,7 +72,7 @@ extension RewardTypeX on RewardType {
   };
 }
 
-@HiveType(typeId: 9)
+@HiveType(typeId: 13)
 enum RevisionFormat {
   @HiveField(0)
   listView,

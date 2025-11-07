@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/extensions/context_localizations.dart';
+import '../../../core/routes/app_router.dart';
 import '../../../core/utils/pin_utils.dart';
 import '../../../data/services/settings_service.dart';
 
@@ -85,6 +87,28 @@ class _ParentSettingsSheetState extends State<ParentSettingsSheet> {
                 },
               ),
               const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    context.push(AppRoutePath.parentDashboard);
+                  },
+                  icon: const Icon(Icons.analytics),
+                  label: Text(context.l10n.parentDashboardAdvancedAnalytics),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              const Divider(),
+              const SizedBox(height: 16),
+              Text(
+                'PIN Security',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _pinController,
                 keyboardType: TextInputType.number,

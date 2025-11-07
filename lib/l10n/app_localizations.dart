@@ -1105,6 +1105,209 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Review Marked Cards'**
   String get flashCardReviewMarked;
+
+  /// No description provided for @parentDashboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced Analytics'**
+  String get parentDashboardTitle;
+
+  /// No description provided for @parentDashboardSelectProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Child'**
+  String get parentDashboardSelectProfile;
+
+  /// No description provided for @parentDashboardNoProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'No profile selected'**
+  String get parentDashboardNoProfile;
+
+  /// No description provided for @parentDashboardMultiplication.
+  ///
+  /// In en, this message translates to:
+  /// **'Multiplication'**
+  String get parentDashboardMultiplication;
+
+  /// No description provided for @parentDashboardAddition.
+  ///
+  /// In en, this message translates to:
+  /// **'Addition'**
+  String get parentDashboardAddition;
+
+  /// No description provided for @parentDashboardTableLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Table {table}'**
+  String parentDashboardTableLabel(int table);
+
+  /// No description provided for @parentDashboardExerciseStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise Statistics'**
+  String get parentDashboardExerciseStats;
+
+  /// No description provided for @parentDashboardFlashCardStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Flash Card Status'**
+  String get parentDashboardFlashCardStats;
+
+  /// No description provided for @parentDashboardTotalAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Total attempts'**
+  String get parentDashboardTotalAttempts;
+
+  /// No description provided for @parentDashboardTotalQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Total questions answered'**
+  String get parentDashboardTotalQuestions;
+
+  /// No description provided for @parentDashboardSuccessRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Success rate'**
+  String get parentDashboardSuccessRate;
+
+  /// No description provided for @parentDashboardProblemOperations.
+  ///
+  /// In en, this message translates to:
+  /// **'Problem Operations'**
+  String get parentDashboardProblemOperations;
+
+  /// No description provided for @parentDashboardNoProblemOperations.
+  ///
+  /// In en, this message translates to:
+  /// **'No problem operations identified'**
+  String get parentDashboardNoProblemOperations;
+
+  /// No description provided for @parentDashboardNoExerciseData.
+  ///
+  /// In en, this message translates to:
+  /// **'No exercise data yet'**
+  String get parentDashboardNoExerciseData;
+
+  /// No description provided for @parentDashboardOperationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'{expression} — Failed {failures}/{total} times ({rate}%)'**
+  String parentDashboardOperationFailed(
+    String expression,
+    int failures,
+    int total,
+    String rate,
+  );
+
+  /// No description provided for @parentDashboardCardsReviewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards reviewed'**
+  String get parentDashboardCardsReviewed;
+
+  /// No description provided for @parentDashboardCardsMastered.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards mastered'**
+  String get parentDashboardCardsMastered;
+
+  /// No description provided for @parentDashboardCardsToReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards to review'**
+  String get parentDashboardCardsToReview;
+
+  /// No description provided for @parentDashboardMasteryRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Mastery rate'**
+  String get parentDashboardMasteryRate;
+
+  /// No description provided for @parentDashboardNoFlashCardData.
+  ///
+  /// In en, this message translates to:
+  /// **'No flash card data yet'**
+  String get parentDashboardNoFlashCardData;
+
+  /// No description provided for @parentDashboardMasteredCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Mastered Cards'**
+  String get parentDashboardMasteredCards;
+
+  /// No description provided for @parentDashboardReviewCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards to Review'**
+  String get parentDashboardReviewCards;
+
+  /// No description provided for @parentDashboardResetTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Table Progress'**
+  String get parentDashboardResetTable;
+
+  /// No description provided for @parentDashboardResetAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset All Progress'**
+  String get parentDashboardResetAll;
+
+  /// No description provided for @parentDashboardResetTableConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset progress for table {table}?'**
+  String parentDashboardResetTableConfirm(int table);
+
+  /// No description provided for @parentDashboardResetTableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will delete all exercise sessions and flash card results for this table. This action cannot be undone.'**
+  String get parentDashboardResetTableMessage;
+
+  /// No description provided for @parentDashboardResetAllConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset all progress?'**
+  String get parentDashboardResetAllConfirm;
+
+  /// No description provided for @parentDashboardResetAllMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will delete all exercise sessions and flash card results for {name}. This action cannot be undone.'**
+  String parentDashboardResetAllMessage(String name);
+
+  /// No description provided for @parentDashboardResetCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get parentDashboardResetCancel;
+
+  /// No description provided for @parentDashboardResetConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get parentDashboardResetConfirm;
+
+  /// No description provided for @parentDashboardResetTableSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Table {table} progress reset'**
+  String parentDashboardResetTableSuccess(int table);
+
+  /// No description provided for @parentDashboardResetAllSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'All progress reset'**
+  String get parentDashboardResetAllSuccess;
+
+  /// No description provided for @parentDashboardAdvancedAnalytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced Analytics'**
+  String get parentDashboardAdvancedAnalytics;
 }
 
 class _AppLocalizationsDelegate

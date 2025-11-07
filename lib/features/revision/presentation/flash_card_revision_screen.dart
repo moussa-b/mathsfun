@@ -1,9 +1,13 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/extensions/context_localizations.dart';
 import '../../../data/models/exercise_metadata.dart';
+import '../../../data/models/flash_card_result.dart';
+import '../../../data/services/flash_card_service.dart';
+import '../../../data/services/profile_service.dart';
 import '../../exercise/models/exercise_config.dart';
 
 enum CardStatus { notAnswered, gotIt, reviewAgain }
@@ -53,7 +57,11 @@ class _FlashCardRevisionScreenState extends State<FlashCardRevisionScreen>
       final String question = isMultiplication
           ? '$multiplier × $table'
           : '$multiplier + $table';
-      return _CardData(question: question, answer: result);
+      return _CardData(
+        question: question,
+        answer: result,
+        multiplier: multiplier,
+      );
     });
     
     _cardStatuses = List.generate(_cards.length, (_) => CardStatus.notAnswered);
@@ -100,10 +108,37 @@ class _FlashCardRevisionScreenState extends State<FlashCardRevisionScreen>
     setState(() {
       _cardStatuses[_currentIndex] = status;
     });
+    
+    // Persist the result to database
+    _persistCardResult(status);
+    
     // Automatically go to next card after marking
     if (_currentIndex < _cards.length - 1) {
       Future.delayed(const Duration(milliseconds: 300), _goToNext);
     }
+  }
+
+  Future<void> _persistCardResult(CardStatus status) async {
+    final flashCardService = context.read<FlashCardService>();
+    final profileService = context.read<ProfileService>();
+    final activeProfile = profileService.activeProfile;
+    
+    if (activeProfile == null) {
+      return;
+    }
+
+    final card = _cards[_currentIndex];
+    final flashCardStatus = status == CardStatus.gotIt
+        ? FlashCardStatus.gotIt
+        : FlashCardStatus.reviewAgain;
+
+    await flashCardService.saveResult(
+      profileId: activeProfile.id,
+      operation: widget.config.operation,
+      table: widget.config.baseNumber,
+      multiplier: card.multiplier,
+      status: flashCardStatus,
+    );
   }
 
   int get _masteredCount =>
@@ -518,10 +553,15 @@ class _FlashCardRevisionScreenState extends State<FlashCardRevisionScreen>
 }
 
 class _CardData {
-  const _CardData({required this.question, required this.answer});
+  const _CardData({
+    required this.question,
+    required this.answer,
+    required this.multiplier,
+  });
 
   final String question;
   final int answer;
+  final int multiplier;
 }
 
 class _SummaryCard extends StatelessWidget {

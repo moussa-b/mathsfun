@@ -11,6 +11,7 @@ import '../../features/exercise/presentation/multiple_choice_exercise_screen.dar
 import '../../features/exercise_type/presentation/exercise_type_selection_screen.dart';
 import '../../features/mode/presentation/mode_selection_screen.dart';
 import '../../features/profile/presentation/profile_creation_screen.dart';
+import '../../features/parent_dashboard/presentation/parent_dashboard_screen.dart';
 import '../../features/profile/presentation/profile_selector_screen.dart';
 import '../../features/results/presentation/results_screen.dart';
 import '../../features/revision/presentation/flash_card_revision_screen.dart';
@@ -37,6 +38,7 @@ class AppRoutePath {
   static const String exerciseDirectInput = '/exercise/direct-input';
   static const String results = '/results';
   static const String statistics = '/statistics';
+  static const String parentDashboard = '/parent/dashboard';
 }
 
 /// Provides the application's central GoRouter configuration.
@@ -144,6 +146,11 @@ class AppRouter {
         path: AppRoutePath.statistics,
         name: 'statistics',
         builder: (context, state) => const StatisticsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutePath.parentDashboard,
+        name: 'parent-dashboard',
+        builder: (context, state) => const ParentDashboardScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

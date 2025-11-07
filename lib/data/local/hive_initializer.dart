@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../models/app_settings.dart';
 import '../models/exercise_metadata.dart';
 import '../models/exercise_session.dart';
+import '../models/flash_card_result.dart';
 import '../models/profile.dart';
 import '../models/reward.dart';
 import 'hive_boxes.dart';
@@ -29,6 +30,7 @@ class HiveInitializer {
       Hive.openBox<Profile>(HiveBoxes.profiles),
       Hive.openBox<ExerciseSession>(HiveBoxes.sessions),
       Hive.openBox<Reward>(HiveBoxes.rewards),
+      Hive.openBox<FlashCardResult>(HiveBoxes.flashCardResults),
     ]);
 
     final settingsBox = Hive.box<AppSettings>(HiveBoxes.settings);
@@ -67,6 +69,15 @@ class HiveInitializer {
     }
     if (!Hive.isAdapterRegistered(9)) {
       Hive.registerAdapter(AppSettingsAdapter());
+    }
+    if (!Hive.isAdapterRegistered(10)) {
+      Hive.registerAdapter(FlashCardResultAdapter());
+    }
+    if (!Hive.isAdapterRegistered(11)) {
+      Hive.registerAdapter(FlashCardStatusAdapter());
+    }
+    if (!Hive.isAdapterRegistered(13)) {
+      Hive.registerAdapter(RevisionFormatAdapter());
     }
   }
 }

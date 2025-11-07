@@ -44,11 +44,11 @@ class ProfileService extends ChangeNotifier {
       schoolClass: schoolClass,
       avatarId: avatarId,
     );
-    _profiles = <Profile>[..._profiles, newProfile]
-      ..sort((Profile a, Profile b) => a.nickname.compareTo(b.nickname));
+    // Don't manually update _profiles here - let the Hive listener handle it
+    // to avoid duplicates
     _activeProfile = newProfile;
     await _syncSettingsProfile(newProfile.id);
-    notifyListeners();
+    // The Hive listener will trigger notifyListeners() when it detects the change
     return newProfile;
   }
 

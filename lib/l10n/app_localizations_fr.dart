@@ -574,4 +574,122 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get flashCardReviewMarked => 'Revoir les cartes marquées';
+
+  @override
+  String get parentDashboardTitle => 'Analyses avancées';
+
+  @override
+  String get parentDashboardSelectProfile => 'Sélectionner l\'enfant';
+
+  @override
+  String get parentDashboardNoProfile => 'Aucun profil sélectionné';
+
+  @override
+  String get parentDashboardMultiplication => 'Multiplication';
+
+  @override
+  String get parentDashboardAddition => 'Addition';
+
+  @override
+  String parentDashboardTableLabel(int table) {
+    return 'Table de $table';
+  }
+
+  @override
+  String get parentDashboardExerciseStats => 'Statistiques d\'exercices';
+
+  @override
+  String get parentDashboardFlashCardStats => 'État des cartes mémoire';
+
+  @override
+  String get parentDashboardTotalAttempts => 'Tentatives totales';
+
+  @override
+  String get parentDashboardTotalQuestions => 'Questions répondues';
+
+  @override
+  String get parentDashboardSuccessRate => 'Taux de réussite';
+
+  @override
+  String get parentDashboardProblemOperations => 'Opérations problématiques';
+
+  @override
+  String get parentDashboardNoProblemOperations =>
+      'Aucune opération problématique identifiée';
+
+  @override
+  String get parentDashboardNoExerciseData =>
+      'Pas encore de données d\'exercice';
+
+  @override
+  String parentDashboardOperationFailed(
+    String expression,
+    int failures,
+    int total,
+    String rate,
+  ) {
+    return '$expression — Échoué $failures/$total fois ($rate%)';
+  }
+
+  @override
+  String get parentDashboardCardsReviewed => 'Cartes révisées';
+
+  @override
+  String get parentDashboardCardsMastered => 'Cartes maîtrisées';
+
+  @override
+  String get parentDashboardCardsToReview => 'Cartes à revoir';
+
+  @override
+  String get parentDashboardMasteryRate => 'Taux de maîtrise';
+
+  @override
+  String get parentDashboardNoFlashCardData =>
+      'Pas encore de données de cartes mémoire';
+
+  @override
+  String get parentDashboardMasteredCards => 'Cartes maîtrisées';
+
+  @override
+  String get parentDashboardReviewCards => 'Cartes à revoir';
+
+  @override
+  String get parentDashboardResetTable => 'Réinitialiser la table';
+
+  @override
+  String get parentDashboardResetAll => 'Tout réinitialiser';
+
+  @override
+  String parentDashboardResetTableConfirm(int table) {
+    return 'Réinitialiser la table de $table ?';
+  }
+
+  @override
+  String get parentDashboardResetTableMessage =>
+      'Cela supprimera toutes les sessions d\'exercice et les résultats de cartes mémoire pour cette table. Cette action est irréversible.';
+
+  @override
+  String get parentDashboardResetAllConfirm => 'Tout réinitialiser ?';
+
+  @override
+  String parentDashboardResetAllMessage(String name) {
+    return 'Cela supprimera toutes les sessions d\'exercice et les résultats de cartes mémoire pour $name. Cette action est irréversible.';
+  }
+
+  @override
+  String get parentDashboardResetCancel => 'Annuler';
+
+  @override
+  String get parentDashboardResetConfirm => 'Réinitialiser';
+
+  @override
+  String parentDashboardResetTableSuccess(int table) {
+    return 'Progrès de la table de $table réinitialisé';
+  }
+
+  @override
+  String get parentDashboardResetAllSuccess => 'Tous les progrès réinitialisés';
+
+  @override
+  String get parentDashboardAdvancedAnalytics => 'Analyses avancées';
 }

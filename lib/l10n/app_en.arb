@@ -318,6 +318,83 @@
   "flashCardSummaryToReview": "To review",
   "flashCardSummaryNotAnswered": "Not answered",
   "flashCardRestart": "Restart",
-  "flashCardReviewMarked": "Review Marked Cards"
+  "flashCardReviewMarked": "Review Marked Cards",
+  "parentDashboardTitle": "Advanced Analytics",
+  "parentDashboardSelectProfile": "Select Child",
+  "parentDashboardNoProfile": "No profile selected",
+  "parentDashboardMultiplication": "Multiplication",
+  "parentDashboardAddition": "Addition",
+  "parentDashboardTableLabel": "Table {table}",
+  "@parentDashboardTableLabel": {
+    "placeholders": {
+      "table": {
+        "type": "int"
+      }
+    }
+  },
+  "parentDashboardExerciseStats": "Exercise Statistics",
+  "parentDashboardFlashCardStats": "Flash Card Status",
+  "parentDashboardTotalAttempts": "Total attempts",
+  "parentDashboardTotalQuestions": "Total questions answered",
+  "parentDashboardSuccessRate": "Success rate",
+  "parentDashboardProblemOperations": "Problem Operations",
+  "parentDashboardNoProblemOperations": "No problem operations identified",
+  "parentDashboardNoExerciseData": "No exercise data yet",
+  "parentDashboardOperationFailed": "{expression} — Failed {failures}/{total} times ({rate}%)",
+  "@parentDashboardOperationFailed": {
+    "placeholders": {
+      "expression": {
+        "type": "String"
+      },
+      "failures": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "parentDashboardCardsReviewed": "Cards reviewed",
+  "parentDashboardCardsMastered": "Cards mastered",
+  "parentDashboardCardsToReview": "Cards to review",
+  "parentDashboardMasteryRate": "Mastery rate",
+  "parentDashboardNoFlashCardData": "No flash card data yet",
+  "parentDashboardMasteredCards": "Mastered Cards",
+  "parentDashboardReviewCards": "Cards to Review",
+  "parentDashboardResetTable": "Reset Table Progress",
+  "parentDashboardResetAll": "Reset All Progress",
+  "parentDashboardResetTableConfirm": "Reset progress for table {table}?",
+  "@parentDashboardResetTableConfirm": {
+    "placeholders": {
+      "table": {
+        "type": "int"
+      }
+    }
+  },
+  "parentDashboardResetTableMessage": "This will delete all exercise sessions and flash card results for this table. This action cannot be undone.",
+  "parentDashboardResetAllConfirm": "Reset all progress?",
+  "parentDashboardResetAllMessage": "This will delete all exercise sessions and flash card results for {name}. This action cannot be undone.",
+  "@parentDashboardResetAllMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "parentDashboardResetCancel": "Cancel",
+  "parentDashboardResetConfirm": "Reset",
+  "parentDashboardResetTableSuccess": "Table {table} progress reset",
+  "@parentDashboardResetTableSuccess": {
+    "placeholders": {
+      "table": {
+        "type": "int"
+      }
+    }
+  },
+  "parentDashboardResetAllSuccess": "All progress reset",
+  "parentDashboardAdvancedAnalytics": "Advanced Analytics"
 }
 

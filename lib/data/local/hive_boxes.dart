@@ -5,4 +5,5 @@ class HiveBoxes {
   static const String sessions = 'sessions';
   static const String rewards = 'rewards';
   static const String settings = 'settings';
+  static const String flashCardResults = 'flashCardResults';
 }

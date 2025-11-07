@@ -318,6 +318,83 @@
   "flashCardSummaryToReview": "À revoir",
   "flashCardSummaryNotAnswered": "Non répondu",
   "flashCardRestart": "Recommencer",
-  "flashCardReviewMarked": "Revoir les cartes marquées"
+  "flashCardReviewMarked": "Revoir les cartes marquées",
+  "parentDashboardTitle": "Analyses avancées",
+  "parentDashboardSelectProfile": "Sélectionner l'enfant",
+  "parentDashboardNoProfile": "Aucun profil sélectionné",
+  "parentDashboardMultiplication": "Multiplication",
+  "parentDashboardAddition": "Addition",
+  "parentDashboardTableLabel": "Table de {table}",
+  "@parentDashboardTableLabel": {
+    "placeholders": {
+      "table": {
+        "type": "int"
+      }
+    }
+  },
+  "parentDashboardExerciseStats": "Statistiques d'exercices",
+  "parentDashboardFlashCardStats": "État des cartes mémoire",
+  "parentDashboardTotalAttempts": "Tentatives totales",
+  "parentDashboardTotalQuestions": "Questions répondues",
+  "parentDashboardSuccessRate": "Taux de réussite",
+  "parentDashboardProblemOperations": "Opérations problématiques",
+  "parentDashboardNoProblemOperations": "Aucune opération problématique identifiée",
+  "parentDashboardNoExerciseData": "Pas encore de données d'exercice",
+  "parentDashboardOperationFailed": "{expression} — Échoué {failures}/{total} fois ({rate}%)",
+  "@parentDashboardOperationFailed": {
+    "placeholders": {
+      "expression": {
+        "type": "String"
+      },
+      "failures": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "parentDashboardCardsReviewed": "Cartes révisées",
+  "parentDashboardCardsMastered": "Cartes maîtrisées",
+  "parentDashboardCardsToReview": "Cartes à revoir",
+  "parentDashboardMasteryRate": "Taux de maîtrise",
+  "parentDashboardNoFlashCardData": "Pas encore de données de cartes mémoire",
+  "parentDashboardMasteredCards": "Cartes maîtrisées",
+  "parentDashboardReviewCards": "Cartes à revoir",
+  "parentDashboardResetTable": "Réinitialiser la table",
+  "parentDashboardResetAll": "Tout réinitialiser",
+  "parentDashboardResetTableConfirm": "Réinitialiser la table de {table} ?",
+  "@parentDashboardResetTableConfirm": {
+    "placeholders": {
+      "table": {
+        "type": "int"
+      }
+    }
+  },
+  "parentDashboardResetTableMessage": "Cela supprimera toutes les sessions d'exercice et les résultats de cartes mémoire pour cette table. Cette action est irréversible.",
+  "parentDashboardResetAllConfirm": "Tout réinitialiser ?",
+  "parentDashboardResetAllMessage": "Cela supprimera toutes les sessions d'exercice et les résultats de cartes mémoire pour {name}. Cette action est irréversible.",
+  "@parentDashboardResetAllMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "parentDashboardResetCancel": "Annuler",
+  "parentDashboardResetConfirm": "Réinitialiser",
+  "parentDashboardResetTableSuccess": "Progrès de la table de {table} réinitialisé",
+  "@parentDashboardResetTableSuccess": {
+    "placeholders": {
+      "table": {
+        "type": "int"
+      }
+    }
+  },
+  "parentDashboardResetAllSuccess": "Tous les progrès réinitialisés",
+  "parentDashboardAdvancedAnalytics": "Analyses avancées"
 }
 

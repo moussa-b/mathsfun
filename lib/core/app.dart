@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import '../l10n/app_localizations.dart';
+import '../data/services/analytics_service.dart';
+import '../data/services/flash_card_service.dart';
 import '../data/services/profile_service.dart';
 import '../data/services/reward_service.dart';
 import '../data/services/session_service.dart';
@@ -26,6 +28,15 @@ class MathsFunApp extends StatelessWidget {
         ChangeNotifierProvider<ProfileService>(create: (_) => ProfileService()),
         ChangeNotifierProvider<SessionService>(create: (_) => SessionService()),
         ChangeNotifierProvider<RewardService>(create: (_) => RewardService()),
+        ChangeNotifierProvider<FlashCardService>(
+          create: (_) => FlashCardService(),
+        ),
+        ProxyProvider2<SessionService, FlashCardService, AnalyticsService>(
+          update: (_, sessionService, flashCardService, __) => AnalyticsService(
+            sessionService: sessionService,
+            flashCardService: flashCardService,
+          ),
+        ),
       ],
       child: Consumer<SettingsService>(
         builder:
