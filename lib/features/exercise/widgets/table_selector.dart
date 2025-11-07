@@ -7,12 +7,18 @@ class TableSelector extends StatelessWidget {
     required this.onChanged,
     this.max = 12,
     this.label,
+    this.multiSelect = false,
+    this.selectedValues,
+    this.onMultiChanged,
   });
 
   final int value;
   final int max;
   final ValueChanged<int> onChanged;
   final String? label;
+  final bool multiSelect;
+  final Set<int>? selectedValues;
+  final ValueChanged<Set<int>>? onMultiChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +46,28 @@ class TableSelector extends StatelessWidget {
           itemCount: max,
           itemBuilder: (BuildContext context, int index) {
             final int currentValue = index + 1;
-            final bool isSelected = currentValue == value;
+            final bool isSelected = multiSelect 
+                ? (selectedValues?.contains(currentValue) ?? false)
+                : currentValue == value;
             return _NumberChip(
               number: currentValue,
               isSelected: isSelected,
-              onTap: () => onChanged(currentValue),
+              onTap: () {
+                if (multiSelect && onMultiChanged != null) {
+                  final Set<int> newSelection = Set<int>.from(selectedValues ?? {});
+                  if (newSelection.contains(currentValue)) {
+                    // Don't allow deselecting if it's the last one
+                    if (newSelection.length > 1) {
+                      newSelection.remove(currentValue);
+                    }
+                  } else {
+                    newSelection.add(currentValue);
+                  }
+                  onMultiChanged!(newSelection);
+                } else {
+                  onChanged(currentValue);
+                }
+              },
               theme: theme,
             );
           },

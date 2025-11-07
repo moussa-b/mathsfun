@@ -268,6 +268,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tableSelectorLabel => 'Table';
 
   @override
+  String tableSelectorSelectedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tables selected',
+      one: '1 table selected',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get revisionTitleMultiplication => 'Multiplication Revision';
 
   @override

@@ -18,12 +18,14 @@ class ModeSelectionScreen extends StatefulWidget {
 }
 
 class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
-  late int _selectedTable;
+  late Set<int> _selectedTables;
 
   @override
   void initState() {
     super.initState();
-    _selectedTable = widget.initialConfig.baseNumber;
+    // Initialize with selectedTables if available, otherwise use baseNumber
+    _selectedTables = widget.initialConfig.selectedTables?.toSet() ?? 
+        {widget.initialConfig.baseNumber};
   }
 
   @override
@@ -50,13 +52,24 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
               ),
               const SizedBox(height: 16),
               TableSelector(
-                value: _selectedTable,
-                onChanged: (int value) =>
-                    setState(() => _selectedTable = value),
+                value: _selectedTables.first,
+                onChanged: (int value) {},
+                multiSelect: true,
+                selectedValues: _selectedTables,
+                onMultiChanged: (Set<int> values) =>
+                    setState(() => _selectedTables = values),
                 label: context.l10n.tableSelectorLabel,
                 max: baseConfig.operation == OperationKind.multiplication ? 12 : 10,
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 8),
+              Text(
+                context.l10n.tableSelectorSelectedCount(_selectedTables.length),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 24),
               Expanded(
                 child: Column(
                   children: <Widget>[
@@ -68,7 +81,8 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
                       onTap: () {
                         final ExerciseConfig config = baseConfig.copyWith(
                           mode: StudyMode.revision,
-                          baseNumber: _selectedTable,
+                          selectedTables: _selectedTables.toList(),
+                          baseNumber: _selectedTables.first,
                         );
                         context.push(AppRoutePath.revision, extra: config);
                       },
@@ -82,7 +96,8 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
                       onTap: () {
                         final ExerciseConfig config = baseConfig.copyWith(
                           mode: StudyMode.exercise,
-                          baseNumber: _selectedTable,
+                          selectedTables: _selectedTables.toList(),
+                          baseNumber: _selectedTables.first,
                         );
                         context.push(
                           AppRoutePath.exerciseModeType,

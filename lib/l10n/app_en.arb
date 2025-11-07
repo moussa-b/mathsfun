@@ -114,6 +114,14 @@
   "modeExerciseCardTitle": "Exercise Mode",
   "modeExerciseCardDescription": "Answer questions and earn stars for great accuracy!",
   "tableSelectorLabel": "Table",
+  "tableSelectorSelectedCount": "{count, plural, =1{1 table selected} other{{count} tables selected}}",
+  "@tableSelectorSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "revisionTitleMultiplication": "Multiplication Revision",
   "revisionTitleAddition": "Addition Revision",
   "revisionHeadingMultiplication": "Practise the ×{table} table",

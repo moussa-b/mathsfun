@@ -14,99 +14,109 @@ class ExerciseQuestionGenerator {
 
   List<ExerciseQuestion> generate(ExerciseConfig config) {
     // Cap question count to prevent infinite loops based on operation type
-    final int maxQuestions = config.operation == OperationKind.multiplication ? 12 : 10;
-    final int questionCount = config.questionCount > maxQuestions 
-        ? maxQuestions 
+    final int maxQuestionsPerTable = config.operation == OperationKind.multiplication ? 12 : 10;
+    final int questionCount = config.questionCount > maxQuestionsPerTable 
+        ? maxQuestionsPerTable 
         : config.questionCount;
 
+    // Get the list of tables to practice
+    final List<int> tables = config.tables;
+
     if (config.shuffleQuestions) {
-      // Shuffled mode: random generation (original behavior)
-      return _generateShuffled(config, questionCount);
+      // Shuffled mode: mix questions from all tables randomly
+      return _generateShuffled(config, questionCount, tables);
     } else {
-      // Ordered mode: sequential generation
-      return _generateOrdered(config, questionCount);
+      // Ordered mode: sequential generation (all questions from first table, then second, etc.)
+      return _generateOrdered(config, questionCount, tables);
     }
   }
 
-  List<ExerciseQuestion> _generateShuffled(ExerciseConfig config, int questionCount) {
+  List<ExerciseQuestion> _generateShuffled(ExerciseConfig config, int questionCountPerTable, List<int> tables) {
     final Set<String> questionKeys = <String>{};
     final List<ExerciseQuestion> questions = <ExerciseQuestion>[];
 
-    while (questions.length < questionCount) {
-      final _Operands operands = _nextOperands(config);
-      final String key =
-          '${operands.left}-${operands.right}-${config.operation.name}';
-      if (questionKeys.contains(key)) {
-        continue;
+    // Generate questionCountPerTable questions for each table, then shuffle together
+    for (final int table in tables) {
+      int tableQuestionCount = 0;
+      while (tableQuestionCount < questionCountPerTable) {
+        final _Operands operands = _nextOperandsForTable(config, table);
+        final String key =
+            '${operands.left}-${operands.right}-${config.operation.name}';
+        if (questionKeys.contains(key)) {
+          continue;
+        }
+        questionKeys.add(key);
+
+        final int answer = _calculateAnswer(
+          config.operation,
+          operands.left,
+          operands.right,
+        );
+        final List<int> choices = config.format == ExerciseFormat.multipleChoice
+            ? _buildChoices(answer, config.operation)
+            : const <int>[];
+
+        questions.add(
+          ExerciseQuestion(
+            id: _uuid.v4(),
+            operation: config.operation,
+            left: operands.left,
+            right: operands.right,
+            correctAnswer: answer,
+            choices: choices,
+          ),
+        );
+        tableQuestionCount++;
       }
-      questionKeys.add(key);
-
-      final int answer = _calculateAnswer(
-        config.operation,
-        operands.left,
-        operands.right,
-      );
-      final List<int> choices = config.format == ExerciseFormat.multipleChoice
-          ? _buildChoices(answer, config.operation)
-          : const <int>[];
-
-      questions.add(
-        ExerciseQuestion(
-          id: _uuid.v4(),
-          operation: config.operation,
-          left: operands.left,
-          right: operands.right,
-          correctAnswer: answer,
-          choices: choices,
-        ),
-      );
     }
 
+    // Shuffle all questions together
+    questions.shuffle(_random);
     return questions;
   }
 
-  List<ExerciseQuestion> _generateOrdered(ExerciseConfig config, int questionCount) {
+  List<ExerciseQuestion> _generateOrdered(ExerciseConfig config, int questionCountPerTable, List<int> tables) {
     final List<ExerciseQuestion> questions = <ExerciseQuestion>[];
-    final int base = config.baseNumber;
 
-    for (int i = 1; i <= questionCount; i++) {
-      final int left = base;
-      final int right = i;
-      
-      final int answer = _calculateAnswer(
-        config.operation,
-        left,
-        right,
-      );
-      final List<int> choices = config.format == ExerciseFormat.multipleChoice
-          ? _buildChoices(answer, config.operation)
-          : const <int>[];
+    // Generate questions for each table sequentially
+    for (final int table in tables) {
+      for (int i = 1; i <= questionCountPerTable; i++) {
+        final int left = table;
+        final int right = i;
+        
+        final int answer = _calculateAnswer(
+          config.operation,
+          left,
+          right,
+        );
+        final List<int> choices = config.format == ExerciseFormat.multipleChoice
+            ? _buildChoices(answer, config.operation)
+            : const <int>[];
 
-      questions.add(
-        ExerciseQuestion(
-          id: _uuid.v4(),
-          operation: config.operation,
-          left: left,
-          right: right,
-          correctAnswer: answer,
-          choices: choices,
-        ),
-      );
+        questions.add(
+          ExerciseQuestion(
+            id: _uuid.v4(),
+            operation: config.operation,
+            left: left,
+            right: right,
+            correctAnswer: answer,
+            choices: choices,
+          ),
+        );
+      }
     }
 
     return questions;
   }
 
-  _Operands _nextOperands(ExerciseConfig config) {
+  _Operands _nextOperandsForTable(ExerciseConfig config, int table) {
     switch (config.operation) {
       case OperationKind.multiplication:
-        final int base = config.baseNumber;
         final int second = _random.nextInt(12) + 1;
-        return _Operands(left: base, right: second);
+        return _Operands(left: table, right: second);
       case OperationKind.addition:
-        final int base = config.baseNumber;
         final int second = _random.nextInt(10) + 1;
-        return _Operands(left: base, right: second);
+        return _Operands(left: table, right: second);
     }
   }
 

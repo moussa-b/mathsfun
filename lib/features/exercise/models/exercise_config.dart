@@ -6,6 +6,7 @@ class ExerciseConfig {
     required this.mode,
     required this.format,
     this.baseNumber = 2,
+    this.selectedTables,
     this.questionCount = 10,
     this.timedSeconds,
     this.shuffleQuestions = false,
@@ -15,9 +16,13 @@ class ExerciseConfig {
   final StudyMode mode;
   final ExerciseFormat format;
   final int baseNumber;
+  final List<int>? selectedTables;
   final int questionCount;
   final int? timedSeconds;
   final bool shuffleQuestions;
+  
+  /// Returns the list of tables to practice (uses selectedTables if available, otherwise baseNumber)
+  List<int> get tables => selectedTables ?? [baseNumber];
 
   bool get isTimed =>
       format == ExerciseFormat.timedChallenge || timedSeconds != null;
@@ -27,6 +32,7 @@ class ExerciseConfig {
     StudyMode? mode,
     ExerciseFormat? format,
     int? baseNumber,
+    List<int>? selectedTables,
     int? questionCount,
     int? timedSeconds,
     bool? shuffleQuestions,
@@ -36,6 +42,7 @@ class ExerciseConfig {
       mode: mode ?? this.mode,
       format: format ?? this.format,
       baseNumber: baseNumber ?? this.baseNumber,
+      selectedTables: selectedTables ?? this.selectedTables,
       questionCount: questionCount ?? this.questionCount,
       timedSeconds: timedSeconds ?? this.timedSeconds,
       shuffleQuestions: shuffleQuestions ?? this.shuffleQuestions,

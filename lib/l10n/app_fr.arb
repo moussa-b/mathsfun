@@ -114,6 +114,14 @@
   "modeExerciseCardTitle": "Mode exercice",
   "modeExerciseCardDescription": "Réponds aux questions et gagne des étoiles avec une super précision !",
   "tableSelectorLabel": "Table",
+  "tableSelectorSelectedCount": "{count, plural, =1{1 table sélectionnée} other{{count} tables sélectionnées}}",
+  "@tableSelectorSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "revisionTitleMultiplication": "Révision des multiplications",
   "revisionTitleAddition": "Révision des additions",
   "revisionHeadingMultiplication": "Exerce-toi sur la table de ×{table}",

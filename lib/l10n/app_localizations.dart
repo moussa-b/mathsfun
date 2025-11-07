@@ -578,6 +578,12 @@ abstract class AppLocalizations {
   /// **'Table'**
   String get tableSelectorLabel;
 
+  /// No description provided for @tableSelectorSelectedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 table selected} other{{count} tables selected}}'**
+  String tableSelectorSelectedCount(int count);
+
   /// No description provided for @revisionTitleMultiplication.
   ///
   /// In en, this message translates to:
