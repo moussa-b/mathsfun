@@ -1,0 +1,574 @@
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+
+import '../../../core/extensions/context_localizations.dart';
+import '../../../data/models/exercise_metadata.dart';
+import '../../exercise/models/exercise_config.dart';
+
+enum CardStatus { notAnswered, gotIt, reviewAgain }
+
+class FlashCardRevisionScreen extends StatefulWidget {
+  const FlashCardRevisionScreen({super.key, required this.config});
+
+  final ExerciseConfig config;
+
+  @override
+  State<FlashCardRevisionScreen> createState() =>
+      _FlashCardRevisionScreenState();
+}
+
+class _FlashCardRevisionScreenState extends State<FlashCardRevisionScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _flipController;
+  late Animation<double> _flipAnimation;
+  bool _showAnswer = false;
+  int _currentIndex = 0;
+  late List<CardStatus> _cardStatuses;
+  late List<_CardData> _cards;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeCards();
+    _flipController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _flipAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _flipController, curve: Curves.easeInOut),
+    );
+  }
+
+  void _initializeCards() {
+    final int table = widget.config.baseNumber;
+    final bool isMultiplication =
+        widget.config.operation == OperationKind.multiplication;
+    
+    _cards = List.generate(12, (index) {
+      final int multiplier = index + 1;
+      final int result = isMultiplication
+          ? multiplier * table
+          : multiplier + table;
+      final String question = isMultiplication
+          ? '$multiplier × $table'
+          : '$multiplier + $table';
+      return _CardData(question: question, answer: result);
+    });
+    
+    _cardStatuses = List.generate(_cards.length, (_) => CardStatus.notAnswered);
+  }
+
+  @override
+  void dispose() {
+    _flipController.dispose();
+    super.dispose();
+  }
+
+  void _flipCard() {
+    if (_showAnswer) {
+      _flipController.reverse();
+    } else {
+      _flipController.forward();
+    }
+    setState(() {
+      _showAnswer = !_showAnswer;
+    });
+  }
+
+  void _goToNext() {
+    if (_currentIndex < _cards.length - 1) {
+      setState(() {
+        _currentIndex++;
+        _showAnswer = false;
+      });
+      _flipController.reset();
+    }
+  }
+
+  void _goToPrevious() {
+    if (_currentIndex > 0) {
+      setState(() {
+        _currentIndex--;
+        _showAnswer = false;
+      });
+      _flipController.reset();
+    }
+  }
+
+  void _markCard(CardStatus status) {
+    setState(() {
+      _cardStatuses[_currentIndex] = status;
+    });
+    // Automatically go to next card after marking
+    if (_currentIndex < _cards.length - 1) {
+      Future.delayed(const Duration(milliseconds: 300), _goToNext);
+    }
+  }
+
+  int get _masteredCount =>
+      _cardStatuses.where((s) => s == CardStatus.gotIt).length;
+  int get _reviewCount =>
+      _cardStatuses.where((s) => s == CardStatus.reviewAgain).length;
+  int get _notAnsweredCount =>
+      _cardStatuses.where((s) => s == CardStatus.notAnswered).length;
+
+  bool get _allCardsReviewed => _notAnsweredCount == 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isMultiplication =
+        widget.config.operation == OperationKind.multiplication;
+
+    if (_allCardsReviewed && _currentIndex == _cards.length - 1) {
+      return _buildSummaryScreen();
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          isMultiplication
+              ? context.l10n.revisionTitleMultiplication
+              : context.l10n.revisionTitleAddition,
+        ),
+        actions: [
+          if (_notAnsweredCount < _cards.length)
+            IconButton(
+              icon: const Icon(Icons.emoji_events),
+              onPressed: () => _showSummaryDialog(),
+              tooltip: 'View Progress',
+            ),
+        ],
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            children: <Widget>[
+              // Progress indicator
+              Text(
+                context.l10n.flashCardProgress(
+                  _currentIndex + 1,
+                  _cards.length,
+                ),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+              ),
+              const SizedBox(height: 8),
+              LinearProgressIndicator(
+                value: (_currentIndex + 1) / _cards.length,
+                backgroundColor: Colors.grey[300],
+                minHeight: 8,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              const SizedBox(height: 32),
+              // Card
+              Expanded(
+                child: Center(
+                  child: GestureDetector(
+                    onTap: _flipCard,
+                    child: AnimatedBuilder(
+                      animation: _flipAnimation,
+                      builder: (context, child) {
+                        final angle = _flipAnimation.value * math.pi;
+                        final transform = Matrix4.identity()
+                          ..setEntry(3, 2, 0.001)
+                          ..rotateY(angle);
+
+                        return Transform(
+                          transform: transform,
+                          alignment: Alignment.center,
+                          child: angle < math.pi / 2
+                              ? _buildCardFront()
+                              : Transform(
+                                  transform: Matrix4.identity()..rotateY(math.pi),
+                                  alignment: Alignment.center,
+                                  child: _buildCardBack(),
+                                ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              // Action buttons (always take up space, only visible when answer is revealed)
+              Visibility(
+                visible: _showAnswer,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () => _markCard(CardStatus.reviewAgain),
+                        icon: const Icon(Icons.refresh),
+                        label: Text(context.l10n.flashCardReviewAgain),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () => _markCard(CardStatus.gotIt),
+                        icon: const Icon(Icons.check_circle),
+                        label: Text(context.l10n.flashCardGotIt),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              // Navigation buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  ElevatedButton.icon(
+                    onPressed: _currentIndex > 0 ? _goToPrevious : null,
+                    icon: const Icon(Icons.arrow_back),
+                    label: Text(context.l10n.flashCardPrevious),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed:
+                        _currentIndex < _cards.length - 1 ? _goToNext : null,
+                    icon: const Icon(Icons.arrow_forward),
+                    label: Text(context.l10n.flashCardNext),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCardFront() {
+    final card = _cards[_currentIndex];
+    final status = _cardStatuses[_currentIndex];
+    
+    return Container(
+      width: double.infinity,
+      height: 300,
+      decoration: BoxDecoration(
+        color: _getCardColor(status),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            card.question,
+            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            context.l10n.flashCardTapToReveal,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Colors.white70,
+                  fontStyle: FontStyle.italic,
+                ),
+          ),
+          const SizedBox(height: 8),
+          const Icon(
+            Icons.touch_app,
+            color: Colors.white70,
+            size: 32,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCardBack() {
+    final card = _cards[_currentIndex];
+    final status = _cardStatuses[_currentIndex];
+    
+    return Container(
+      width: double.infinity,
+      height: 300,
+      decoration: BoxDecoration(
+        color: _getCardColor(status),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            card.question,
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: Colors.white70,
+                ),
+          ),
+          const SizedBox(height: 16),
+          const Divider(color: Colors.white30, thickness: 2, indent: 80, endIndent: 80),
+          const SizedBox(height: 16),
+          Text(
+            '${card.answer}',
+            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 80,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Color _getCardColor(CardStatus status) {
+    return switch (status) {
+      CardStatus.gotIt => Colors.green.shade600,
+      CardStatus.reviewAgain => Colors.orange.shade600,
+      CardStatus.notAnswered => Colors.deepPurple.shade600,
+    };
+  }
+
+  Widget _buildSummaryScreen() {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(context.l10n.flashCardSummaryTitle),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            children: <Widget>[
+              const SizedBox(height: 24),
+              const Icon(
+                Icons.emoji_events,
+                size: 80,
+                color: Colors.amber,
+              ),
+              const SizedBox(height: 24),
+              Text(
+                context.l10n.flashCardSummaryTitle,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
+              _SummaryCard(
+                icon: Icons.check_circle,
+                color: Colors.green,
+                label: context.l10n.flashCardSummaryMastered,
+                count: _masteredCount,
+              ),
+              const SizedBox(height: 16),
+              _SummaryCard(
+                icon: Icons.refresh,
+                color: Colors.orange,
+                label: context.l10n.flashCardSummaryToReview,
+                count: _reviewCount,
+              ),
+              const SizedBox(height: 16),
+              _SummaryCard(
+                icon: Icons.help_outline,
+                color: Colors.grey,
+                label: context.l10n.flashCardSummaryNotAnswered,
+                count: _notAnsweredCount,
+              ),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      _currentIndex = 0;
+                      _showAnswer = false;
+                      _cardStatuses = List.generate(
+                        _cards.length,
+                        (_) => CardStatus.notAnswered,
+                      );
+                    });
+                    _flipController.reset();
+                  },
+                  icon: const Icon(Icons.refresh),
+                  label: Text(context.l10n.flashCardRestart),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                ),
+              ),
+              if (_reviewCount > 0) ...[
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: _reviewMarkedCards,
+                    icon: const Icon(Icons.play_arrow),
+                    label: Text(context.l10n.flashCardReviewMarked),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.arrow_back),
+                  label: Text(context.l10n.resultsBackHome),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _reviewMarkedCards() {
+    // Find first card marked for review
+    final firstReviewIndex = _cardStatuses.indexWhere(
+      (status) => status == CardStatus.reviewAgain,
+    );
+    
+    if (firstReviewIndex != -1) {
+      setState(() {
+        _currentIndex = firstReviewIndex;
+        _showAnswer = false;
+        // Reset only the cards marked for review
+        for (int i = 0; i < _cardStatuses.length; i++) {
+          if (_cardStatuses[i] == CardStatus.reviewAgain) {
+            _cardStatuses[i] = CardStatus.notAnswered;
+          }
+        }
+      });
+      _flipController.reset();
+    }
+  }
+
+  void _showSummaryDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Progress'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _SummaryCard(
+              icon: Icons.check_circle,
+              color: Colors.green,
+              label: context.l10n.flashCardSummaryMastered,
+              count: _masteredCount,
+            ),
+            const SizedBox(height: 12),
+            _SummaryCard(
+              icon: Icons.refresh,
+              color: Colors.orange,
+              label: context.l10n.flashCardSummaryToReview,
+              count: _reviewCount,
+            ),
+            const SizedBox(height: 12),
+            _SummaryCard(
+              icon: Icons.help_outline,
+              color: Colors.grey,
+              label: context.l10n.flashCardSummaryNotAnswered,
+              count: _notAnsweredCount,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CardData {
+  const _CardData({required this.question, required this.answer});
+
+  final String question;
+  final int answer;
+}
+
+class _SummaryCard extends StatelessWidget {
+  const _SummaryCard({
+    required this.icon,
+    required this.color,
+    required this.label,
+    required this.count,
+  });
+
+  final IconData icon;
+  final Color color;
+  final String label;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 2),
+      ),
+      child: Row(
+        children: <Widget>[
+          CircleAvatar(
+            backgroundColor: color,
+            child: Icon(icon, color: Colors.white),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(
+              label,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          Text(
+            '$count',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
