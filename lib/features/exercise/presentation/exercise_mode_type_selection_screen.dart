@@ -7,6 +7,7 @@ import '../../../core/routes/app_router.dart';
 import '../../../data/models/exercise_metadata.dart';
 import '../../../data/services/settings_service.dart';
 import '../models/exercise_config.dart';
+import '../widgets/table_selector.dart';
 
 /// Screen to pick between multiple choice and direct input exercise types.
 class ExerciseModeTypeSelectionScreen extends StatefulWidget {
@@ -22,11 +23,15 @@ class ExerciseModeTypeSelectionScreen extends StatefulWidget {
 class _ExerciseModeTypeSelectionScreenState
     extends State<ExerciseModeTypeSelectionScreen> {
   late bool _shuffleQuestions;
+  late Set<int> _selectedTables;
 
   @override
   void initState() {
     super.initState();
     _shuffleQuestions = widget.config.shuffleQuestions;
+    // Initialize with selectedTables if available, otherwise use baseNumber
+    _selectedTables = widget.config.selectedTables?.toSet() ?? 
+        {widget.config.baseNumber};
   }
 
   @override
@@ -36,7 +41,7 @@ class _ExerciseModeTypeSelectionScreenState
 
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.exerciseModeTypeTitle)),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,6 +72,25 @@ class _ExerciseModeTypeSelectionScreenState
               },
             ),
             const SizedBox(height: 24),
+            TableSelector(
+              value: _selectedTables.first,
+              onChanged: (int value) {},
+              multiSelect: true,
+              selectedValues: _selectedTables,
+              onMultiChanged: (Set<int> values) =>
+                  setState(() => _selectedTables = values),
+              label: context.l10n.tableSelectorLabel,
+              max: widget.config.operation == OperationKind.multiplication ? 12 : 10,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              context.l10n.tableSelectorSelectedCount(_selectedTables.length),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 24),
             Text(
               context.l10n.exerciseModePrompt,
               style: Theme.of(context).textTheme.titleLarge,
@@ -82,6 +106,7 @@ class _ExerciseModeTypeSelectionScreenState
                   format: ExerciseFormat.multipleChoice,
                   questionCount: 10,
                   shuffleQuestions: _shuffleQuestions,
+                  selectedTables: _selectedTables.toList(),
                 );
                 context.push(AppRoutePath.exerciseMultipleChoice, extra: next);
               },
@@ -97,6 +122,7 @@ class _ExerciseModeTypeSelectionScreenState
                   format: ExerciseFormat.directInput,
                   questionCount: 12,
                   shuffleQuestions: _shuffleQuestions,
+                  selectedTables: _selectedTables.toList(),
                 );
                 context.push(AppRoutePath.exerciseDirectInput, extra: next);
               },
@@ -115,6 +141,7 @@ class _ExerciseModeTypeSelectionScreenState
                   questionCount: 12,
                   timedSeconds: timedSeconds,
                   shuffleQuestions: _shuffleQuestions,
+                  selectedTables: _selectedTables.toList(),
                 );
                 context.push(AppRoutePath.exerciseDirectInput, extra: next);
               },
