@@ -84,6 +84,7 @@ class AppRouter {
                 operation: OperationKind.multiplication,
                 mode: StudyMode.exercise,
                 format: ExerciseFormat.multipleChoice,
+                difficultyLevel: DifficultyLevel.easy,
               );
           return ModeSelectionScreen(initialConfig: config);
         },

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/extensions/context_localizations.dart';
+import '../../../core/utils/table_colors.dart';
 import '../../../data/models/exercise_metadata.dart';
 import '../../../data/models/flash_card_result.dart';
 import '../../../data/services/flash_card_service.dart';
@@ -292,99 +293,113 @@ class _FlashCardRevisionScreenState extends State<FlashCardRevisionScreen>
   Widget _buildCardFront() {
     final card = _cards[_currentIndex];
     final status = _cardStatuses[_currentIndex];
-    
-    return Container(
-      width: double.infinity,
-      height: 300,
-      decoration: BoxDecoration(
-        color: _getCardColor(status),
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+    final Color baseColor = TableColors.getTableColor(widget.config.baseNumber);
+
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          height: 300,
+          decoration: BoxDecoration(
+            color: baseColor,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.12),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            card.question,
-            style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                card.question,
+                style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+              ),
+              const SizedBox(height: 24),
+              Text(
+                context.l10n.flashCardTapToReveal,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.black54,
+                      fontStyle: FontStyle.italic,
+                    ),
+              ),
+              const SizedBox(height: 8),
+              const Icon(
+                Icons.touch_app,
+                color: Colors.black45,
+                size: 32,
+              ),
+            ],
           ),
-          const SizedBox(height: 24),
-          Text(
-            context.l10n.flashCardTapToReveal,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.white70,
-                  fontStyle: FontStyle.italic,
-                ),
+        ),
+        if (status != CardStatus.notAnswered)
+          Positioned(
+            top: 16,
+            right: 16,
+            child: _StatusChip(status: status),
           ),
-          const SizedBox(height: 8),
-          const Icon(
-            Icons.touch_app,
-            color: Colors.white70,
-            size: 32,
-          ),
-        ],
-      ),
+      ],
     );
   }
 
   Widget _buildCardBack() {
     final card = _cards[_currentIndex];
     final status = _cardStatuses[_currentIndex];
-    
-    return Container(
-      width: double.infinity,
-      height: 300,
-      decoration: BoxDecoration(
-        color: _getCardColor(status),
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            card.question,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: Colors.white70,
-                ),
-          ),
-          const SizedBox(height: 16),
-          const Divider(color: Colors.white30, thickness: 2, indent: 80, endIndent: 80),
-          const SizedBox(height: 16),
-          Text(
-            '${card.answer}',
-            style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 80,
-                ),
-          ),
-        ],
-      ),
-    );
-  }
+    final Color baseColor = TableColors.getTableColor(widget.config.baseNumber);
 
-  Color _getCardColor(CardStatus status) {
-    return switch (status) {
-      CardStatus.gotIt => Colors.green.shade600,
-      CardStatus.reviewAgain => Colors.orange.shade600,
-      CardStatus.notAnswered => Colors.deepPurple.shade600,
-    };
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          height: 300,
+          decoration: BoxDecoration(
+            color: baseColor,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.12),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                card.question,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: Colors.black54,
+                    ),
+              ),
+              const SizedBox(height: 16),
+              const Divider(color: Colors.black45, thickness: 2, indent: 80, endIndent: 80),
+              const SizedBox(height: 16),
+              Text(
+                '${card.answer}',
+                style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                      fontSize: 80,
+                    ),
+              ),
+            ],
+          ),
+        ),
+        if (status != CardStatus.notAnswered)
+          Positioned(
+            top: 16,
+            right: 16,
+            child: _StatusChip(status: status),
+          ),
+      ],
+    );
   }
 
   Widget _buildSummaryScreen() {
@@ -495,20 +510,22 @@ class _FlashCardRevisionScreenState extends State<FlashCardRevisionScreen>
     final firstReviewIndex = _cardStatuses.indexWhere(
       (status) => status == CardStatus.reviewAgain,
     );
-    
-    if (firstReviewIndex != -1) {
-      setState(() {
-        _currentIndex = firstReviewIndex;
-        _showAnswer = false;
-        // Reset only the cards marked for review
-        for (int i = 0; i < _cardStatuses.length; i++) {
-          if (_cardStatuses[i] == CardStatus.reviewAgain) {
-            _cardStatuses[i] = CardStatus.notAnswered;
-          }
-        }
-      });
-      _flipController.reset();
+
+    if (firstReviewIndex == -1) {
+      return;
     }
+
+    setState(() {
+      _currentIndex = firstReviewIndex;
+      _showAnswer = false;
+      // Reset only the cards marked for review
+      for (int i = 0; i < _cardStatuses.length; i++) {
+        if (_cardStatuses[i] == CardStatus.reviewAgain) {
+          _cardStatuses[i] = CardStatus.notAnswered;
+        }
+      }
+    });
+    _flipController.reset();
   }
 
   void _showSummaryDialog() {
@@ -605,6 +622,47 @@ class _SummaryCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: color,
                 ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatusChip extends StatelessWidget {
+  const _StatusChip({required this.status});
+
+  final CardStatus status;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isGotIt = status == CardStatus.gotIt;
+    final Color background = isGotIt ? Colors.green.shade600 : Colors.orange.shade600;
+    final String label = isGotIt
+        ? context.l10n.flashCardGotIt
+        : context.l10n.flashCardReviewAgain;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            isGotIt ? Icons.check_circle : Icons.refresh,
+            size: 16,
+            color: Colors.white,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

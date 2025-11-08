@@ -58,6 +58,8 @@ class _DirectInputExerciseScreenState extends State<DirectInputExerciseScreen> {
           _maybeNavigateOnComplete(context, controller);
           final ExerciseQuestion question = controller.currentQuestion;
           final bool isTimed = widget.config.isTimed;
+          final int? questionTimer = controller.questionRemainingSeconds;
+          final bool hasQuestionTimer = questionTimer != null;
 
           return Scaffold(
             appBar: AppBar(
@@ -83,6 +85,10 @@ class _DirectInputExerciseScreenState extends State<DirectInputExerciseScreen> {
                           (controller.currentIndex + 1) /
                           controller.totalQuestions,
                     ),
+                  if (hasQuestionTimer) ...<Widget>[
+                    const SizedBox(height: 12),
+                    _QuestionTimerChip(remainingSeconds: questionTimer),
+                  ],
                   const SizedBox(height: 24),
                   Card(
                     shape: RoundedRectangleBorder(
@@ -214,7 +220,7 @@ class _DirectInputExerciseScreenState extends State<DirectInputExerciseScreen> {
   }
 
   void _skipQuestion(ExerciseController controller) {
-    controller.submitDirectAnswer(-9999); // intentionally incorrect.
+    controller.submitDirectAnswer(null); // Mark as skipped/incorrect.
   }
 
   void _maybeNavigateOnComplete(
@@ -233,5 +239,45 @@ class _DirectInputExerciseScreenState extends State<DirectInputExerciseScreen> {
       }
       navContext.go(AppRoutePath.results, extra: session);
     });
+  }
+}
+
+class _QuestionTimerChip extends StatelessWidget {
+  const _QuestionTimerChip({required this.remainingSeconds});
+
+  final int remainingSeconds;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isCritical = remainingSeconds <= 3;
+    final Color baseColor = isCritical
+        ? Colors.redAccent
+        : Theme.of(context).colorScheme.primary;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: baseColor.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: baseColor, width: 1.5),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.hourglass_bottom,
+            color: baseColor,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            context.l10n.exerciseQuestionTimer(remainingSeconds),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: baseColor,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        ],
+      ),
+    );
   }
 }

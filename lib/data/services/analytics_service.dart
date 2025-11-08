@@ -1,5 +1,4 @@
 import '../models/exercise_metadata.dart';
-import '../models/exercise_session.dart';
 import '../models/flash_card_result.dart';
 import '../../features/parent_dashboard/models/table_analytics.dart';
 import 'flash_card_service.dart';

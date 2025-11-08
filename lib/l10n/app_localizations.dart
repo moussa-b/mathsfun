@@ -656,6 +656,54 @@ abstract class AppLocalizations {
   /// **'Answer as many as you can in {seconds} seconds for bonus stars!'**
   String exerciseTimedChallengeDescription(int seconds);
 
+  /// No description provided for @exerciseDifficultyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get exerciseDifficultyLabel;
+
+  /// No description provided for @exerciseDifficultyEasy.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy'**
+  String get exerciseDifficultyEasy;
+
+  /// No description provided for @exerciseDifficultyMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get exerciseDifficultyMedium;
+
+  /// No description provided for @exerciseDifficultyHard.
+  ///
+  /// In en, this message translates to:
+  /// **'Hard'**
+  String get exerciseDifficultyHard;
+
+  /// No description provided for @exerciseDifficultyEasyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No time limit per question.'**
+  String get exerciseDifficultyEasyDescription;
+
+  /// No description provided for @exerciseDifficultyMediumDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} seconds per question. Keep a steady pace!'**
+  String exerciseDifficultyMediumDescription(int seconds);
+
+  /// No description provided for @exerciseDifficultyHardDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Only {seconds} seconds per question. Stay sharp!'**
+  String exerciseDifficultyHardDescription(int seconds);
+
+  /// No description provided for @exerciseQuestionTimer.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds}s left'**
+  String exerciseQuestionTimer(int seconds);
+
   /// No description provided for @exerciseNoProfile.
   ///
   /// In en, this message translates to:
@@ -1308,6 +1356,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Advanced Analytics'**
   String get parentDashboardAdvancedAnalytics;
+
+  /// No description provided for @difficultyLevelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty Level'**
+  String get difficultyLevelLabel;
+
+  /// No description provided for @difficultyEasy.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy'**
+  String get difficultyEasy;
+
+  /// No description provided for @difficultyMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get difficultyMedium;
+
+  /// No description provided for @difficultyHard.
+  ///
+  /// In en, this message translates to:
+  /// **'Hard'**
+  String get difficultyHard;
+
+  /// No description provided for @timerWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Time running out!'**
+  String get timerWarning;
 }
 
 class _AppLocalizationsDelegate

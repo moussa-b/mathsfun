@@ -11,6 +11,7 @@ class ExerciseConfig {
     this.timedSeconds,
     this.shuffleQuestions = false,
     this.revisionFormat = RevisionFormat.listView,
+    this.difficultyLevel = DifficultyLevel.easy,
   }) : assert(baseNumber >= 0 && baseNumber <= 12);
 
   final OperationKind operation;
@@ -22,6 +23,7 @@ class ExerciseConfig {
   final int? timedSeconds;
   final bool shuffleQuestions;
   final RevisionFormat revisionFormat;
+  final DifficultyLevel difficultyLevel;
   
   /// Returns the list of tables to practice (uses selectedTables if available, otherwise baseNumber)
   List<int> get tables => selectedTables ?? [baseNumber];
@@ -39,6 +41,7 @@ class ExerciseConfig {
     int? timedSeconds,
     bool? shuffleQuestions,
     RevisionFormat? revisionFormat,
+    DifficultyLevel? difficultyLevel,
   }) {
     return ExerciseConfig(
       operation: operation ?? this.operation,
@@ -50,6 +53,7 @@ class ExerciseConfig {
       timedSeconds: timedSeconds ?? this.timedSeconds,
       shuffleQuestions: shuffleQuestions ?? this.shuffleQuestions,
       revisionFormat: revisionFormat ?? this.revisionFormat,
+      difficultyLevel: difficultyLevel ?? this.difficultyLevel,
     );
   }
 }

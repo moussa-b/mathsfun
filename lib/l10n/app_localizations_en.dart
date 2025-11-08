@@ -323,6 +323,36 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get exerciseDifficultyLabel => 'Difficulty';
+
+  @override
+  String get exerciseDifficultyEasy => 'Easy';
+
+  @override
+  String get exerciseDifficultyMedium => 'Medium';
+
+  @override
+  String get exerciseDifficultyHard => 'Hard';
+
+  @override
+  String get exerciseDifficultyEasyDescription => 'No time limit per question.';
+
+  @override
+  String exerciseDifficultyMediumDescription(int seconds) {
+    return '$seconds seconds per question. Keep a steady pace!';
+  }
+
+  @override
+  String exerciseDifficultyHardDescription(int seconds) {
+    return 'Only $seconds seconds per question. Stay sharp!';
+  }
+
+  @override
+  String exerciseQuestionTimer(int seconds) {
+    return '${seconds}s left';
+  }
+
+  @override
   String get exerciseNoProfile =>
       'No profile selected. Please choose a profile first.';
 
@@ -687,4 +717,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get parentDashboardAdvancedAnalytics => 'Advanced Analytics';
+
+  @override
+  String get difficultyLevelLabel => 'Difficulty Level';
+
+  @override
+  String get difficultyEasy => 'Easy';
+
+  @override
+  String get difficultyMedium => 'Medium';
+
+  @override
+  String get difficultyHard => 'Hard';
+
+  @override
+  String get timerWarning => 'Time running out!';
 }

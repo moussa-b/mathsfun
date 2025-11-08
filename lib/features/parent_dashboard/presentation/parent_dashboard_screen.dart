@@ -80,8 +80,10 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen>
             ? TabBar(
                 controller: _tabController,
                 labelColor: Theme.of(context).colorScheme.onPrimary,
-                unselectedLabelColor:
-                    Theme.of(context).colorScheme.onPrimary.withOpacity(0.7),
+                unselectedLabelColor: Theme.of(context)
+                    .colorScheme
+                    .onPrimary
+                    .withValues(alpha: 0.7),
                 indicatorColor: Theme.of(context).colorScheme.onPrimary,
                 tabs: [
                   Tab(text: context.l10n.parentDashboardMultiplication),
@@ -97,7 +99,8 @@ class _ParentDashboardScreenState extends State<ParentDashboardScreen>
             if (profiles.length > 1)
               Container(
                 padding: const EdgeInsets.all(16),
-                color: Theme.of(context).colorScheme.surfaceVariant,
+                color:
+                    Theme.of(context).colorScheme.surfaceContainerHighest,
                 child: Row(
                   children: [
                     Text(

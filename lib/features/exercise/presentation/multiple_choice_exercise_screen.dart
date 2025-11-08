@@ -58,6 +58,7 @@ class _MultipleChoiceExerciseScreenState
         builder: (BuildContext context, ExerciseController controller, _) {
           _maybeNavigateOnComplete(context, controller);
           final ExerciseQuestion question = controller.currentQuestion;
+          final int? questionSeconds = controller.questionRemainingSeconds;
           return Scaffold(
             appBar: AppBar(
               title: Text(
@@ -77,7 +78,13 @@ class _MultipleChoiceExerciseScreenState
                         (controller.currentIndex + 1) /
                         controller.totalQuestions,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
+                  if (questionSeconds != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: _QuestionTimerDisplay(seconds: questionSeconds),
+                    ),
+                  const SizedBox(height: 8),
                   Card(
                     elevation: 4,
                     shape: RoundedRectangleBorder(
@@ -170,5 +177,57 @@ class _MultipleChoiceExerciseScreenState
       }
       navContext.go(AppRoutePath.results, extra: session);
     });
+  }
+}
+
+class _QuestionTimerDisplay extends StatelessWidget {
+  const _QuestionTimerDisplay({required this.seconds});
+
+  final int seconds;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isCritical = seconds <= 3;
+    final bool isWarning = seconds <= 5;
+    final Color background = isCritical
+        ? Colors.red.shade100
+        : isWarning
+            ? Colors.orange.shade100
+            : Theme.of(context)
+                .colorScheme
+                .primary
+                .withValues(alpha: 0.12);
+    final Color foreground = isCritical
+        ? Colors.red.shade700
+        : isWarning
+            ? Colors.orange.shade700
+            : Theme.of(context).colorScheme.primary;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: foreground.withValues(alpha: 0.4)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.timer,
+            color: foreground,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            context.l10n.exerciseQuestionTimer(seconds),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: foreground,
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -14,6 +14,7 @@ void main() {
       format: ExerciseFormat.multipleChoice,
       baseNumber: 3,
       questionCount: 6,
+      difficultyLevel: DifficultyLevel.easy,
     );
 
     final questions = generator.generate(config);
@@ -33,6 +34,7 @@ void main() {
       format: ExerciseFormat.multipleChoice,
       baseNumber: 5,
       questionCount: 10,
+      difficultyLevel: DifficultyLevel.easy,
     );
 
     final questions = generator.generate(config);

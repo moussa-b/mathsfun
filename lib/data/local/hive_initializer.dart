@@ -79,5 +79,8 @@ class HiveInitializer {
     if (!Hive.isAdapterRegistered(13)) {
       Hive.registerAdapter(RevisionFormatAdapter());
     }
+    if (!Hive.isAdapterRegistered(14)) {
+      Hive.registerAdapter(DifficultyLevelAdapter());
+    }
   }
 }

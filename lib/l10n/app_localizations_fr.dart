@@ -325,6 +325,37 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get exerciseDifficultyLabel => 'Niveau de difficulté';
+
+  @override
+  String get exerciseDifficultyEasy => 'Facile';
+
+  @override
+  String get exerciseDifficultyMedium => 'Moyen';
+
+  @override
+  String get exerciseDifficultyHard => 'Difficile';
+
+  @override
+  String get exerciseDifficultyEasyDescription =>
+      'Pas de limite de temps par question.';
+
+  @override
+  String exerciseDifficultyMediumDescription(int seconds) {
+    return 'Vous disposez de $seconds s par question.';
+  }
+
+  @override
+  String exerciseDifficultyHardDescription(int seconds) {
+    return 'Vous n\'avez que $seconds s par question. Restez concentré !';
+  }
+
+  @override
+  String exerciseQuestionTimer(int seconds) {
+    return 'Plus que ${seconds}s';
+  }
+
+  @override
   String get exerciseNoProfile =>
       'Aucun profil sélectionné. Merci d\'en choisir un d\'abord.';
 
@@ -692,4 +723,19 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get parentDashboardAdvancedAnalytics => 'Analyses avancées';
+
+  @override
+  String get difficultyLevelLabel => 'Niveau de difficulté';
+
+  @override
+  String get difficultyEasy => 'Facile';
+
+  @override
+  String get difficultyMedium => 'Moyen';
+
+  @override
+  String get difficultyHard => 'Difficile';
+
+  @override
+  String get timerWarning => 'Le temps s\'écoule !';
 }

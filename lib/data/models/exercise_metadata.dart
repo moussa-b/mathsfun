@@ -57,21 +57,6 @@ extension ExerciseFormatX on ExerciseFormat {
   bool get isTimed => this == ExerciseFormat.timedChallenge;
 }
 
-@HiveType(typeId: 8)
-enum RewardType {
-  @HiveField(0)
-  star,
-  @HiveField(1)
-  badge,
-}
-
-extension RewardTypeX on RewardType {
-  String get label => switch (this) {
-    RewardType.star => 'Star',
-    RewardType.badge => 'Badge',
-  };
-}
-
 @HiveType(typeId: 13)
 enum RevisionFormat {
   @HiveField(0)
@@ -84,5 +69,45 @@ extension RevisionFormatX on RevisionFormat {
   String get label => switch (this) {
     RevisionFormat.listView => 'List View',
     RevisionFormat.flashCard => 'Flash Cards',
+  };
+}
+
+@HiveType(typeId: 14)
+enum DifficultyLevel {
+  @HiveField(0)
+  easy,
+  @HiveField(1)
+  medium,
+  @HiveField(2)
+  hard,
+}
+
+extension DifficultyLevelX on DifficultyLevel {
+  String get label => switch (this) {
+        DifficultyLevel.easy => 'Easy',
+        DifficultyLevel.medium => 'Medium',
+        DifficultyLevel.hard => 'Hard',
+      };
+
+  /// Time limit per question in seconds. `null` represents no timer.
+  int? get timeLimitSeconds => switch (this) {
+        DifficultyLevel.easy => null,
+        DifficultyLevel.medium => 15,
+        DifficultyLevel.hard => 7,
+      };
+}
+
+@HiveType(typeId: 8)
+enum RewardType {
+  @HiveField(0)
+  star,
+  @HiveField(1)
+  badge,
+}
+
+extension RewardTypeX on RewardType {
+  String get label => switch (this) {
+    RewardType.star => 'Star',
+    RewardType.badge => 'Badge',
   };
 }

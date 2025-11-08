@@ -30,6 +30,10 @@ class ExerciseController extends ChangeNotifier {
     if (config.isTimed) {
       _startTimer();
     }
+    final int? perQuestionLimit = config.difficultyLevel.timeLimitSeconds;
+    if (perQuestionLimit != null) {
+      _startQuestionTimer(perQuestionLimit);
+    }
   }
 
   final String profileId;
@@ -50,12 +54,15 @@ class ExerciseController extends ChangeNotifier {
   bool _isCompleted = false;
   int? _remainingSeconds;
   Timer? _timer;
+  int? _questionRemainingSeconds;
+  Timer? _questionTimer;
 
   ExerciseQuestion get currentQuestion => _questions[_currentIndex];
   int get totalQuestions => _questions.length;
   int get currentIndex => _currentIndex;
   bool get isCompleted => _isCompleted;
   int? get remainingSeconds => _remainingSeconds;
+  int? get questionRemainingSeconds => _questionRemainingSeconds;
   List<QuestionResult> get results =>
       List<QuestionResult>.unmodifiable(_results);
 
@@ -66,7 +73,7 @@ class ExerciseController extends ChangeNotifier {
     _recordAnswer(selected);
   }
 
-  void submitDirectAnswer(int input) {
+  void submitDirectAnswer(int? input) {
     if (_isCompleted) {
       return;
     }
@@ -79,14 +86,18 @@ class ExerciseController extends ChangeNotifier {
     }
     _isCompleted = true;
     _timer?.cancel();
+    _questionTimer?.cancel();
     return _persistSession();
   }
 
-  void _recordAnswer(int userAnswer) {
+  void _recordAnswer(int? userAnswer) {
     final ExerciseQuestion question = currentQuestion;
     final DateTime now = DateTime.now();
     final int responseMillis = now.difference(_questionStart).inMilliseconds;
     final bool isCorrect = userAnswer == question.correctAnswer;
+    _questionTimer?.cancel();
+    _questionTimer = null;
+    _questionRemainingSeconds = null;
     _results.add(
       QuestionResult(
         prompt: question.prompt,
@@ -102,6 +113,11 @@ class ExerciseController extends ChangeNotifier {
     } else {
       _currentIndex += 1;
       _questionStart = DateTime.now();
+      final int? perQuestionLimit =
+          config.difficultyLevel.timeLimitSeconds;
+      if (perQuestionLimit != null) {
+        _startQuestionTimer(perQuestionLimit);
+      }
       notifyListeners();
     }
   }
@@ -112,6 +128,7 @@ class ExerciseController extends ChangeNotifier {
     }
     _isCompleted = true;
     _timer?.cancel();
+    _questionTimer?.cancel();
     notifyListeners();
   }
 
@@ -129,6 +146,25 @@ class ExerciseController extends ChangeNotifier {
       }
       notifyListeners();
     });
+  }
+
+  void _startQuestionTimer(int perQuestionLimit) {
+    _questionRemainingSeconds = perQuestionLimit;
+    _questionTimer?.cancel();
+    _questionTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      if (_questionRemainingSeconds == null || _isCompleted) {
+        timer.cancel();
+        return;
+      }
+      _questionRemainingSeconds = (_questionRemainingSeconds! - 1).clamp(0, 9999);
+      if (_questionRemainingSeconds == 0) {
+        timer.cancel();
+        _recordAnswer(null);
+      } else {
+        notifyListeners();
+      }
+    });
+    notifyListeners();
   }
 
   Future<ExerciseSession> _persistSession() async {
@@ -180,6 +216,7 @@ class ExerciseController extends ChangeNotifier {
   @override
   void dispose() {
     _timer?.cancel();
+    _questionTimer?.cancel();
     super.dispose();
   }
 }

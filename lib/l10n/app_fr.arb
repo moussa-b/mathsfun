@@ -155,6 +155,35 @@
       }
     }
   },
+  "exerciseDifficultyLabel": "Niveau de difficulté",
+  "exerciseDifficultyEasy": "Facile",
+  "exerciseDifficultyMedium": "Moyen",
+  "exerciseDifficultyHard": "Difficile",
+  "exerciseDifficultyEasyDescription": "Pas de limite de temps par question.",
+  "exerciseDifficultyMediumDescription": "Vous disposez de {seconds} s par question.",
+  "@exerciseDifficultyMediumDescription": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "exerciseDifficultyHardDescription": "Vous n'avez que {seconds} s par question. Restez concentré !",
+  "@exerciseDifficultyHardDescription": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "exerciseQuestionTimer": "Plus que {seconds}s",
+  "@exerciseQuestionTimer": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "exerciseNoProfile": "Aucun profil sélectionné. Merci d'en choisir un d'abord.",
   "exerciseSolvePrompt": "Résous :",
   "exerciseTimedBanner": "Réponds le plus vite possible !",
@@ -395,6 +424,11 @@
     }
   },
   "parentDashboardResetAllSuccess": "Tous les progrès réinitialisés",
-  "parentDashboardAdvancedAnalytics": "Analyses avancées"
+  "parentDashboardAdvancedAnalytics": "Analyses avancées",
+  "difficultyLevelLabel": "Niveau de difficulté",
+  "difficultyEasy": "Facile",
+  "difficultyMedium": "Moyen",
+  "difficultyHard": "Difficile",
+  "timerWarning": "Le temps s'écoule !"
 }
 

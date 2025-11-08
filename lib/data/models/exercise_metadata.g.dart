@@ -128,45 +128,6 @@ class ExerciseFormatAdapter extends TypeAdapter<ExerciseFormat> {
           typeId == other.typeId;
 }
 
-class RewardTypeAdapter extends TypeAdapter<RewardType> {
-  @override
-  final int typeId = 8;
-
-  @override
-  RewardType read(BinaryReader reader) {
-    switch (reader.readByte()) {
-      case 0:
-        return RewardType.star;
-      case 1:
-        return RewardType.badge;
-      default:
-        return RewardType.star;
-    }
-  }
-
-  @override
-  void write(BinaryWriter writer, RewardType obj) {
-    switch (obj) {
-      case RewardType.star:
-        writer.writeByte(0);
-        break;
-      case RewardType.badge:
-        writer.writeByte(1);
-        break;
-    }
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is RewardTypeAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
-
 class RevisionFormatAdapter extends TypeAdapter<RevisionFormat> {
   @override
   final int typeId = 13;
@@ -202,6 +163,89 @@ class RevisionFormatAdapter extends TypeAdapter<RevisionFormat> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is RevisionFormatAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class DifficultyLevelAdapter extends TypeAdapter<DifficultyLevel> {
+  @override
+  final int typeId = 14;
+
+  @override
+  DifficultyLevel read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return DifficultyLevel.easy;
+      case 1:
+        return DifficultyLevel.medium;
+      case 2:
+        return DifficultyLevel.hard;
+      default:
+        return DifficultyLevel.easy;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, DifficultyLevel obj) {
+    switch (obj) {
+      case DifficultyLevel.easy:
+        writer.writeByte(0);
+        break;
+      case DifficultyLevel.medium:
+        writer.writeByte(1);
+        break;
+      case DifficultyLevel.hard:
+        writer.writeByte(2);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DifficultyLevelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class RewardTypeAdapter extends TypeAdapter<RewardType> {
+  @override
+  final int typeId = 8;
+
+  @override
+  RewardType read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return RewardType.star;
+      case 1:
+        return RewardType.badge;
+      default:
+        return RewardType.star;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, RewardType obj) {
+    switch (obj) {
+      case RewardType.star:
+        writer.writeByte(0);
+        break;
+      case RewardType.badge:
+        writer.writeByte(1);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RewardTypeAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

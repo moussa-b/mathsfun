@@ -155,6 +155,35 @@
       }
     }
   },
+  "exerciseDifficultyLabel": "Difficulty",
+  "exerciseDifficultyEasy": "Easy",
+  "exerciseDifficultyMedium": "Medium",
+  "exerciseDifficultyHard": "Hard",
+  "exerciseDifficultyEasyDescription": "No time limit per question.",
+  "exerciseDifficultyMediumDescription": "{seconds} seconds per question. Keep a steady pace!",
+  "@exerciseDifficultyMediumDescription": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "exerciseDifficultyHardDescription": "Only {seconds} seconds per question. Stay sharp!",
+  "@exerciseDifficultyHardDescription": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "exerciseQuestionTimer": "{seconds}s left",
+  "@exerciseQuestionTimer": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "exerciseNoProfile": "No profile selected. Please choose a profile first.",
   "exerciseSolvePrompt": "Solve:",
   "exerciseTimedBanner": "Answer as fast as you can!",
@@ -395,6 +424,11 @@
     }
   },
   "parentDashboardResetAllSuccess": "All progress reset",
-  "parentDashboardAdvancedAnalytics": "Advanced Analytics"
+  "parentDashboardAdvancedAnalytics": "Advanced Analytics",
+  "difficultyLevelLabel": "Difficulty Level",
+  "difficultyEasy": "Easy",
+  "difficultyMedium": "Medium",
+  "difficultyHard": "Hard",
+  "timerWarning": "Time running out!"
 }
 

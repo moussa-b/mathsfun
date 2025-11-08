@@ -24,6 +24,7 @@ class _ExerciseModeTypeSelectionScreenState
     extends State<ExerciseModeTypeSelectionScreen> {
   late bool _shuffleQuestions;
   late Set<int> _selectedTables;
+  late DifficultyLevel _difficultyLevel;
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _ExerciseModeTypeSelectionScreenState
     // Initialize with selectedTables if available, otherwise use baseNumber
     _selectedTables = widget.config.selectedTables?.toSet() ?? 
         {widget.config.baseNumber};
+    _difficultyLevel = widget.config.difficultyLevel;
   }
 
   @override
@@ -46,32 +48,6 @@ class _ExerciseModeTypeSelectionScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              context.l10n.questionOrderLabel,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 12),
-            SegmentedButton<bool>(
-              segments: <ButtonSegment<bool>>[
-                ButtonSegment<bool>(
-                  value: false,
-                  label: Text(context.l10n.questionOrderOrdered),
-                  icon: const Icon(Icons.format_list_numbered, size: 18),
-                ),
-                ButtonSegment<bool>(
-                  value: true,
-                  label: Text(context.l10n.questionOrderShuffled),
-                  icon: const Icon(Icons.shuffle, size: 18),
-                ),
-              ],
-              selected: <bool>{_shuffleQuestions},
-              onSelectionChanged: (Set<bool> newSelection) {
-                setState(() {
-                  _shuffleQuestions = newSelection.first;
-                });
-              },
-            ),
-            const SizedBox(height: 24),
             TableSelector(
               value: _selectedTables.first,
               onChanged: (int value) {},
@@ -86,8 +62,102 @@ class _ExerciseModeTypeSelectionScreenState
             Text(
               context.l10n.tableSelectorSelectedCount(_selectedTables.length),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              context.l10n.exerciseDifficultyLabel,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .titleMedium,
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: SizedBox(
+                width: double.infinity,
+                child: SegmentedButton<DifficultyLevel>(
+                  segments: <ButtonSegment<DifficultyLevel>>[
+                    ButtonSegment<DifficultyLevel>(
+                      value: DifficultyLevel.easy,
+                      label: _DifficultyLabel(
+                        label: context.l10n.exerciseDifficultyEasy,
+                        stars: 1,
+                      ),
+                    ),
+                    ButtonSegment<DifficultyLevel>(
+                      value: DifficultyLevel.medium,
+                      label: _DifficultyLabel(
+                        label: context.l10n.exerciseDifficultyMedium,
+                        stars: 2,
+                      ),
+                    ),
+                    ButtonSegment<DifficultyLevel>(
+                      value: DifficultyLevel.hard,
+                      label: _DifficultyLabel(
+                        label: context.l10n.exerciseDifficultyHard,
+                        stars: 3,
+                      ),
+                    ),
+                  ],
+                  selected: <DifficultyLevel>{_difficultyLevel},
+                  onSelectionChanged: (Set<DifficultyLevel> newSelection) {
+                    setState(() {
+                      _difficultyLevel = newSelection.first;
+                    });
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              _difficultyDescription(context, _difficultyLevel),
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(
+                color: Theme
+                    .of(context)
+                    .colorScheme
+                    .primary,
                 fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              context.l10n.questionOrderLabel,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: SizedBox(
+                width: double.infinity,
+                child: SegmentedButton<bool>(
+                  segments: <ButtonSegment<bool>>[
+                  ButtonSegment<bool>(
+                    value: false,
+                    label: _SegmentLabel(text: context.l10n.questionOrderOrdered),
+                    icon: const Icon(Icons.format_list_numbered, size: 22),
+                  ),
+                  ButtonSegment<bool>(
+                    value: true,
+                    label:
+                        _SegmentLabel(text: context.l10n.questionOrderShuffled),
+                    icon: const Icon(Icons.shuffle, size: 22),
+                  ),
+                ],
+                  selected: <bool>{_shuffleQuestions},
+                  onSelectionChanged: (Set<bool> newSelection) {
+                    setState(() {
+                      _shuffleQuestions = newSelection.first;
+                    });
+                  },
+                ),
               ),
             ),
             const SizedBox(height: 24),
@@ -107,6 +177,7 @@ class _ExerciseModeTypeSelectionScreenState
                   questionCount: 10,
                   shuffleQuestions: _shuffleQuestions,
                   selectedTables: _selectedTables.toList(),
+                  difficultyLevel: _difficultyLevel,
                 );
                 context.push(AppRoutePath.exerciseMultipleChoice, extra: next);
               },
@@ -123,6 +194,7 @@ class _ExerciseModeTypeSelectionScreenState
                   questionCount: 12,
                   shuffleQuestions: _shuffleQuestions,
                   selectedTables: _selectedTables.toList(),
+                  difficultyLevel: _difficultyLevel,
                 );
                 context.push(AppRoutePath.exerciseDirectInput, extra: next);
               },
@@ -142,12 +214,114 @@ class _ExerciseModeTypeSelectionScreenState
                   timedSeconds: timedSeconds,
                   shuffleQuestions: _shuffleQuestions,
                   selectedTables: _selectedTables.toList(),
+                  difficultyLevel: _difficultyLevel,
                 );
                 context.push(AppRoutePath.exerciseDirectInput, extra: next);
               },
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  String _difficultyDescription(BuildContext context,
+      DifficultyLevel level,) {
+    final int? seconds = level.timeLimitSeconds;
+    if (seconds == null) {
+      return context.l10n.exerciseDifficultyEasyDescription;
+    }
+    if (level == DifficultyLevel.medium) {
+      return context.l10n.exerciseDifficultyMediumDescription(seconds);
+    }
+    return context.l10n.exerciseDifficultyHardDescription(seconds);
+  }
+}
+
+class _SegmentLabel extends StatelessWidget {
+  const _SegmentLabel({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    String firstLine = text;
+    String? secondLine;
+    final int parenIndex = text.indexOf('(');
+    if (parenIndex != -1) {
+      firstLine = text.substring(0, parenIndex).trim();
+      secondLine = text.substring(parenIndex).trim();
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Text(
+          firstLine,
+          textAlign: TextAlign.center,
+          style: Theme
+              .of(context)
+              .textTheme
+              .bodyMedium
+              ?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        if (secondLine != null)
+          Text(
+            secondLine,
+            textAlign: TextAlign.center,
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodySmall,
+          ),
+      ],
+    );
+  }
+}
+
+class _DifficultyLabel extends StatelessWidget {
+  const _DifficultyLabel({
+    required this.label,
+    required this.stars,
+  });
+
+  final String label;
+  final int stars;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 96,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List<Widget>.generate(
+              stars,
+              (int index) => const Icon(
+                Icons.star,
+                color: Colors.amber,
+                size: 18,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
