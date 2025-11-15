@@ -1,9 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/extensions/context_localizations.dart';
+import '../../../core/routes/app_router.dart';
 import '../../../core/utils/table_colors.dart';
 import '../../../data/models/exercise_metadata.dart';
 import '../../../data/models/flash_card_result.dart';
@@ -66,6 +68,10 @@ class _FlashCardRevisionScreenState extends State<FlashCardRevisionScreen>
     });
     
     _cardStatuses = List.generate(_cards.length, (_) => CardStatus.notAnswered);
+  }
+
+  void _navigateToRevisionModeSelection(BuildContext context) {
+    context.go(AppRoutePath.revisionModeType, extra: widget.config);
   }
 
   @override
@@ -160,8 +166,18 @@ class _FlashCardRevisionScreenState extends State<FlashCardRevisionScreen>
       return _buildSummaryScreen();
     }
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (!didPop) {
+          _navigateToRevisionModeSelection(context);
+        }
+      },
+      child: Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => _navigateToRevisionModeSelection(context),
+        ),
         title: Text(
           isMultiplication
               ? context.l10n.revisionTitleMultiplication
@@ -287,6 +303,7 @@ class _FlashCardRevisionScreenState extends State<FlashCardRevisionScreen>
           ),
         ),
       ),
+      ),
     );
   }
 
@@ -403,8 +420,18 @@ class _FlashCardRevisionScreenState extends State<FlashCardRevisionScreen>
   }
 
   Widget _buildSummaryScreen() {
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (!didPop) {
+          _navigateToRevisionModeSelection(context);
+        }
+      },
+      child: Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => _navigateToRevisionModeSelection(context),
+        ),
         title: Text(context.l10n.flashCardSummaryTitle),
       ),
       body: SafeArea(
@@ -489,7 +516,7 @@ class _FlashCardRevisionScreenState extends State<FlashCardRevisionScreen>
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () => _navigateToRevisionModeSelection(context),
                   icon: const Icon(Icons.arrow_back),
                   label: Text(context.l10n.resultsBackHome),
                   style: OutlinedButton.styleFrom(
@@ -501,6 +528,7 @@ class _FlashCardRevisionScreenState extends State<FlashCardRevisionScreen>
             ],
           ),
         ),
+      ),
       ),
     );
   }

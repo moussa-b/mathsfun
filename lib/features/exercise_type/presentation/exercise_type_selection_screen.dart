@@ -19,6 +19,7 @@ class ExerciseTypeSelectionScreen extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(context.l10n.exerciseTypeTitle),
         actions: <Widget>[
           Consumer<ProfileService>(

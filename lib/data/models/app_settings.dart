@@ -12,6 +12,14 @@ class AppSettings extends HiveObject {
     this.timedChallengeSeconds = 60,
     this.lastProfileId,
     this.localeCode,
+    this.lastRevisionTableMultiplication,
+    this.lastRevisionTableAddition,
+    this.lastExerciseSelectedTablesMultiplication,
+    this.lastExerciseSelectedTablesAddition,
+    this.lastExerciseDifficultyLevelMultiplication,
+    this.lastExerciseDifficultyLevelAddition,
+    this.lastExerciseShuffleQuestionsMultiplication,
+    this.lastExerciseShuffleQuestionsAddition,
   });
 
   @HiveField(0)
@@ -35,6 +43,30 @@ class AppSettings extends HiveObject {
   @HiveField(6)
   String? localeCode;
 
+  @HiveField(7)
+  int? lastRevisionTableMultiplication;
+
+  @HiveField(8)
+  int? lastRevisionTableAddition;
+
+  @HiveField(9)
+  List<int>? lastExerciseSelectedTablesMultiplication;
+
+  @HiveField(10)
+  List<int>? lastExerciseSelectedTablesAddition;
+
+  @HiveField(11)
+  int? lastExerciseDifficultyLevelMultiplication;
+
+  @HiveField(12)
+  int? lastExerciseDifficultyLevelAddition;
+
+  @HiveField(13)
+  bool? lastExerciseShuffleQuestionsMultiplication;
+
+  @HiveField(14)
+  bool? lastExerciseShuffleQuestionsAddition;
+
   AppSettings copyWith({
     bool? soundEnabled,
     bool? hapticsEnabled,
@@ -44,6 +76,14 @@ class AppSettings extends HiveObject {
     int? timedChallengeSeconds,
     String? lastProfileId,
     String? localeCode,
+    int? lastRevisionTableMultiplication,
+    int? lastRevisionTableAddition,
+    List<int>? lastExerciseSelectedTablesMultiplication,
+    List<int>? lastExerciseSelectedTablesAddition,
+    int? lastExerciseDifficultyLevelMultiplication,
+    int? lastExerciseDifficultyLevelAddition,
+    bool? lastExerciseShuffleQuestionsMultiplication,
+    bool? lastExerciseShuffleQuestionsAddition,
   }) {
     return AppSettings(
       soundEnabled: soundEnabled ?? this.soundEnabled,
@@ -56,6 +96,14 @@ class AppSettings extends HiveObject {
           timedChallengeSeconds ?? this.timedChallengeSeconds,
       lastProfileId: lastProfileId ?? this.lastProfileId,
       localeCode: localeCode ?? this.localeCode,
+      lastRevisionTableMultiplication: lastRevisionTableMultiplication ?? this.lastRevisionTableMultiplication,
+      lastRevisionTableAddition: lastRevisionTableAddition ?? this.lastRevisionTableAddition,
+      lastExerciseSelectedTablesMultiplication: lastExerciseSelectedTablesMultiplication ?? this.lastExerciseSelectedTablesMultiplication,
+      lastExerciseSelectedTablesAddition: lastExerciseSelectedTablesAddition ?? this.lastExerciseSelectedTablesAddition,
+      lastExerciseDifficultyLevelMultiplication: lastExerciseDifficultyLevelMultiplication ?? this.lastExerciseDifficultyLevelMultiplication,
+      lastExerciseDifficultyLevelAddition: lastExerciseDifficultyLevelAddition ?? this.lastExerciseDifficultyLevelAddition,
+      lastExerciseShuffleQuestionsMultiplication: lastExerciseShuffleQuestionsMultiplication ?? this.lastExerciseShuffleQuestionsMultiplication,
+      lastExerciseShuffleQuestionsAddition: lastExerciseShuffleQuestionsAddition ?? this.lastExerciseShuffleQuestionsAddition,
     );
   }
 }

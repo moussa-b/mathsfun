@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/extensions/context_localizations.dart';
+import '../../../core/routes/app_router.dart';
 import '../../../data/models/exercise_metadata.dart';
 import '../../exercise/models/exercise_config.dart';
-import '../../exercise/widgets/table_selector.dart';
 
 /// Displays a multiplication or addition table for revision purposes.
 class RevisionScreen extends StatefulWidget {
@@ -16,20 +17,26 @@ class RevisionScreen extends StatefulWidget {
 }
 
 class _RevisionScreenState extends State<RevisionScreen> {
-  late int _table;
-
-  @override
-  void initState() {
-    super.initState();
-    _table = widget.config.baseNumber;
+  void _navigateToRevisionModeSelection(BuildContext context) {
+    context.go(AppRoutePath.revisionModeType, extra: widget.config);
   }
 
   @override
   Widget build(BuildContext context) {
     final bool isMultiplication =
         widget.config.operation == OperationKind.multiplication;
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (!didPop) {
+          _navigateToRevisionModeSelection(context);
+        }
+      },
+      child: Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => _navigateToRevisionModeSelection(context),
+        ),
         title: Text(
           isMultiplication
               ? context.l10n.revisionTitleMultiplication
@@ -44,16 +51,9 @@ class _RevisionScreenState extends State<RevisionScreen> {
             children: <Widget>[
               Text(
                 isMultiplication
-                    ? context.l10n.revisionHeadingMultiplication(_table)
-                    : context.l10n.revisionHeadingAddition(_table),
+                    ? context.l10n.revisionHeadingMultiplication(widget.config.baseNumber)
+                    : context.l10n.revisionHeadingAddition(widget.config.baseNumber),
                 style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(height: 12),
-              TableSelector(
-                value: _table,
-                onChanged: (int value) => setState(() => _table = value),
-                label: context.l10n.tableSelectorLabel,
-                max: isMultiplication ? 12 : 10,
               ),
               const SizedBox(height: 24),
               Expanded(
@@ -63,12 +63,13 @@ class _RevisionScreenState extends State<RevisionScreen> {
                     itemCount: 12,
                     itemBuilder: (BuildContext context, int index) {
                       final int multiplier = index + 1;
+                      final int table = widget.config.baseNumber;
                       final int result = isMultiplication
-                          ? multiplier * _table
-                          : multiplier + _table;
+                          ? multiplier * table
+                          : multiplier + table;
                       final String expression = isMultiplication
-                          ? '$multiplier × $_table'
-                          : '$multiplier + $_table';
+                          ? '$multiplier × $table'
+                          : '$multiplier + $table';
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Row(
@@ -94,6 +95,7 @@ class _RevisionScreenState extends State<RevisionScreen> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

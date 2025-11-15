@@ -25,6 +25,7 @@ class _ExerciseModeTypeSelectionScreenState
   late bool _shuffleQuestions;
   late Set<int> _selectedTables;
   late DifficultyLevel _difficultyLevel;
+  bool _initialized = false;
 
   @override
   void initState() {
@@ -36,13 +37,64 @@ class _ExerciseModeTypeSelectionScreenState
     _difficultyLevel = widget.config.difficultyLevel;
   }
 
+  void _navigateToModeSelection(BuildContext context) {
+    final ExerciseConfig modeConfig = widget.config.copyWith(
+      mode: StudyMode.exercise,
+    );
+    context.go(AppRoutePath.modeSelection, extra: modeConfig);
+  }
+
   @override
   Widget build(BuildContext context) {
     final SettingsService settingsService = context.watch<SettingsService>();
     final int timedSeconds = settingsService.settings.timedChallengeSeconds;
 
-    return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.exerciseModeTypeTitle)),
+    // Load saved preferences on first build
+    if (!_initialized) {
+      final Set<int>? savedTables = settingsService.getLastExerciseSelectedTables(
+        widget.config.operation,
+      );
+      final DifficultyLevel? savedDifficulty = settingsService.getLastExerciseDifficultyLevel(
+        widget.config.operation,
+      );
+      final bool? savedShuffle = settingsService.getLastExerciseShuffleQuestions(
+        widget.config.operation,
+      );
+
+      if (savedTables != null || savedDifficulty != null || savedShuffle != null) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            setState(() {
+              if (savedTables != null && savedTables.isNotEmpty) {
+                _selectedTables = savedTables;
+              }
+              if (savedDifficulty != null) {
+                _difficultyLevel = savedDifficulty;
+              }
+              if (savedShuffle != null) {
+                _shuffleQuestions = savedShuffle;
+              }
+            });
+          }
+        });
+      }
+      _initialized = true;
+    }
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (!didPop) {
+          _navigateToModeSelection(context);
+        }
+      },
+      child: Scaffold(
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => _navigateToModeSelection(context),
+        ),
+        title: Text(context.l10n.exerciseModeTypeTitle),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -53,8 +105,13 @@ class _ExerciseModeTypeSelectionScreenState
               onChanged: (int value) {},
               multiSelect: true,
               selectedValues: _selectedTables,
-              onMultiChanged: (Set<int> values) =>
-                  setState(() => _selectedTables = values),
+              onMultiChanged: (Set<int> values) {
+                setState(() => _selectedTables = values);
+                settingsService.setLastExerciseSelectedTables(
+                  widget.config.operation,
+                  values,
+                );
+              },
               label: context.l10n.tableSelectorLabel,
               max: widget.config.operation == OperationKind.multiplication ? 12 : 10,
             ),
@@ -105,9 +162,14 @@ class _ExerciseModeTypeSelectionScreenState
                   ],
                   selected: <DifficultyLevel>{_difficultyLevel},
                   onSelectionChanged: (Set<DifficultyLevel> newSelection) {
+                    final DifficultyLevel newLevel = newSelection.first;
                     setState(() {
-                      _difficultyLevel = newSelection.first;
+                      _difficultyLevel = newLevel;
                     });
+                    settingsService.setLastExerciseDifficultyLevel(
+                      widget.config.operation,
+                      newLevel,
+                    );
                   },
                 ),
               ),
@@ -153,9 +215,14 @@ class _ExerciseModeTypeSelectionScreenState
                 ],
                   selected: <bool>{_shuffleQuestions},
                   onSelectionChanged: (Set<bool> newSelection) {
+                    final bool newShuffle = newSelection.first;
                     setState(() {
-                      _shuffleQuestions = newSelection.first;
+                      _shuffleQuestions = newShuffle;
                     });
+                    settingsService.setLastExerciseShuffleQuestions(
+                      widget.config.operation,
+                      newShuffle,
+                    );
                   },
                 ),
               ),
@@ -222,7 +289,7 @@ class _ExerciseModeTypeSelectionScreenState
           ],
         ),
       ),
-    );
+    ));
   }
 
   String _difficultyDescription(BuildContext context,

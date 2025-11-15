@@ -18,7 +18,10 @@ class ResultsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     if (session == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(context.l10n.resultsTitle)),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text(context.l10n.resultsTitle),
+        ),
         body: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -26,7 +29,15 @@ class ResultsScreen extends StatelessWidget {
               Text(context.l10n.resultsNoSession),
               const SizedBox(height: 16),
               FilledButton(
-                onPressed: () => context.go(AppRoutePath.exerciseType),
+                onPressed: () {
+                  // Create a default config for navigation
+                  final ExerciseConfig defaultConfig = const ExerciseConfig(
+                    operation: OperationKind.multiplication,
+                    mode: StudyMode.exercise,
+                    format: ExerciseFormat.multipleChoice,
+                  );
+                  context.push(AppRoutePath.exerciseModeType, extra: defaultConfig);
+                },
                 child: Text(context.l10n.resultsBackHome),
               ),
             ],
@@ -49,9 +60,18 @@ class ResultsScreen extends StatelessWidget {
       questionCount: current.questions.length,
       timedSeconds: current.timedSeconds,
     );
+    final ExerciseConfig backConfig = ExerciseConfig(
+      operation: current.operation,
+      mode: StudyMode.exercise,
+      format: ExerciseFormat.multipleChoice, // Default format, will be changed in selection screen
+      baseNumber: current.targetTable ?? 2,
+    );
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.resultsTitle)),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(context.l10n.resultsTitle),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -148,7 +168,10 @@ class ResultsScreen extends StatelessWidget {
               const SizedBox(height: 8),
               Center(
                 child: TextButton(
-                  onPressed: () => context.go(AppRoutePath.exerciseType),
+                  onPressed: () => context.push(
+                    AppRoutePath.exerciseModeType,
+                    extra: backConfig,
+                  ),
                   child: Text(context.l10n.resultsBackHome),
                 ),
               ),

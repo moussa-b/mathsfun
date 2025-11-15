@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/extensions/context_localizations.dart';
 import '../../../core/routes/app_router.dart';
 import '../../../data/models/exercise_metadata.dart';
+import '../../../data/services/settings_service.dart';
 import '../../exercise/models/exercise_config.dart';
 import '../../exercise/widgets/table_selector.dart';
 
@@ -21,6 +23,7 @@ class RevisionModeTypeSelectionScreen extends StatefulWidget {
 class _RevisionModeTypeSelectionScreenState
     extends State<RevisionModeTypeSelectionScreen> {
   late int _table;
+  bool _initialized = false;
 
   @override
   void initState() {
@@ -28,13 +31,50 @@ class _RevisionModeTypeSelectionScreenState
     _table = widget.config.baseNumber;
   }
 
+  void _navigateToModeSelection(BuildContext context) {
+    final ExerciseConfig modeConfig = widget.config.copyWith(
+      mode: StudyMode.revision,
+    );
+    context.go(AppRoutePath.modeSelection, extra: modeConfig);
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isMultiplication =
         widget.config.operation == OperationKind.multiplication;
+    final SettingsService settingsService = context.watch<SettingsService>();
 
-    return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.revisionModeTypeTitle)),
+    // Load saved preference on first build
+    if (!_initialized) {
+      final int? savedTable = settingsService.getLastRevisionTable(
+        widget.config.operation,
+      );
+      if (savedTable != null) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            setState(() {
+              _table = savedTable;
+            });
+          }
+        });
+      }
+      _initialized = true;
+    }
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (!didPop) {
+          _navigateToModeSelection(context);
+        }
+      },
+      child: Scaffold(
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => _navigateToModeSelection(context),
+        ),
+        title: Text(context.l10n.revisionModeTypeTitle),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -42,7 +82,13 @@ class _RevisionModeTypeSelectionScreenState
           children: <Widget>[
             TableSelector(
               value: _table,
-              onChanged: (int value) => setState(() => _table = value),
+              onChanged: (int value) {
+                setState(() => _table = value);
+                settingsService.setLastRevisionTable(
+                  widget.config.operation,
+                  value,
+                );
+              },
               label: context.l10n.tableSelectorLabel,
               max: isMultiplication ? 12 : 10,
             ),
@@ -81,6 +127,7 @@ class _RevisionModeTypeSelectionScreenState
             ),
           ],
         ),
+      ),
       ),
     );
   }

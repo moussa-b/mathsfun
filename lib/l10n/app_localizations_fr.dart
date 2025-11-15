@@ -410,7 +410,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get resultsNoSession => 'Aucune donnée de session.';
 
   @override
-  String get resultsBackHome => 'Retour à l\'accueil';
+  String get resultsBackHome => 'Retour';
 
   @override
   String get resultsTitle => 'Résultats';

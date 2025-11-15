@@ -28,6 +28,16 @@ class _MultipleChoiceExerciseScreenState
     extends State<MultipleChoiceExerciseScreen> {
   bool _isNavigating = false;
 
+  void _navigateToExerciseModeSelection(BuildContext context) {
+    if (_isNavigating) {
+      return;
+    }
+    setState(() {
+      _isNavigating = true;
+    });
+    context.go(AppRoutePath.exerciseModeType, extra: widget.config);
+  }
+
   @override
   Widget build(BuildContext context) {
     final profileService = context.watch<ProfileService>();
@@ -59,8 +69,18 @@ class _MultipleChoiceExerciseScreenState
           _maybeNavigateOnComplete(context, controller);
           final ExerciseQuestion question = controller.currentQuestion;
           final int? questionSeconds = controller.questionRemainingSeconds;
-          return Scaffold(
+          return PopScope(
+            canPop: false,
+            onPopInvokedWithResult: (bool didPop, Object? result) {
+              if (!didPop) {
+                _navigateToExerciseModeSelection(context);
+              }
+            },
+            child: Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                onPressed: () => _navigateToExerciseModeSelection(context),
+              ),
               title: Text(
                 context.l10n.exerciseQuestionProgress(
                   controller.currentIndex + 1,
@@ -131,6 +151,7 @@ class _MultipleChoiceExerciseScreenState
                   ),
                 ],
               ),
+            ),
             ),
           );
         },

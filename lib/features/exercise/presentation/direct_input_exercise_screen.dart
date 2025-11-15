@@ -25,11 +25,24 @@ class DirectInputExerciseScreen extends StatefulWidget {
 
 class _DirectInputExerciseScreenState extends State<DirectInputExerciseScreen> {
   final TextEditingController _answerController = TextEditingController();
+  final FocusNode _answerFocusNode = FocusNode();
   bool _isNavigating = false;
+  int? _lastQuestionIndex;
+
+  void _navigateToExerciseModeSelection(BuildContext context) {
+    if (_isNavigating) {
+      return;
+    }
+    setState(() {
+      _isNavigating = true;
+    });
+    context.go(AppRoutePath.exerciseModeType, extra: widget.config);
+  }
 
   @override
   void dispose() {
     _answerController.dispose();
+    _answerFocusNode.dispose();
     super.dispose();
   }
 
@@ -60,9 +73,29 @@ class _DirectInputExerciseScreenState extends State<DirectInputExerciseScreen> {
           final bool isTimed = widget.config.isTimed;
           final int? questionTimer = controller.questionRemainingSeconds;
           final bool hasQuestionTimer = questionTimer != null;
+          
+          // Request focus when question changes
+          if (_lastQuestionIndex != controller.currentIndex) {
+            _lastQuestionIndex = controller.currentIndex;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted && !controller.isCompleted) {
+                _answerFocusNode.requestFocus();
+              }
+            });
+          }
 
-          return Scaffold(
+          return PopScope(
+            canPop: false,
+            onPopInvokedWithResult: (bool didPop, Object? result) {
+              if (!didPop) {
+                _navigateToExerciseModeSelection(context);
+              }
+            },
+            child: Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                onPressed: () => _navigateToExerciseModeSelection(context),
+              ),
               title: Text(
                 isTimed
                     ? context.l10n.exerciseTimedChallengeTitle
@@ -120,6 +153,8 @@ class _DirectInputExerciseScreenState extends State<DirectInputExerciseScreen> {
                   const SizedBox(height: 24),
                   TextField(
                     controller: _answerController,
+                    focusNode: _answerFocusNode,
+                    autofocus: true,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: context.l10n.exerciseAnswerLabel,
@@ -146,6 +181,7 @@ class _DirectInputExerciseScreenState extends State<DirectInputExerciseScreen> {
                   ],
                 ],
               ),
+            ),
             ),
           );
         },
@@ -205,6 +241,9 @@ class _DirectInputExerciseScreenState extends State<DirectInputExerciseScreen> {
     }
 
     final bool correct = value == question.correctAnswer;
+    final bool isLastQuestion = 
+        controller.currentIndex + 1 == controller.totalQuestions;
+    
     controller.submitDirectAnswer(value);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -217,6 +256,11 @@ class _DirectInputExerciseScreenState extends State<DirectInputExerciseScreen> {
       ),
     );
     _answerController.clear();
+    
+    // Only dismiss keyboard if it's the last question
+    if (isLastQuestion) {
+      _answerFocusNode.unfocus();
+    }
   }
 
   void _skipQuestion(ExerciseController controller) {

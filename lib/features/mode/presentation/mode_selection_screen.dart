@@ -22,11 +22,27 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     super.initState();
   }
 
+  void _navigateToExerciseTypeSelection(BuildContext context) {
+    context.go(AppRoutePath.exerciseType);
+  }
+
   @override
   Widget build(BuildContext context) {
     final ExerciseConfig baseConfig = widget.initialConfig;
-    return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.modeSelectionTitle)),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (!didPop) {
+          _navigateToExerciseTypeSelection(context);
+        }
+      },
+      child: Scaffold(
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => _navigateToExerciseTypeSelection(context),
+        ),
+        title: Text(context.l10n.modeSelectionTitle),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -82,6 +98,7 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
             ],
           ),
         ),
+      ),
       ),
     );
   }
