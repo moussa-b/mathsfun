@@ -4,6 +4,28 @@ MathsFun is a mobile playground that helps primary school learners revise
 addition and multiplication tables through colourful study modes, interactive
 quizzes, rewards, and parent controls.
 
+## Screenshots
+
+<div align="center">
+
+  <img src="playstore/en/screen_1.png" alt="Screen 1" width="200"/>
+
+  <img src="playstore/en/screen_2.png" alt="Screen 2" width="200"/>
+
+  <img src="playstore/en/screen_3.png" alt="Screen 3" width="200"/>
+
+  <img src="playstore/en/screen_4.png" alt="Screen 4" width="200"/>
+
+  <img src="playstore/en/screen_5.png" alt="Screen 5" width="200"/>
+
+  <img src="playstore/en/screen_6.png" alt="Screen 6" width="200"/>
+
+  <img src="playstore/en/screen_7.png" alt="Screen 7" width="200"/>
+
+  <img src="playstore/en/screen_8.png" alt="Screen 8" width="200"/>
+
+</div>
+
 ## Features
 
 - **Profile management** – create multiple learner profiles with avatars,

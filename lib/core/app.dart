@@ -50,6 +50,7 @@ class MathsFunApp extends StatelessWidget {
                 locale: settingsService.locale,
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
+                debugShowCheckedModeBanner: false,
               );
             },
       ),
