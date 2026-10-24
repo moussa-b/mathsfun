@@ -1,7 +1,7 @@
 # Publier MathsFun sur l'App Store
 
 État au 24/10/2026 : l'IPA signée **Apple Distribution (34AFV4S7Z8)** de la version
-**1.1.0 (build 2)** est dans `build/ios/ipa/mathsfun.ipa`, l'archive Xcode dans
+**1.2.0 (build 3)** est dans `build/ios/ipa/mathsfun.ipa`, l'archive Xcode dans
 `build/ios/archive/Runner.xcarchive`. Les captures sont dans `appstore/screenshots/`.
 
 Fiche Android de référence : <https://play.google.com/store/apps/details?id=com.bdzapps.mathsfun>
@@ -55,7 +55,7 @@ doit toujours augmenter), puis :
 fvm flutter build ipa --release --export-method app-store
 ```
 
-## 3. Remplir la version 1.1.0
+## 3. Remplir la version 1.2.0
 
 ### Captures
 
@@ -129,7 +129,7 @@ No ads, no account, no internet connection. No data ever leaves the device.
 | Copyright | `2026 Moussa Boudamouz` |
 | Catégorie | Éducation (secondaire : Jeux → Éducatifs, ou rien) |
 | Prix | Gratuit (onglet Tarifs et disponibilité) |
-| Build | sélectionner 1.1.0 (2) |
+| Build | sélectionner 1.2.0 (3) |
 | Connexion requise | Non (pas de compte de démo à fournir) |
 
 ### Confidentialité de l'app
