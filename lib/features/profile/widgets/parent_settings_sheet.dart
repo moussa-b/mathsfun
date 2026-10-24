@@ -67,7 +67,7 @@ class _ParentSettingsSheetState extends State<ParentSettingsSheet> {
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: currentLocale.languageCode,
+                initialValue: currentLocale.languageCode,
                 decoration: const InputDecoration(border: OutlineInputBorder()),
                 items: <DropdownMenuItem<String>>[
                   DropdownMenuItem<String>(

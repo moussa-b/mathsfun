@@ -104,7 +104,7 @@
         },
         {
             "filename": "AppStore.png",
-            "idiom": "universal",
+            "idiom": "ios-marketing",
             "size": "1024x1024",
             "scale": "1x"
         }

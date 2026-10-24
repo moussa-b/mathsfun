@@ -101,7 +101,7 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
                   decoration: InputDecoration(
                     labelText: context.l10n.profileClassLabel,
                   ),
-                  value: _selectedClass,
+                  initialValue: _selectedClass,
                   items: SchoolClass.values
                       .map(
                         (SchoolClass schoolClass) =>

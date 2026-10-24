@@ -32,7 +32,7 @@ class MathsFunApp extends StatelessWidget {
           create: (_) => FlashCardService(),
         ),
         ProxyProvider2<SessionService, FlashCardService, AnalyticsService>(
-          update: (_, sessionService, flashCardService, __) => AnalyticsService(
+          update: (_, sessionService, flashCardService, _) => AnalyticsService(
             sessionService: sessionService,
             flashCardService: flashCardService,
           ),
