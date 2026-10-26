@@ -90,13 +90,14 @@ MathsFun aide les enfants du CP au CM2 à apprendre les tables de multiplication
 
 • Un profil par enfant, avec son prénom, sa classe et son avatar.
 • Mode révision : la table complète ou des cartes à retourner pour tester sa mémoire.
-• Mode exercice : QCM, saisie directe ou défi chronométré.
+• Mode exercice : QCM, saisie directe, défi chronométré ou mode Oral.
+• Mode Oral : l'app lit l'opération à voix haute et l'enfant répond à l'oral. La reconnaissance vocale se fait entièrement sur l'appareil.
 • Choix des tables à travailler, trois niveaux de difficulté, questions dans l'ordre ou mélangées.
 • Des étoiles à gagner et des statistiques pour suivre les progrès.
 • Un code parent pour protéger les réglages et la suppression des profils.
 • En français et en anglais.
 
-Sans publicité, sans compte, sans connexion internet. Aucune donnée ne quitte l'appareil.
+Sans publicité, sans compte. Internet ne sert qu'une fois, pour télécharger la voix du mode Oral (environ 70 Mo). Aucune donnée ne quitte l'appareil, et la voix de l'enfant n'est jamais enregistrée.
 ```
 
 ### Texts (EN)
@@ -111,13 +112,14 @@ MathsFun helps primary school children learn their times tables and addition fac
 
 • One profile per child, with a nickname, school year and avatar.
 • Revision mode: the full table, or flash cards to flip and test recall.
-• Exercise mode: multiple choice, direct input or a timed challenge.
+• Exercise mode: multiple choice, direct input, a timed challenge or Oral mode.
+• Oral mode: the app reads the question aloud and the child answers out loud. Speech recognition runs entirely on the device.
 • Pick which tables to practise, three difficulty levels, ordered or shuffled questions.
 • Stars to earn and statistics to follow progress.
 • A parent PIN protects settings and profile deletion.
 • In English and French.
 
-No ads, no account, no internet connection. No data ever leaves the device.
+No ads, no account. The internet is only used once, to download the Oral mode voice model (about 70 MB). No data ever leaves the device, and the child's voice is never recorded.
 ```
 
 ### Autres champs
@@ -134,8 +136,10 @@ No ads, no account, no internet connection. No data ever leaves the device.
 
 ### Confidentialité de l'app
 
-Choisir **« Aucune donnée collectée »**. L'app ne fait aucune requête réseau et ne contient aucun SDK
-tiers, comme le dit la politique de confidentialité.
+Choisir **« Aucune donnée collectée »**. Depuis la 1.3.0, la seule requête réseau télécharge les modèles
+vocaux depuis `mathsfun-models.bdzapps.com` ; le micro est analysé sur l'appareil, rien n'est envoyé ni
+conservé. L'app ne contient aucun SDK tiers. Les journaux nginx du VPS ne doivent servir à rien d'autre
+qu'au service (les désactiver ou les garder peu de temps).
 
 ### Classification par âge
 
