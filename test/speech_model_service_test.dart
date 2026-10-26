@@ -107,7 +107,7 @@ void main() {
 
   // protects=a verified model becomes ready on disk (AC3);
   // fails_when=files are missing, .part files remain or status is not ready;
-  // no_claim=real R2/HTTPS behaviour (a local HTTP server stands in for it).
+  // no_claim=real HTTPS behaviour (a local HTTP server stands in for it).
   test('downloads, verifies and marks the model ready', () async {
     bucket.publish('fr', 'v1');
     await service.download('fr');
@@ -149,11 +149,26 @@ void main() {
     expect(service.stateFor('fr').status, SpeechModelStatus.ready);
   });
 
+  // protects=the voice tile only shows when the host publishes the model;
+  // fails_when=an empty or unreachable host counts as published, or a host
+  // coming back is never seen again; no_claim=real HTTPS behaviour.
+  test('checkAvailability follows what the host publishes', () async {
+    expect(service.isPublished('fr'), isNull);
+    await service.checkAvailability('fr');
+    expect(service.isPublished('fr'), isFalse);
+
+    bucket.publish('fr', 'v1');
+    await service.checkAvailability('fr');
+    expect(service.isPublished('fr'), isTrue);
+    expect(service.isPublished('en'), isNull);
+  });
+
   // protects=an interrupted download or purged cache is detected (AC5);
   // fails_when=leftover folders count as ready or are not cleaned up;
   // no_claim=OS-level cache purging itself.
   test('refresh drops incomplete folders and detects purged files', () async {
-    final Directory orphan = versionDir('fr', 'v1')..createSync(recursive: true);
+    final Directory orphan = versionDir('fr', 'v1')
+      ..createSync(recursive: true);
     File('${orphan.path}/encoder.onnx.part').writeAsStringSync('half');
     await service.refresh('fr');
     expect(service.stateFor('fr').status, SpeechModelStatus.absent);
@@ -308,13 +323,16 @@ void main() {
   // protects=an update check with the same version keeps the 71 MB model;
   // fails_when=the version comparison breaks and the model is deleted;
   // no_claim=none; why_new=testing specialist finding; seam=none.
-  test('checkForUpdate keeps the model when the version is unchanged', () async {
-    bucket.publish('fr', 'v1');
-    await service.download('fr');
-    await service.checkForUpdate('fr');
-    expect(service.stateFor('fr').status, SpeechModelStatus.ready);
-    expect(versionDir('fr', 'v1').existsSync(), isTrue);
-  });
+  test(
+    'checkForUpdate keeps the model when the version is unchanged',
+    () async {
+      bucket.publish('fr', 'v1');
+      await service.download('fr');
+      await service.checkForUpdate('fr');
+      expect(service.stateFor('fr').status, SpeechModelStatus.ready);
+      expect(versionDir('fr', 'v1').existsSync(), isTrue);
+    },
+  );
 
   // protects=an exercise using the model never sees it deleted by an update
   // check; fails_when=checkForUpdate deletes an acquired model; no_claim=none;
@@ -350,13 +368,21 @@ void main() {
       },
     });
 
-    expect(SpeechModelRelease.fromManifest(manifest('v1', 'tokens.txt'), 'fr'),
-        isNotNull);
-    expect(SpeechModelRelease.fromManifest(manifest('../x', 'tokens.txt'), 'fr'),
-        isNull);
-    expect(SpeechModelRelease.fromManifest(manifest('v1', '../tokens.txt'), 'fr'),
-        isNull);
-    expect(SpeechModelRelease.fromManifest(manifest('v1', 'tokens.txt'), 'en'),
-        isNull);
+    expect(
+      SpeechModelRelease.fromManifest(manifest('v1', 'tokens.txt'), 'fr'),
+      isNotNull,
+    );
+    expect(
+      SpeechModelRelease.fromManifest(manifest('../x', 'tokens.txt'), 'fr'),
+      isNull,
+    );
+    expect(
+      SpeechModelRelease.fromManifest(manifest('v1', '../tokens.txt'), 'fr'),
+      isNull,
+    );
+    expect(
+      SpeechModelRelease.fromManifest(manifest('v1', 'tokens.txt'), 'en'),
+      isNull,
+    );
   });
 }

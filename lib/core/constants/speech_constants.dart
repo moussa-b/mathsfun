@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
 
-const String _kPublishedSpeechModelBaseUrl = 'https://models.bdzapps.com/asr';
+const String _kPublishedSpeechModelBaseUrl =
+    'https://mathsfun-models.bdzapps.com/asr';
 const String _kSpeechModelBaseUrlOverride = String.fromEnvironment(
   'SPEECH_MODEL_BASE_URL',
 );
 
-/// Where the on-device speech recognition models are published (Cloudflare R2).
+/// Where the on-device speech recognition models are published (self-hosted on Coolify).
 /// Debug builds may point elsewhere with `--dart-define=SPEECH_MODEL_BASE_URL=…`
 /// (see `tool/serve_asr_models.sh`); release and profile builds never do.
 String get kSpeechModelBaseUrl =>

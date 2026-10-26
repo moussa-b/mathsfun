@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Serves build/asr/ (from tool/build_asr_models.sh) to a USB-connected Android
-# phone, so the voice mode can be tested before the R2 bucket exists.
+# phone, so the voice mode can be tested before the models are published.
 # Run the app with --dart-define=SPEECH_MODEL_BASE_URL=http://127.0.0.1:8765/asr
 set -euo pipefail
 cd "$(dirname "$0")/../build"

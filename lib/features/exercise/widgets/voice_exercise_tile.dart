@@ -91,7 +91,8 @@ Future<bool> openVoiceExercise(
 }
 
 /// Fourth exercise format. Inaccessible until the speech model for the app
-/// language is fully downloaded and verified.
+/// language is fully downloaded and verified, and hidden while no model is on
+/// the device and the model host does not answer.
 class VoiceExerciseTile extends StatefulWidget {
   const VoiceExerciseTile({
     super.key,
@@ -123,6 +124,7 @@ class _VoiceExerciseTileState extends State<VoiceExerciseTile> {
     _lang = lang;
     _ttsAvailable = null;
     final SpeechModelService service = context.read<SpeechModelService>();
+    service.checkAvailability(lang);
     service
         .refresh(lang)
         .then((_) => service.checkForUpdate(lang))
@@ -174,9 +176,16 @@ class _VoiceExerciseTileState extends State<VoiceExerciseTile> {
   @override
   Widget build(BuildContext context) {
     final String lang = _lang ?? voiceLanguageOf(context);
-    final SpeechModelState state = context
-        .watch<SpeechModelService>()
-        .stateFor(lang);
+    final SpeechModelService service = context.watch<SpeechModelService>();
+    final SpeechModelState state = service.stateFor(lang);
+    // An installed model keeps working offline; otherwise the tile only shows
+    // once the host has confirmed it publishes a model to download.
+    final bool onDevice =
+        state.status == SpeechModelStatus.ready ||
+        state.status == SpeechModelStatus.downloading;
+    if (!onDevice && service.isPublished(lang) != true) {
+      return const SizedBox.shrink();
+    }
     final bool ttsMissing = _ttsAvailable == false;
     final bool enabled =
         !ttsMissing && state.status != SpeechModelStatus.downloading;
