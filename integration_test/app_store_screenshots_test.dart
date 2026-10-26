@@ -15,6 +15,9 @@ import 'package:mathsfun/data/models/profile.dart';
 import 'package:mathsfun/data/services/profile_service.dart';
 import 'package:mathsfun/data/services/settings_service.dart';
 import 'package:mathsfun/features/exercise/models/exercise_config.dart';
+import 'package:mathsfun/features/exercise/presentation/voice_exercise_screen.dart';
+
+import '../test/support/voice_fakes.dart';
 
 const String _language = String.fromEnvironment(
   'SHOT_LANG',
@@ -140,6 +143,35 @@ void main() {
       ),
     );
     await _shot('08_timed_challenge');
+
+    // The simulator has no speech model nor microphone: the oral screen runs
+    // on fake engines; the child answers 7 × 1 … 7 × 7 to reach 7 × 8.
+    router.go(AppRoutePath.exerciseType);
+    await _wait(800);
+    final FakeListener listener = FakeListener();
+    router.routerDelegate.navigatorKey.currentState!.push(
+      MaterialPageRoute<void>(
+        builder: (_) => VoiceExerciseScreen(
+          args: VoiceExerciseArgs(
+            config: multiplication.copyWith(
+              format: ExerciseFormat.voice,
+              selectedTables: <int>[7],
+              questionCount: 12,
+            ),
+            modelDir: '/screenshots',
+          ),
+          engineFactory: (_) => (
+            synthesizer: FakeSynthesizer(listener),
+            listener: listener,
+          ),
+        ),
+      ),
+    );
+    for (int factor = 1; factor < 8; factor++) {
+      await _wait(1200);
+      listener.say('${7 * factor}');
+    }
+    await _shot('09_oral');
 
     router.go(AppRoutePath.exerciseType);
     await _wait();
