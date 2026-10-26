@@ -59,7 +59,7 @@ fvm flutter build ipa --release --export-method app-store
 
 ### Captures
 
-Glisser les fichiers dans l'ordre 01 → 08, dossier `fr` pour la fiche française, `en` pour l'anglaise :
+Glisser les fichiers dans l’ordre 01 → 09 (09_oral = mode Oral, nouveau en 1.3.0), dossier `fr` pour la fiche française, `en` pour l'anglaise :
 
 - **iPhone with Dynamic Island (large display)** : `appstore/screenshots/iphone-6.9/{fr,en}/` (1320×2868).
 - **iPhone with Dynamic Island (medium display)** : `appstore/screenshots/iphone-6.3/{fr,en}/` (1206×2622).
