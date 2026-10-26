@@ -6,9 +6,9 @@ const String _kSpeechModelBaseUrlOverride = String.fromEnvironment(
   'SPEECH_MODEL_BASE_URL',
 );
 
-/// Where the on-device speech recognition models are published (self-hosted on Coolify).
+/// Where the on-device speech recognition models are published (`../mathsfun-models`, served from the Coolify VPS).
 /// Debug builds may point elsewhere with `--dart-define=SPEECH_MODEL_BASE_URL=…`
-/// (see `tool/serve_asr_models.sh`); release and profile builds never do.
+/// (see `scripts/serve-local.sh` in `../mathsfun-models`); release and profile builds never do.
 String get kSpeechModelBaseUrl =>
     kDebugMode && _kSpeechModelBaseUrlOverride.isNotEmpty
     ? _kSpeechModelBaseUrlOverride
@@ -32,7 +32,7 @@ const Map<String, int> kSpeechModelSizeBytes = <String, int>{
 const int kSpeechModelMaxFileBytes = 200 * 1000 * 1000;
 
 /// Files every model version ships, in the order they are downloaded.
-/// Keep in sync with the file loop of `tool/build_asr_models.sh`.
+/// Keep in sync with `scripts/build.sh` in `../mathsfun-models`.
 const List<String> kSpeechModelFiles = <String>[
   'encoder.onnx',
   'decoder.onnx',
