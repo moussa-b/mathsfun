@@ -45,6 +45,8 @@ enum ExerciseFormat {
   directInput,
   @HiveField(2)
   timedChallenge,
+  @HiveField(3)
+  voice,
 }
 
 extension ExerciseFormatX on ExerciseFormat {
@@ -52,6 +54,7 @@ extension ExerciseFormatX on ExerciseFormat {
     ExerciseFormat.multipleChoice => 'Multiple Choice',
     ExerciseFormat.directInput => 'Direct Input',
     ExerciseFormat.timedChallenge => 'Timed Challenge',
+    ExerciseFormat.voice => 'Voice',
   };
 
   bool get isTimed => this == ExerciseFormat.timedChallenge;

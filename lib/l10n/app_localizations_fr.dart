@@ -738,4 +738,105 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get timerWarning => 'Le temps s\'écoule !';
+
+  @override
+  String get exerciseVoiceTitle => 'Oral';
+
+  @override
+  String get exerciseVoiceDescription =>
+      'L\'appli lit le calcul : réponds à voix haute !';
+
+  @override
+  String exerciseVoiceDownloadRequired(String size) {
+    return 'Téléchargement requis ($size)';
+  }
+
+  @override
+  String exerciseVoiceDownloading(int percent) {
+    return 'Téléchargement… $percent %';
+  }
+
+  @override
+  String get exerciseVoiceDownloadError =>
+      'Échec du téléchargement. Touche pour réessayer.';
+
+  @override
+  String get exerciseVoiceTtsUnavailable =>
+      'La voix française n\'est pas installée sur cet appareil : demande à un parent de l\'installer dans les réglages de synthèse vocale de l\'appareil.';
+
+  @override
+  String get exerciseVoiceMicDenied =>
+      'Autorise le micro dans les réglages de l\'appareil pour utiliser ce mode.';
+
+  @override
+  String get voiceListening => 'J\'écoute…';
+
+  @override
+  String get voiceSpeaking => 'Écoute bien…';
+
+  @override
+  String get voiceReplay => 'Réécouter';
+
+  @override
+  String voiceReadMultiplication(int a, int b) {
+    return '$a fois $b';
+  }
+
+  @override
+  String voiceReadAddition(int a, int b) {
+    return '$a plus $b';
+  }
+
+  @override
+  String get voiceRetry => 'Je n\'ai pas compris, répète s\'il te plaît.';
+
+  @override
+  String get voiceCorrect => 'Bravo !';
+
+  @override
+  String voiceIncorrect(int answer) {
+    return 'Non, c\'était $answer.';
+  }
+
+  @override
+  String get voiceEngineError =>
+      'La reconnaissance vocale n\'a pas pu démarrer.';
+
+  @override
+  String resultsVoiceAnswerTime(String answer, String seconds) {
+    return '$answer · $seconds s';
+  }
+
+  @override
+  String get statisticsFormatVoice => 'Oral';
+
+  @override
+  String parentSettingsVoiceModels(String size) {
+    return 'Modèles vocaux : $size';
+  }
+
+  @override
+  String get parentSettingsVoiceModelsDelete => 'Supprimer';
+
+  @override
+  String get parentSettingsVoiceModelsDeleteConfirm =>
+      'Supprimer les modèles vocaux ? Il faudra les retélécharger pour utiliser le mode Oral.';
+
+  @override
+  String get parentSettingsVoiceModelsDeleted => 'Modèles vocaux supprimés';
+
+  @override
+  String get parentSettingsVoiceCredits =>
+      'Reconnaissance vocale : sherpa-onnx (k2-fsa, Apache-2.0) · modèles Kroko ASR (Banafo, CC-BY-SA)';
+
+  @override
+  String get voiceTtsFailed =>
+      'Je n\'arrive pas à parler sur cet appareil : lis le calcul à l\'écran et dis ta réponse.';
+
+  @override
+  String get voicePaused => 'En pause. Touche Réécouter pour continuer.';
+
+  @override
+  String get voiceLoading =>
+      'Préparation de la voix… (la première fois peut prendre quelques secondes)';
 }

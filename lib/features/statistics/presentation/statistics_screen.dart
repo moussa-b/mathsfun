@@ -107,6 +107,9 @@ class StatisticsScreen extends StatelessWidget {
                               formatLabel =
                                   context.l10n.statisticsFormatTimedChallenge;
                               break;
+                            case ExerciseFormat.voice:
+                              formatLabel = context.l10n.statisticsFormatVoice;
+                              break;
                           }
                           final int roundedAccuracy = session.accuracy.round();
                           return Card(

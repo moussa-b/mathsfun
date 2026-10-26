@@ -8,8 +8,10 @@ import '../../../data/models/exercise_metadata.dart';
 import '../../../data/services/settings_service.dart';
 import '../models/exercise_config.dart';
 import '../widgets/table_selector.dart';
+import '../widgets/voice_exercise_tile.dart';
 
-/// Screen to pick between multiple choice and direct input exercise types.
+/// Screen to pick the exercise format: multiple choice, direct input, timed
+/// challenge or voice.
 class ExerciseModeTypeSelectionScreen extends StatefulWidget {
   const ExerciseModeTypeSelectionScreen({super.key, required this.config});
 
@@ -285,6 +287,16 @@ class _ExerciseModeTypeSelectionScreenState
                 );
                 context.push(AppRoutePath.exerciseDirectInput, extra: next);
               },
+            ),
+            const SizedBox(height: 16),
+            VoiceExerciseTile(
+              buildConfig: () => widget.config.copyWith(
+                format: ExerciseFormat.voice,
+                questionCount: 12,
+                shuffleQuestions: _shuffleQuestions,
+                selectedTables: _selectedTables.toList(),
+                difficultyLevel: _difficultyLevel,
+              ),
             ),
           ],
         ),

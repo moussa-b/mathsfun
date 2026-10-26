@@ -7,6 +7,7 @@ import '../../../core/utils/formatters.dart';
 import '../../../data/models/exercise_metadata.dart';
 import '../../../data/models/exercise_session.dart';
 import '../../exercise/models/exercise_config.dart';
+import '../../exercise/widgets/voice_exercise_tile.dart';
 
 /// Displays the outcome summary after completing an exercise session.
 class ResultsScreen extends StatelessWidget {
@@ -52,6 +53,8 @@ class ResultsScreen extends StatelessWidget {
     final int correct = current.correctCount;
     final int mistakes = current.incorrectCount;
     final double accuracy = current.accuracy;
+    final bool isVoice = current.format == ExerciseFormat.voice;
+    final String languageCode = Localizations.localeOf(context).languageCode;
     final ExerciseConfig replayConfig = ExerciseConfig(
       operation: current.operation,
       mode: current.mode,
@@ -134,6 +137,14 @@ class ResultsScreen extends StatelessWidget {
                         trailing: Text(
                           result.userAnswer == null
                               ? context.l10n.resultsSkipped
+                              : isVoice
+                              ? context.l10n.resultsVoiceAnswerTime(
+                                  result.userAnswer.toString(),
+                                  formatSecondsOneDecimal(
+                                    result.responseMillis,
+                                    languageCode,
+                                  ),
+                                )
                               : result.userAnswer.toString(),
                         ),
                       );
@@ -190,6 +201,13 @@ class ResultsScreen extends StatelessWidget {
       case ExerciseFormat.directInput:
       case ExerciseFormat.timedChallenge:
         context.push(AppRoutePath.exerciseDirectInput, extra: config);
+        break;
+      case ExerciseFormat.voice:
+        openVoiceExercise(context, config).then((bool opened) {
+          if (!opened && context.mounted) {
+            context.push(AppRoutePath.exerciseModeType, extra: config);
+          }
+        });
         break;
     }
   }

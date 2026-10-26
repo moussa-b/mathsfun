@@ -1386,6 +1386,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Time running out!'**
   String get timerWarning;
+
+  /// No description provided for @exerciseVoiceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get exerciseVoiceTitle;
+
+  /// No description provided for @exerciseVoiceDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'The app reads the question aloud: say your answer!'**
+  String get exerciseVoiceDescription;
+
+  /// No description provided for @exerciseVoiceDownloadRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Download required ({size})'**
+  String exerciseVoiceDownloadRequired(String size);
+
+  /// No description provided for @exerciseVoiceDownloading.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading… {percent}%'**
+  String exerciseVoiceDownloading(int percent);
+
+  /// No description provided for @exerciseVoiceDownloadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Download failed. Tap to try again.'**
+  String get exerciseVoiceDownloadError;
+
+  /// No description provided for @exerciseVoiceTtsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The English voice is not installed on this device: ask a grown-up to install it in the device\'s text-to-speech settings.'**
+  String get exerciseVoiceTtsUnavailable;
+
+  /// No description provided for @exerciseVoiceMicDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow microphone access in the device settings to use this mode.'**
+  String get exerciseVoiceMicDenied;
+
+  /// No description provided for @voiceListening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening…'**
+  String get voiceListening;
+
+  /// No description provided for @voiceSpeaking.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen carefully…'**
+  String get voiceSpeaking;
+
+  /// No description provided for @voiceReplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen again'**
+  String get voiceReplay;
+
+  /// No description provided for @voiceReadMultiplication.
+  ///
+  /// In en, this message translates to:
+  /// **'{a} times {b}'**
+  String voiceReadMultiplication(int a, int b);
+
+  /// No description provided for @voiceReadAddition.
+  ///
+  /// In en, this message translates to:
+  /// **'{a} plus {b}'**
+  String voiceReadAddition(int a, int b);
+
+  /// No description provided for @voiceRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'I didn\'t catch that, please say it again.'**
+  String get voiceRetry;
+
+  /// No description provided for @voiceCorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Well done!'**
+  String get voiceCorrect;
+
+  /// No description provided for @voiceIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'No, it was {answer}.'**
+  String voiceIncorrect(int answer);
+
+  /// No description provided for @voiceEngineError.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech recognition could not start.'**
+  String get voiceEngineError;
+
+  /// No description provided for @resultsVoiceAnswerTime.
+  ///
+  /// In en, this message translates to:
+  /// **'{answer} · {seconds} s'**
+  String resultsVoiceAnswerTime(String answer, String seconds);
+
+  /// No description provided for @statisticsFormatVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get statisticsFormatVoice;
+
+  /// No description provided for @parentSettingsVoiceModels.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice models: {size}'**
+  String parentSettingsVoiceModels(String size);
+
+  /// No description provided for @parentSettingsVoiceModelsDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get parentSettingsVoiceModelsDelete;
+
+  /// No description provided for @parentSettingsVoiceModelsDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete the voice models? They will have to be downloaded again to use the Voice mode.'**
+  String get parentSettingsVoiceModelsDeleteConfirm;
+
+  /// No description provided for @parentSettingsVoiceModelsDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice models deleted'**
+  String get parentSettingsVoiceModelsDeleted;
+
+  /// No description provided for @parentSettingsVoiceCredits.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech recognition: sherpa-onnx (k2-fsa, Apache-2.0) · Kroko ASR models (Banafo, CC-BY-SA)'**
+  String get parentSettingsVoiceCredits;
+
+  /// No description provided for @voiceTtsFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'I can\'t speak on this device: read the question on the screen and say your answer.'**
+  String get voiceTtsFailed;
+
+  /// No description provided for @voicePaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused. Tap Listen again to continue.'**
+  String get voicePaused;
+
+  /// No description provided for @voiceLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting the voice ready… (the first time can take a few seconds)'**
+  String get voiceLoading;
 }
 
 class _AppLocalizationsDelegate

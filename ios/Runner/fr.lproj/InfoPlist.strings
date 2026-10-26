@@ -1,0 +1,2 @@
+/* Demande d’accès au micro */
+"NSMicrophoneUsageDescription" = "MathsFun écoute la réponse de ton enfant pour la corriger. La voix est analysée sur l’appareil et n’est jamais envoyée.";
