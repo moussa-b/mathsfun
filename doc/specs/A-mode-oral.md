@@ -76,9 +76,10 @@ Modèles écartés pour le français (mesurés le 2026-10-25) : `zipformer-fr-20
             └── question suivante <── TTS « Bravo ! » / « Non, c'était 42 » <── controller.submitDirectAnswer(n)
 ```
 
-### 1. Hébergement des modèles (Cloudflare R2)
+### 1. Hébergement des modèles (VPS Coolify)
 
-- Bucket R2 public via le domaine `models.bdzapps.com` (créé par Moussa).
+- nginx sur le VPS Coolify de Moussa, domaine `mathsfun-models.bdzapps.com` (DNS chez OVH). R2 écarté le 2026-10-26 : un domaine personnalisé R2 exige que la zone DNS soit chez Cloudflare.
+- L'app vérifie au plus 5 s si le serveur publie le modèle ; sans modèle sur l'appareil et sans réponse, la tuile Oral est masquée.
 - Arborescence :
   ```
   asr/manifest-v1.json
@@ -105,7 +106,7 @@ Modèles écartés pour le français (mesurés le 2026-10-25) : `zipformer-fr-20
   }
   ```
 - Script `tool/build_asr_models.sh` : télécharge les 2 archives k2-fsa, extrait pour le français les fichiers Kroko tels quels et pour l'anglais les fichiers `*.int8.onnx`, plus `tokens.txt`, en les renommant comme ci-dessus, calcule les SHA-256 et génère `build/asr/` (manifest compris), prêt à être envoyé avec `wrangler r2 object put` (commande affichée, pas exécutée).
-- URL de base en constante : `lib/core/constants/speech_constants.dart` → `const String kSpeechModelBaseUrl = 'https://models.bdzapps.com/asr';`
+- URL de base en constante : `lib/core/constants/speech_constants.dart` → `const String kSpeechModelBaseUrl = 'https://mathsfun-models.bdzapps.com/asr';`
 
 ### 2. `SpeechModelService` (nouveau, `lib/data/services/speech_model_service.dart`)
 
@@ -257,7 +258,7 @@ Nouvelles clés (fr/en) : `exerciseVoiceTitle`, `exerciseVoiceDescription`, `exe
 
 ## Prérequis hors code (Moussa)
 
-1. Créer le bucket R2 et le domaine `models.bdzapps.com`, puis y envoyer `build/asr/` généré par le script.
+1. Créer le service nginx sur Coolify pour `mathsfun-models.bdzapps.com` (A chez OVH), puis y envoyer `build/asr/` généré par le script.
 2. Valider la licence Kroko (CC-BY-SA) pour un usage dans l'app.
 
 ## Checklist de fin de déploiement (OBLIGATOIRE dans le rapport final)
@@ -326,7 +327,7 @@ Le rapport final de l'implémentation, et le rapport de `/ship` ou `/land-and-de
 
 - Annuler la PR. Les sessions `voice` déjà enregistrées se relisent comme `multipleChoice` (adaptateur Hive par défaut, `exercise_metadata.g.dart:101`), donc pas de crash, juste un libellé faux dans l'historique.
 - Les modèles restent dans le dossier Caches, que l'OS finira par purger. Aucun impact.
-- R2 : le bucket peut rester tel quel, il ne contient aucune donnée utilisateur.
+- VPS : les fichiers des modèles peuvent rester en ligne, ils ne contiennent aucune donnée utilisateur.
 
 ## Estimation d'effort
 

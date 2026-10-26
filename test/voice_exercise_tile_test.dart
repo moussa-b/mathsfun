@@ -20,6 +20,13 @@ class _FakeModelService extends SpeechModelService {
 
   SpeechModelState state;
   int downloads = 0;
+  bool? published = true;
+
+  @override
+  bool? isPublished(String lang) => published;
+
+  @override
+  Future<void> checkAvailability(String lang) async {}
 
   @override
   SpeechModelState stateFor(String lang) => state;
@@ -84,9 +91,8 @@ Widget _app(
       ),
       GoRoute(
         path: AppRoutePath.exerciseVoice,
-        builder: (_, GoRouterState state) => Text(
-          'VOICE ${(state.extra! as VoiceExerciseArgs).modelDir}',
-        ),
+        builder: (_, GoRouterState state) =>
+            Text('VOICE ${(state.extra! as VoiceExerciseArgs).modelDir}'),
       ),
     ],
   );
@@ -102,6 +108,52 @@ Widget _app(
 }
 
 void main() {
+  // protects=the tile hides while no model is on the device and the host has
+  // not confirmed it publishes one, and an installed model stays usable
+  // offline; fails_when=the tile shows with nothing to download or hides an
+  // installed model; no_claim=the real host probe (service is faked).
+  testWidgets('tile follows the model host availability', (
+    WidgetTester tester,
+  ) async {
+    final _FakeModelService service = _FakeModelService(
+      const SpeechModelState.absent(),
+    )..published = null;
+    await tester.pumpWidget(_app(service));
+    await tester.pumpAndSettle();
+    expect(
+      find.byKey(const ValueKey<String>('voice-exercise-tile')),
+      findsNothing,
+    );
+
+    service
+      ..published = true
+      ..notifyListeners();
+    await tester.pumpAndSettle();
+    expect(
+      find.byKey(const ValueKey<String>('voice-exercise-tile')),
+      findsOneWidget,
+    );
+
+    service
+      ..published = false
+      ..state = const SpeechModelState(status: SpeechModelStatus.ready)
+      ..notifyListeners();
+    await tester.pumpAndSettle();
+    expect(
+      find.byKey(const ValueKey<String>('voice-exercise-tile')),
+      findsOneWidget,
+    );
+
+    service
+      ..state = const SpeechModelState.absent()
+      ..notifyListeners();
+    await tester.pumpAndSettle();
+    expect(
+      find.byKey(const ValueKey<String>('voice-exercise-tile')),
+      findsNothing,
+    );
+  });
+
   // protects=model absent → size shown and a tap starts the download (AC2);
   // fails_when=the tap opens the exercise or does not download;
   // no_claim=the real HTTP download (service is faked).
@@ -210,17 +262,16 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    final Finder tile = find.byKey(const ValueKey<String>('voice-exercise-tile'));
+    final Finder tile = find.byKey(
+      const ValueKey<String>('voice-exercise-tile'),
+    );
     await tester.tap(tile);
     await tester.pump();
     await tester.tap(tile);
     await tester.pump();
     permission.complete(true);
     await tester.pumpAndSettle();
-    expect(
-      find.text('VOICE /models/fr', skipOffstage: false),
-      findsOneWidget,
-    );
+    expect(find.text('VOICE /models/fr', skipOffstage: false), findsOneWidget);
   });
 
   // protects=mic refused → message, no navigation (AC16);
@@ -237,7 +288,9 @@ void main() {
     await tester.tap(find.byKey(const ValueKey<String>('voice-exercise-tile')));
     await tester.pumpAndSettle();
     expect(
-      find.text("Autorise le micro dans les réglages de l'appareil pour utiliser ce mode."),
+      find.text(
+        "Autorise le micro dans les réglages de l'appareil pour utiliser ce mode.",
+      ),
       findsOneWidget,
     );
     expect(find.textContaining('VOICE'), findsNothing);
@@ -292,7 +345,10 @@ void main() {
       const SpeechModelState.absent(),
     );
     await tester.pumpWidget(
-      _app(service, home: ResultsScreen(session: sessionOf(ExerciseFormat.voice))),
+      _app(
+        service,
+        home: ResultsScreen(session: sessionOf(ExerciseFormat.voice)),
+      ),
     );
     await tester.pumpAndSettle();
     expect(find.text('42 · 3,2 s'), findsOneWidget);
@@ -335,4 +391,3 @@ void main() {
     expect(refused.acquired, 0);
   });
 }
-

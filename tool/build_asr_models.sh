@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Prepares the speech recognition models of the Voice mode for Cloudflare R2.
+# Prepares the speech recognition models of the Voice mode for the model host
+# (nginx on the Coolify VPS behind mathsfun-models.bdzapps.com).
 # Downloads the k2-fsa archives, keeps only the files the app loads, computes
 # their sha256 and writes build/asr/ (manifest-v1.json included).
 # Usage: tool/build_asr_models.sh <version>   e.g. tool/build_asr_models.sh v1
@@ -57,9 +58,7 @@ echo
 echo "Ready in $out:"
 find "$out" -type f -exec ls -l {} \; | awk '{print $5, $NF}'
 echo
-echo "Upload to R2 (bucket behind models.bdzapps.com), model files first:"
-echo "  find $out -type f ! -name 'manifest-v1.json' | while read -r f; do"
-echo "    wrangler r2 object put \"<bucket>/asr/\${f#$out/}\" --file \"\$f\" --remote"
-echo "  done"
-echo "  wrangler r2 object put \"<bucket>/asr/manifest-v1.json\" --file \"$out/manifest-v1.json\" --remote"
+echo "Upload to the VPS (folder served as /asr by the Coolify nginx), model files first:"
+echo "  rsync -av --exclude manifest-v1.json $out/ <user>@<vps>:/srv/mathsfun-models/asr/"
+echo "  rsync -av $out/manifest-v1.json <user>@<vps>:/srv/mathsfun-models/asr/"
 echo "Never overwrite an already published <lang>/<version>/ folder."

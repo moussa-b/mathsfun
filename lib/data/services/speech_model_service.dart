@@ -126,6 +126,7 @@ class SpeechModelService extends ChangeNotifier {
 
   static const String _completeMarker = '.complete';
   static const Duration _updateCheckTimeout = Duration(seconds: 3);
+  static const Duration _availabilityTimeout = Duration(seconds: 5);
   static const Duration _progressInterval = Duration(milliseconds: 250);
   static const int _maxManifestBytes = 64 * 1024;
 
@@ -143,10 +144,48 @@ class SpeechModelService extends ChangeNotifier {
   final Map<String, HttpClient> _activeClients = <String, HttpClient>{};
   final Map<String, int> _inUse = <String, int>{};
   final Set<String> _updateChecked = <String>{};
+  final Map<String, bool> _published = <String, bool>{};
+  final Map<String, Future<void>> _availabilityChecks =
+      <String, Future<void>>{};
   bool _disposed = false;
 
   SpeechModelState stateFor(String lang) =>
       _states[lang] ?? const SpeechModelState.absent();
+
+  /// Whether the model host publishes a model for [lang]: `null` until
+  /// [checkAvailability] has answered.
+  bool? isPublished(String lang) => _published[lang];
+
+  /// Asks the model host whether it publishes a model for [lang]. A positive
+  /// answer holds for the app launch; a negative one is asked again on the
+  /// next call, so the voice mode shows up once the host is back.
+  Future<void> checkAvailability(String lang) {
+    if (_published[lang] == true) {
+      return Future<void>.value();
+    }
+    // A block body: whenComplete would otherwise wait on the removed future,
+    // which is this very check.
+    return _availabilityChecks[lang] ??= _probe(lang).whenComplete(() {
+      _availabilityChecks.remove(lang);
+    });
+  }
+
+  Future<void> _probe(String lang) async {
+    bool published;
+    try {
+      published =
+          await _fetchRelease(lang).timeout(_availabilityTimeout) != null;
+    } catch (error) {
+      debugPrint('Voice model host unreachable: $error');
+      published = false;
+    }
+    if (_published[lang] != published) {
+      _published[lang] = published;
+      if (!_disposed) {
+        notifyListeners();
+      }
+    }
+  }
 
   /// Folder holding the ready model for [lang], or `null` when not ready.
   Future<String?> modelDir(String lang) async {
