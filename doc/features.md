@@ -60,7 +60,7 @@ In Exercise Mode, two formats are available:
   - Only the whole session is timed (no per-question timer, whatever the difficulty); each answer time is still stored and shown on the results screen.
   - 100 % on-device: speech recognition with `sherpa_onnx`, text-to-speech from the OS. The model of the app language (Kroko streaming zipformer, ≈ 71 MB in French and in English) is downloaded once from `mathsfun-models.bdzapps.com/asr/manifest-v1.json` (nginx on the Coolify VPS), verified by size and sha256 and stored in the OS cache; the tile stays locked until it is ready, and is hidden while no model is on the device and the host does not publish one.
   - Parents can see the model size and delete it in the parent settings, which also show the model credits (CC-BY-SA).
-  - Models are prepared with `tool/build_asr_models.sh`.
+  - Models are built and published from the separate `../mathsfun-models` project.
 
 ---
 

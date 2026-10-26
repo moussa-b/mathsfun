@@ -58,7 +58,7 @@ Modèles écartés pour le français (mesurés le 2026-10-25) : `zipformer-fr-20
 
 **Plan B sans nouvelle version de l'app.** Kroko et le modèle de 2023 ont la même architecture (transducer zipformer en streaming) et les mêmes noms de fichiers (`encoder/decoder/joiner.onnx`, `tokens.txt`). Si Kroko échoue au critère 20, on publie le modèle 2023 en `fr/v2` et on met à jour `manifest-v1.json`. Les apps déjà installées voient la nouvelle version au lancement suivant (si aucun exercice n'utilise le modèle), suppriment `v1` et téléchargent `v2`.
 
-**Licence Kroko à confirmer.** La fiche Hugging Face de Banafo annonce « CC-BY-SA licensed community models », mais je n'ai pas pu lire le fichier `LICENSE` (réponse vide). Le script `tool/build_asr_models.sh` doit copier le `README.md` de l'archive dans `build/asr/fr/v1/LICENSE.txt`, et Moussa doit valider la licence avant de publier. On utilise le modèle tel quel, sans quantification ni réentraînement, pour éviter que la clause « ShareAlike » ne s'applique.
+**Licence Kroko à confirmer.** La fiche Hugging Face de Banafo annonce « CC-BY-SA licensed community models », mais je n'ai pas pu lire le fichier `LICENSE` (réponse vide). Le script `tool/build.sh` (`../mathsfun-models`) doit copier le `README.md` de l’archive dans `public/asr/fr/v1/LICENSE.txt`, et Moussa doit valider la licence avant de publier. On utilise le modèle tel quel, sans quantification ni réentraînement, pour éviter que la clause « ShareAlike » ne s'applique.
 
 ## Changement proposé
 
@@ -105,7 +105,7 @@ Modèles écartés pour le français (mesurés le 2026-10-25) : `zipformer-fr-20
     }
   }
   ```
-- Script `tool/build_asr_models.sh` : télécharge les 2 archives k2-fsa, extrait pour le français les fichiers Kroko tels quels et pour l'anglais les fichiers `*.int8.onnx`, plus `tokens.txt`, en les renommant comme ci-dessus, calcule les SHA-256 et génère `build/asr/` (manifest compris), prêt à être envoyé avec `wrangler r2 object put` (commande affichée, pas exécutée).
+- Script `scripts/build.sh` du projet séparé `../mathsfun-models` (sorti de l'app le 2026-10-26) : télécharge les 2 archives k2-fsa, extrait pour le français les fichiers Kroko tels quels et pour l'anglais les fichiers `*.int8.onnx`, plus `tokens.txt`, en les renommant comme ci-dessus, calcule les SHA-256 et génère `build/asr/` (manifest compris), prêt à être envoyé avec `wrangler r2 object put` (commande affichée, pas exécutée).
 - URL de base en constante : `lib/core/constants/speech_constants.dart` → `const String kSpeechModelBaseUrl = 'https://mathsfun-models.bdzapps.com/asr';`
 
 ### 2. `SpeechModelService` (nouveau, `lib/data/services/speech_model_service.dart`)
@@ -258,7 +258,7 @@ Nouvelles clés (fr/en) : `exerciseVoiceTitle`, `exerciseVoiceDescription`, `exe
 
 ## Prérequis hors code (Moussa)
 
-1. Créer le service nginx sur Coolify pour `mathsfun-models.bdzapps.com` (A chez OVH), puis y envoyer `build/asr/` généré par le script.
+1. Créer le service nginx sur Coolify pour `mathsfun-models.bdzapps.com` (A chez OVH), puis y envoyer `public/asr/` généré par `../mathsfun-models/scripts/build.sh`.
 2. Valider la licence Kroko (CC-BY-SA) pour un usage dans l'app.
 
 ## Checklist de fin de déploiement (OBLIGATOIRE dans le rapport final)
@@ -333,7 +333,7 @@ Le rapport final de l'implémentation, et le rapport de `/ship` ou `/land-and-de
 
 | Composant | Humain | CC |
 |---|---|---|
-| Script `tool/build_asr_models.sh` + manifest | 2 h | 10 min |
+| Script de build des modèles + manifest | 2 h | 10 min |
 | `SpeechModelService` + tests | 5 h | 30 min |
 | Tuile, états, permission micro | 3 h | 20 min |
 | Enum Hive, contrôleur, routes, résultats, stats | 2 h | 15 min |
@@ -348,7 +348,7 @@ Le rapport final de l'implémentation, et le rapport de `/ship` ou `/land-and-de
 | Fichier | Changement |
 |---|---|
 | `pubspec.yaml` | + `sherpa_onnx: ^2.0.0`, `record: ^7.1.2`, `flutter_tts: ^4.2.5` |
-| `tool/build_asr_models.sh` | nouveau : prépare `build/asr/` + manifest |
+| `../mathsfun-models/scripts/build.sh` | projet séparé : prépare `public/asr/` + manifest |
 | `lib/core/constants/speech_constants.dart` | nouveau : URL de base, tailles de secours |
 | `lib/data/models/exercise_metadata.dart:42-58` | + `voice` (`HiveField(3)`) |
 | `lib/data/models/exercise_metadata.g.dart` | régénéré |
