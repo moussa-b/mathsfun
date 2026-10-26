@@ -30,4 +30,4 @@ manifest, contrat sherpa/record) ont été levées dans la spec.
 ## Reprise de la livraison A (état au 2026-10-26, 15 h)
 
 - Fait : test sur le P20 Lite (1er exercice ≈ 28 s avec le texte d'attente, 2ᵉ exercice 1,5 s), version 1.3.0+4, fusion `develop` → `main`, tag `v1.3.0`, `build/app/outputs/bundle/release/app-release.aab` et `build/ios/ipa/mathsfun.ipa` construits depuis `main`, branche `feature/mode-oral` supprimée. Rien n'est poussé.
-- Reste, dans l'ordre : hébergement Coolify (`mathsfun-models.bdzapps.com`, enregistrement A chez OVH, nginx servant `public/asr/` du projet `../mathsfun-models`), validation de la licence Kroko, prompt du site fr/en, mises à jour des stores (App Privacy, Data safety, fiches, captures).
+- Fait : modèles en ligne sur `mathsfun-models.bdzapps.com` (vérifiés le 2026-10-26). Reste, dans l’ordre : validation de la licence Kroko, prompt du site fr/en, mises à jour des stores (App Privacy, Data safety, fiches, captures).

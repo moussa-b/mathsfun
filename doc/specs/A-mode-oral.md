@@ -58,7 +58,7 @@ Modèles écartés pour le français (mesurés le 2026-10-25) : `zipformer-fr-20
 
 **Plan B sans nouvelle version de l'app.** Kroko et le modèle de 2023 ont la même architecture (transducer zipformer en streaming) et les mêmes noms de fichiers (`encoder/decoder/joiner.onnx`, `tokens.txt`). Si Kroko échoue au critère 20, on publie le modèle 2023 en `fr/v2` et on met à jour `manifest-v1.json`. Les apps déjà installées voient la nouvelle version au lancement suivant (si aucun exercice n'utilise le modèle), suppriment `v1` et téléchargent `v2`.
 
-**Licence Kroko à confirmer.** La fiche Hugging Face de Banafo annonce « CC-BY-SA licensed community models », mais je n'ai pas pu lire le fichier `LICENSE` (réponse vide). Le script `tool/build.sh` (`../mathsfun-models`) doit copier le `README.md` de l’archive dans `public/asr/fr/v1/LICENSE.txt`, et Moussa doit valider la licence avant de publier. On utilise le modèle tel quel, sans quantification ni réentraînement, pour éviter que la clause « ShareAlike » ne s'applique.
+**Licence Kroko à confirmer.** La fiche Hugging Face de Banafo annonce « CC-BY-SA licensed community models », mais je n'ai pas pu lire le fichier `LICENSE` (réponse vide). Le script `scripts/build.sh` (`../mathsfun-models`) doit copier le `README.md` de l’archive dans `public/asr/fr/v1/LICENSE.txt`, et Moussa doit valider la licence avant de publier. On utilise le modèle tel quel, sans quantification ni réentraînement, pour éviter que la clause « ShareAlike » ne s'applique.
 
 ## Changement proposé
 
