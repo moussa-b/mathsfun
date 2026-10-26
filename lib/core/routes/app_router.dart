@@ -8,6 +8,7 @@ import '../../features/exercise/models/exercise_config.dart';
 import '../../features/exercise/presentation/direct_input_exercise_screen.dart';
 import '../../features/exercise/presentation/exercise_mode_type_selection_screen.dart';
 import '../../features/exercise/presentation/multiple_choice_exercise_screen.dart';
+import '../../features/exercise/presentation/voice_exercise_screen.dart';
 import '../../features/exercise_type/presentation/exercise_type_selection_screen.dart';
 import '../../features/mode/presentation/mode_selection_screen.dart';
 import '../../features/profile/presentation/profile_creation_screen.dart';
@@ -36,6 +37,7 @@ class AppRoutePath {
   static const String exerciseModeType = '/exercise-mode';
   static const String exerciseMultipleChoice = '/exercise/multiple-choice';
   static const String exerciseDirectInput = '/exercise/direct-input';
+  static const String exerciseVoice = '/exercise/voice';
   static const String results = '/results';
   static const String statistics = '/statistics';
   static const String parentDashboard = '/parent/dashboard';
@@ -135,6 +137,17 @@ class AppRouter {
         builder: (context, state) {
           final ExerciseConfig config = state.extra as ExerciseConfig;
           return DirectInputExerciseScreen(config: config);
+        },
+      ),
+      GoRoute(
+        path: AppRoutePath.exerciseVoice,
+        name: 'exercise-voice',
+        // Only reachable from inside the app, with its arguments.
+        redirect: (context, state) =>
+            state.extra is VoiceExerciseArgs ? null : AppRoutePath.splash,
+        builder: (context, state) {
+          final VoiceExerciseArgs args = state.extra as VoiceExerciseArgs;
+          return VoiceExerciseScreen(args: args);
         },
       ),
       GoRoute(

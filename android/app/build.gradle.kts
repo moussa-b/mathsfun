@@ -29,7 +29,9 @@ android {
         applicationId = "com.bdzapps.mathsfun"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 30
+        // Store builds target Android 11+. `-P mathsfunMinSdk=28` lowers it for
+        // testing on older devices only.
+        minSdk = (project.findProperty("mathsfunMinSdk") as String?)?.toInt() ?: 30
         targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName

@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 import '../../../core/extensions/context_localizations.dart';
 import '../../../core/routes/app_router.dart';
 import '../../../core/utils/pin_utils.dart';
+import '../../../core/utils/formatters.dart';
 import '../../../data/services/settings_service.dart';
+import '../../../data/services/speech_model_service.dart';
 
 class ParentSettingsSheet extends StatefulWidget {
   const ParentSettingsSheet({super.key});
@@ -101,6 +103,8 @@ class _ParentSettingsSheetState extends State<ParentSettingsSheet> {
                   ),
                 ),
               ),
+              const SizedBox(height: 16),
+              const _VoiceModelsSection(),
               const SizedBox(height: 24),
               const Divider(),
               const SizedBox(height: 16),
@@ -235,6 +239,113 @@ class _ParentSettingsSheetState extends State<ParentSettingsSheet> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Installed voice models (size + delete) and the credits the CC-BY-SA
+/// license of the French model requires.
+class _VoiceModelsSection extends StatefulWidget {
+  const _VoiceModelsSection();
+
+  @override
+  State<_VoiceModelsSection> createState() => _VoiceModelsSectionState();
+}
+
+class _VoiceModelsSectionState extends State<_VoiceModelsSection> {
+  int? _installedBytes;
+  SpeechModelService? _service;
+
+  @override
+  void initState() {
+    super.initState();
+    // Follow downloads and deletions made while the sheet is open.
+    _service = context.read<SpeechModelService>()..addListener(_loadSize);
+    _loadSize();
+  }
+
+  @override
+  void dispose() {
+    _service?.removeListener(_loadSize);
+    super.dispose();
+  }
+
+  Future<void> _loadSize() async {
+    final SpeechModelService? service = _service;
+    if (service == null) {
+      return;
+    }
+    final int bytes = await service.installedBytes();
+    if (mounted) {
+      setState(() => _installedBytes = bytes);
+    }
+  }
+
+  Future<void> _confirmDelete() async {
+    final SpeechModelService service = context.read<SpeechModelService>();
+    final ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
+    final String deleted = context.l10n.parentSettingsVoiceModelsDeleted;
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext dialogContext) => AlertDialog(
+        content: Text(dialogContext.l10n.parentSettingsVoiceModelsDeleteConfirm),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(dialogContext.l10n.parentGateCancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(dialogContext).colorScheme.error,
+              foregroundColor: Theme.of(dialogContext).colorScheme.onError,
+            ),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(dialogContext.l10n.parentSettingsVoiceModelsDelete),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) {
+      return;
+    }
+    await service.deleteAll();
+    messenger.showSnackBar(SnackBar(content: Text(deleted)));
+    await _loadSize();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final int bytes = _installedBytes ?? 0;
+    final String languageCode = Localizations.localeOf(context).languageCode;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        if (bytes > 0)
+          Row(
+            children: <Widget>[
+              const Icon(Icons.record_voice_over),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  context.l10n.parentSettingsVoiceModels(
+                    formatMegabytes(bytes, languageCode),
+                  ),
+                ),
+              ),
+              TextButton(
+                key: const ValueKey<String>('voice-models-delete'),
+                onPressed: _confirmDelete,
+                child: Text(context.l10n.parentSettingsVoiceModelsDelete),
+              ),
+            ],
+          ),
+        const SizedBox(height: 4),
+        Text(
+          '${context.l10n.parentSettingsVoiceCredits}\n'
+          'huggingface.co/Banafo/Kroko-ASR',
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+      ],
     );
   }
 }

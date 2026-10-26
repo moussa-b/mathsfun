@@ -732,4 +732,103 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get timerWarning => 'Time running out!';
+
+  @override
+  String get exerciseVoiceTitle => 'Voice';
+
+  @override
+  String get exerciseVoiceDescription =>
+      'The app reads the question aloud: say your answer!';
+
+  @override
+  String exerciseVoiceDownloadRequired(String size) {
+    return 'Download required ($size)';
+  }
+
+  @override
+  String exerciseVoiceDownloading(int percent) {
+    return 'Downloading… $percent%';
+  }
+
+  @override
+  String get exerciseVoiceDownloadError => 'Download failed. Tap to try again.';
+
+  @override
+  String get exerciseVoiceTtsUnavailable =>
+      'The English voice is not installed on this device: ask a grown-up to install it in the device\'s text-to-speech settings.';
+
+  @override
+  String get exerciseVoiceMicDenied =>
+      'Allow microphone access in the device settings to use this mode.';
+
+  @override
+  String get voiceListening => 'Listening…';
+
+  @override
+  String get voiceSpeaking => 'Listen carefully…';
+
+  @override
+  String get voiceReplay => 'Listen again';
+
+  @override
+  String voiceReadMultiplication(int a, int b) {
+    return '$a times $b';
+  }
+
+  @override
+  String voiceReadAddition(int a, int b) {
+    return '$a plus $b';
+  }
+
+  @override
+  String get voiceRetry => 'I didn\'t catch that, please say it again.';
+
+  @override
+  String get voiceCorrect => 'Well done!';
+
+  @override
+  String voiceIncorrect(int answer) {
+    return 'No, it was $answer.';
+  }
+
+  @override
+  String get voiceEngineError => 'Speech recognition could not start.';
+
+  @override
+  String resultsVoiceAnswerTime(String answer, String seconds) {
+    return '$answer · $seconds s';
+  }
+
+  @override
+  String get statisticsFormatVoice => 'Voice';
+
+  @override
+  String parentSettingsVoiceModels(String size) {
+    return 'Voice models: $size';
+  }
+
+  @override
+  String get parentSettingsVoiceModelsDelete => 'Delete';
+
+  @override
+  String get parentSettingsVoiceModelsDeleteConfirm =>
+      'Delete the voice models? They will have to be downloaded again to use the Voice mode.';
+
+  @override
+  String get parentSettingsVoiceModelsDeleted => 'Voice models deleted';
+
+  @override
+  String get parentSettingsVoiceCredits =>
+      'Speech recognition: sherpa-onnx (k2-fsa, Apache-2.0) · Kroko ASR models (Banafo, CC-BY-SA)';
+
+  @override
+  String get voiceTtsFailed =>
+      'I can\'t speak on this device: read the question on the screen and say your answer.';
+
+  @override
+  String get voicePaused => 'Paused. Tap Listen again to continue.';
+
+  @override
+  String get voiceLoading =>
+      'Getting the voice ready… (the first time can take a few seconds)';
 }
