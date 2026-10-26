@@ -11,7 +11,7 @@ Statuts : ⬜ à faire · 🟨 en cours · 🟦 à valider (codé, attend le tes
 
 | # | Tâche | Spec | Branche | Priorité | Effort | Dépend de | Statut |
 |---|-------|------|---------|----------|--------|-----------|--------|
-| A | Mode d'exercice « Oral » : l'app lit l'opération, écoute la réponse (sherpa_onnx hors ligne, modèles Kroko fr/en ≈ 71 Mo chacun, téléchargés depuis R2), corrige à voix haute, chronomètre la session et chaque question | [A](specs/A-mode-oral.md) | `feature/mode-oral` | Haute | ~30 h humain / ~3 h CC + test sur appareil | Bucket R2 `models.bdzapps.com` + licence Kroko validée | 🟨 reviews /ship faites et corrigées, commit WIP sur `feature/mode-oral` ; reste : retest appareil du chargement mis en cache, version/CHANGELOG, fusion develop/main, tag, build |
+| A | Mode d'exercice « Oral » : l'app lit l'opération, écoute la réponse (sherpa_onnx hors ligne, modèles Kroko fr/en ≈ 71 Mo chacun, téléchargés depuis R2), corrige à voix haute, chronomètre la session et chaque question | [A](specs/A-mode-oral.md) | `feature/mode-oral` | Haute | ~30 h humain / ~3 h CC + test sur appareil | Bucket R2 `models.bdzapps.com` + licence Kroko validée | ✅ livré en local : 1.3.0 (build 4), tag `v1.3.0`, AAB + IPA construits ; reste la publication (R2, licence, site, stores) |
 
 | A2 | Mode Oral : reconnaissance (chargement du modèle + décodage) sur un isolate séparé, modèle gardé en mémoire entre deux exercices | [A](specs/A-mode-oral.md) (décision D3) | — | Basse | ~1 j humain / ~45 min CC + retest appareil | A | ⬜ à faire si des saccades sont signalées |
 
@@ -27,13 +27,7 @@ manifest, contrat sherpa/record) ont été levées dans la spec.
   et les fiches des stores. Détail dans la section « Checklist de fin de déploiement »
   de la spec.
 
-## Reprise de la livraison A (état au 2026-10-26)
+## Reprise de la livraison A (état au 2026-10-26, 15 h)
 
-- Branche `feature/mode-oral` : un seul commit WIP au-dessus de `develop`, rien n'est fusionné ni poussé.
-- Fait : reviews /ship (7 spécialistes, Red Team, Claude adversarial, Cursor), 3 cycles de corrections, 70 tests verts, `flutter analyze` propre. Détail dans la spec A, section « Corrections de la review /ship ».
-- Dernier changement **pas encore vérifié sur appareil** : modèle chargé sur un isolate et gardé en mémoire (environ 21 s de chargement mesurés sur le P20 Lite, une fois par lancement).
-- Reste à faire, dans l'ordre :
-  1. test sur le P20 Lite : premier exercice (texte « Préparation de la voix… », écran réactif), puis deuxième exercice (démarrage immédiat) ;
-  2. version 1.3.0+4 dans `pubspec.yaml`, CHANGELOG, puis fusion `develop` → `main`, tag `v1.3.0`, builds AAB/IPA depuis `main`, suppression de `feature/mode-oral` ;
-  3. guides : R2, licence Kroko, prompt du site fr/en, mises à jour des stores.
-
+- Fait : test sur le P20 Lite (1er exercice ≈ 28 s avec le texte d'attente, 2ᵉ exercice 1,5 s), version 1.3.0+4, fusion `develop` → `main`, tag `v1.3.0`, `build/app/outputs/bundle/release/app-release.aab` et `build/ios/ipa/mathsfun.ipa` construits depuis `main`, branche `feature/mode-oral` supprimée. Rien n'est poussé.
+- Reste, dans l'ordre : guide R2 (bucket + `models.bdzapps.com` + envoi de `build/asr/`), validation de la licence Kroko, prompt du site fr/en, mises à jour des stores (App Privacy, Data safety, fiches, captures).
