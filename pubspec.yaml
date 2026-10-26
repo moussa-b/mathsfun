@@ -44,6 +44,9 @@ dependencies:
   uuid: ^4.5.0
   crypto: ^3.0.3
   intl: ^0.20.2
+  sherpa_onnx: ^2.0.0
+  record: ^7.1.2
+  flutter_tts: ^4.2.5
 
 dev_dependencies:
   flutter_test:

@@ -97,6 +97,8 @@ class ExerciseFormatAdapter extends TypeAdapter<ExerciseFormat> {
         return ExerciseFormat.directInput;
       case 2:
         return ExerciseFormat.timedChallenge;
+      case 3:
+        return ExerciseFormat.voice;
       default:
         return ExerciseFormat.multipleChoice;
     }
@@ -113,6 +115,9 @@ class ExerciseFormatAdapter extends TypeAdapter<ExerciseFormat> {
         break;
       case ExerciseFormat.timedChallenge:
         writer.writeByte(2);
+        break;
+      case ExerciseFormat.voice:
+        writer.writeByte(3);
         break;
     }
   }

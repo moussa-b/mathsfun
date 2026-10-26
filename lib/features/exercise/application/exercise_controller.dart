@@ -30,7 +30,7 @@ class ExerciseController extends ChangeNotifier {
     if (config.isTimed) {
       _startTimer();
     }
-    final int? perQuestionLimit = config.difficultyLevel.timeLimitSeconds;
+    final int? perQuestionLimit = _perQuestionLimit;
     if (perQuestionLimit != null) {
       _startQuestionTimer(perQuestionLimit);
     }
@@ -73,12 +73,27 @@ class ExerciseController extends ChangeNotifier {
     _recordAnswer(selected);
   }
 
-  void submitDirectAnswer(int? input) {
+  /// Records [input] (`null` = skipped). [answeredAt] lets the voice mode
+  /// stop the clock when the child stopped speaking rather than when the
+  /// recognizer noticed the silence; it defaults to now.
+  void submitDirectAnswer(int? input, {DateTime? answeredAt}) {
     if (_isCompleted) {
       return;
     }
-    _recordAnswer(input);
+    _recordAnswer(input, answeredAt: answeredAt);
   }
+
+  /// Restarts the response clock for the current question. Used by the voice
+  /// mode once the operation has been read aloud.
+  void markQuestionPresented() {
+    _questionStart = DateTime.now();
+  }
+
+  /// Per-question time limit, disabled in voice mode where only the whole
+  /// session is timed.
+  int? get _perQuestionLimit => config.format == ExerciseFormat.voice
+      ? null
+      : config.difficultyLevel.timeLimitSeconds;
 
   Future<ExerciseSession?> finishEarly() async {
     if (_isCompleted) {
@@ -90,10 +105,15 @@ class ExerciseController extends ChangeNotifier {
     return _persistSession();
   }
 
-  void _recordAnswer(int? userAnswer) {
+  void _recordAnswer(int? userAnswer, {DateTime? answeredAt}) {
     final ExerciseQuestion question = currentQuestion;
     final DateTime now = DateTime.now();
-    final int responseMillis = now.difference(_questionStart).inMilliseconds;
+    final DateTime end = answeredAt == null || answeredAt.isAfter(now)
+        ? now
+        : answeredAt;
+    final int responseMillis = end.isBefore(_questionStart)
+        ? 0
+        : end.difference(_questionStart).inMilliseconds;
     final bool isCorrect = userAnswer == question.correctAnswer;
     _questionTimer?.cancel();
     _questionTimer = null;
@@ -113,8 +133,7 @@ class ExerciseController extends ChangeNotifier {
     } else {
       _currentIndex += 1;
       _questionStart = DateTime.now();
-      final int? perQuestionLimit =
-          config.difficultyLevel.timeLimitSeconds;
+      final int? perQuestionLimit = _perQuestionLimit;
       if (perQuestionLimit != null) {
         _startQuestionTimer(perQuestionLimit);
       }

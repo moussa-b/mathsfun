@@ -429,6 +429,89 @@
   "difficultyEasy": "Easy",
   "difficultyMedium": "Medium",
   "difficultyHard": "Hard",
-  "timerWarning": "Time running out!"
+  "timerWarning": "Time running out!",
+  "exerciseVoiceTitle": "Voice",
+  "exerciseVoiceDescription": "The app reads the question aloud: say your answer!",
+  "exerciseVoiceDownloadRequired": "Download required ({size})",
+  "@exerciseVoiceDownloadRequired": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "exerciseVoiceDownloading": "Downloading… {percent}%",
+  "@exerciseVoiceDownloading": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "exerciseVoiceDownloadError": "Download failed. Tap to try again.",
+  "exerciseVoiceTtsUnavailable": "The English voice is not installed on this device: ask a grown-up to install it in the device's text-to-speech settings.",
+  "exerciseVoiceMicDenied": "Allow microphone access in the device settings to use this mode.",
+  "voiceListening": "Listening…",
+  "voiceSpeaking": "Listen carefully…",
+  "voiceReplay": "Listen again",
+  "voiceReadMultiplication": "{a} times {b}",
+  "@voiceReadMultiplication": {
+    "placeholders": {
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceReadAddition": "{a} plus {b}",
+  "@voiceReadAddition": {
+    "placeholders": {
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceRetry": "I didn't catch that, please say it again.",
+  "voiceCorrect": "Well done!",
+  "voiceIncorrect": "No, it was {answer}.",
+  "@voiceIncorrect": {
+    "placeholders": {
+      "answer": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceEngineError": "Speech recognition could not start.",
+  "resultsVoiceAnswerTime": "{answer} · {seconds} s",
+  "@resultsVoiceAnswerTime": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "statisticsFormatVoice": "Voice",
+  "parentSettingsVoiceModels": "Voice models: {size}",
+  "@parentSettingsVoiceModels": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "parentSettingsVoiceModelsDelete": "Delete",
+  "parentSettingsVoiceModelsDeleteConfirm": "Delete the voice models? They will have to be downloaded again to use the Voice mode.",
+  "parentSettingsVoiceModelsDeleted": "Voice models deleted",
+  "parentSettingsVoiceCredits": "Speech recognition: sherpa-onnx (k2-fsa, Apache-2.0) · Kroko ASR models (Banafo, CC-BY-SA)",
+  "voiceTtsFailed": "I can't speak on this device: read the question on the screen and say your answer.",
+  "voicePaused": "Paused. Tap Listen again to continue.",
+  "voiceLoading": "Getting the voice ready… (the first time can take a few seconds)"
 }
-

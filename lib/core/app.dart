@@ -9,6 +9,7 @@ import '../data/services/profile_service.dart';
 import '../data/services/reward_service.dart';
 import '../data/services/session_service.dart';
 import '../data/services/settings_service.dart';
+import '../data/services/speech_model_service.dart';
 import 'routes/app_router.dart';
 import 'theme/app_theme.dart';
 
@@ -28,6 +29,9 @@ class MathsFunApp extends StatelessWidget {
         ChangeNotifierProvider<ProfileService>(create: (_) => ProfileService()),
         ChangeNotifierProvider<SessionService>(create: (_) => SessionService()),
         ChangeNotifierProvider<RewardService>(create: (_) => RewardService()),
+        ChangeNotifierProvider<SpeechModelService>(
+          create: (_) => SpeechModelService(),
+        ),
         ChangeNotifierProvider<FlashCardService>(
           create: (_) => FlashCardService(),
         ),

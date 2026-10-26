@@ -1,0 +1,2 @@
+/* Microphone permission prompt */
+"NSMicrophoneUsageDescription" = "MathsFun listens to your child's answer to check it. The voice is analysed on the device and never sent.";

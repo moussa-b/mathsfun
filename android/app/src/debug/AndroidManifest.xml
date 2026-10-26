@@ -4,4 +4,7 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Debug only: lets the voice mode download its models from a local
+         HTTP server (tool/serve_asr_models.sh) instead of models.bdzapps.com. -->
+    <application android:usesCleartextTraffic="true"/>
 </manifest>
